@@ -1,50 +1,213 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <title>Baker Data Garcia</title>
-    <link rel="shortcut icon" href="./img/logo.jpg" type="image/x-icon">
-    <link rel="stylesheet" href="estilo.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Datos del Motociclista</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="estilo.css">
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://bakerdatagarcia-b49.github.io">
-    <meta property="og:title" content="Datos del Motociclista">
-    <meta property="og:description" content="Descripcion que podran leer en esta seccion cuando busques la pagina">
-    <meta property="og:image" content="https://bakerdatagarcia-b49.github.io/images/logo.jpg">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Datos del Motociclista">
+  <meta property="og:description" content="Información de emergencia del motociclista">
+// nose solo es prueba 
+  <script>
+    const STICKER_CONFIG = {
+      ACTIVADO: false,          // ← cambiar a true cuando el moto envíe sus datos
+      NUMERO_STICKER: "B-01",   // ← número de este sticker (B-01, B-02, etc.)
+
+      // Datos del motociclista (llenar cuando ACTIVADO = true)
+      nombre:          "",
+      fechaNacimiento: "",
+      tipoSangre:      "",
+      alergias:        "",
+      senasParticulares: "",
+      contactos: [
+        { nombre: "", telefono: "" },
+        { nombre: "", telefono: "" },
+        { nombre: "", telefono: "" },
+      ],
+      fotoUrl: "img/hero.jpeg",  // ruta a la foto del moto
+    };
+  </script>
 </head>
 <body>
-    <div class="contenedor-header">
-        <header>
-            <div class="logo">
-                <a href="#">Datos del Motociclista</a>
-            </div>
-            <div class="nav-responsive">
-                <i class="fa-solid fa-bars"></i>
-            </div>
-        </header>
+
+  <!-- ═══════════════════════════════════════════════
+       PANTALLA A: ACTIVACIÓN (cuando ACTIVADO=false)
+  ════════════════════════════════════════════════════ -->
+  <div id="pantalla-activacion" class="pantalla oculto">
+    <div class="activacion-bg">
+      <div class="activacion-noise"></div>
     </div>
-    
-    <section id="inicio" class="inicio">
-        <div class="contenido-banner">
-            <div class="contenedor-img">
-                <img src="img/hero.jpeg" alt="">
-            </div>
-            <h1>Nombre Motociclista</h1>
-            <h3>Fecha de Nacimiento</h3>
-            <h2>XX/XX/XX</h2>
-            <h3>Alergias</h3>
-            <h2>-----</h2>
-            <h3>Tipo de Sangre</h3>
-            <h2>-----</h2>
-            <h3>Señas Particulares</h3>
-            <h2>-----</h2>
-            <h3>Numeros de emergencia</h3>
-            <h2><a href="tel:+5555555557">55XXXXXXXX</a></h2>
-            <h2><a href="tel:+5555555557">55XXXXXXXX</a></h2>
-            <h2><a href="tel:+5555555557">55XXXXXXXX</a></h2>
+    <div class="activacion-contenido">
+      <div class="activacion-logo">
+        <i class="fa-solid fa-motorcycle"></i>
+      </div>
+      <div class="activacion-badge">STICKER QR MOTO</div>
+      <h1 class="activacion-titulo">Este QR aún<br>no está activo</h1>
+      <p class="activacion-desc">
+        Para activarlo y protegerte en carretera, sigue estos pasos:
+      </p>
+
+      <div class="pasos">
+        <div class="paso">
+          <span class="paso-num">01</span>
+          <div class="paso-texto">
+            <strong>Sigue a <span class="highlight">@b2b.dev</span> en Instagram</strong>
+            <span>Toca el botón de abajo para ir directo al perfil</span>
+          </div>
         </div>
-    </section>
+        <div class="paso">
+          <span class="paso-num">02</span>
+          <div class="paso-texto">
+            <strong>Envíanos un mensaje directo</strong>
+            <span>El mensaje ya está pre-llenado con tu número de sticker</span>
+          </div>
+        </div>
+        <div class="paso">
+          <span class="paso-num">03</span>
+          <div class="paso-texto">
+            <strong>Comparte tus datos</strong>
+            <span>Nombre, tipo de sangre, alergias y contactos de emergencia</span>
+          </div>
+        </div>
+      </div>
+
+      <a id="btn-instagram" href="#" target="_blank" class="btn-ig">
+        <i class="fa-brands fa-instagram"></i>
+        Activar mi sticker en Instagram
+      </a>
+
+      <p class="activacion-nota">
+        <i class="fa-solid fa-shield-halved"></i>
+        Tus datos solo son visibles cuando alguien escanee tu QR
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════
+       PANTALLA B: FICHA DE EMERGENCIA (cuando ACTIVADO=true)
+  ════════════════════════════════════════════════════ -->
+  <div id="pantalla-ficha" class="pantalla oculto">
+
+    <div class="ficha-header">
+      <div class="ficha-alerta">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        INFORMACIÓN DE EMERGENCIA
+      </div>
+      <div class="ficha-foto-wrap">
+        <img id="ficha-foto" src="" alt="Foto del motociclista">
+      </div>
+      <h1 id="ficha-nombre" class="ficha-nombre"></h1>
+    </div>
+
+    <div class="ficha-body">
+
+      <div class="ficha-grid">
+
+        <div class="ficha-card card-sangre">
+          <div class="card-icono"><i class="fa-solid fa-droplet"></i></div>
+          <div class="card-label">Tipo de sangre</div>
+          <div id="ficha-sangre" class="card-valor"></div>
+        </div>
+
+        <div class="ficha-card card-fecha">
+          <div class="card-icono"><i class="fa-solid fa-cake-candles"></i></div>
+          <div class="card-label">Fecha de nacimiento</div>
+          <div id="ficha-fecha" class="card-valor card-valor--sm"></div>
+        </div>
+
+      </div>
+
+      <div class="ficha-seccion">
+        <div class="ficha-seccion-titulo">
+          <i class="fa-solid fa-pills"></i> Alergias
+        </div>
+        <div id="ficha-alergias" class="ficha-seccion-texto"></div>
+      </div>
+
+      <div class="ficha-seccion">
+        <div class="ficha-seccion-titulo">
+          <i class="fa-solid fa-id-card"></i> Señas particulares
+        </div>
+        <div id="ficha-senas" class="ficha-seccion-texto"></div>
+      </div>
+
+      <div class="ficha-seccion">
+        <div class="ficha-seccion-titulo">
+          <i class="fa-solid fa-phone-volume"></i> Contactos de emergencia
+        </div>
+        <div id="ficha-contactos" class="contactos-lista"></div>
+      </div>
+
+    </div>
+
+    <div class="ficha-footer">
+      <span>Protegido por</span>
+      <a href="https://instagram.com/b2b.dev" target="_blank">@b2b.dev</a>
+    </div>
+
+  </div>
+
+
+  <script>
+    (function () {
+      const cfg = STICKER_CONFIG;
+
+      // Construir URL del DM de Instagram con mensaje pre-llenado
+      const mensaje = encodeURIComponent(
+        `Hola! Quiero activar mi sticker #${cfg.NUMERO_STICKER} 🏍️\n\n` +
+        `Mis datos de emergencia son:\n` +
+        `• Nombre completo: \n` +
+        `• Fecha de nacimiento: \n` +
+        `• Tipo de sangre: \n` +
+        `• Alergias: \n` +
+        `• Señas particulares: \n` +
+        `• Contacto 1 (nombre y tel): \n` +
+        `• Contacto 2 (nombre y tel): \n` +
+        `• Contacto 3 (nombre y tel): \n`
+      );
+      document.getElementById('btn-instagram').href =
+        `https://ig.me/m/b2b.dev?text=${mensaje}`;
+
+      if (!cfg.ACTIVADO) {
+        // Mostrar pantalla de activación
+        document.getElementById('pantalla-activacion').classList.remove('oculto');
+        document.title = `Sticker ${cfg.NUMERO_STICKER} — Activar`;
+      } else {
+        // Mostrar ficha del motociclista
+        document.getElementById('pantalla-ficha').classList.remove('oculto');
+        document.title = `Emergencia — ${cfg.nombre}`;
+
+        document.getElementById('ficha-foto').src    = cfg.fotoUrl;
+        document.getElementById('ficha-nombre').textContent = cfg.nombre;
+        document.getElementById('ficha-sangre').textContent = cfg.tipoSangre || '—';
+        document.getElementById('ficha-fecha').textContent  = cfg.fechaNacimiento || '—';
+        document.getElementById('ficha-alergias').textContent = cfg.alergias || 'Ninguna conocida';
+        document.getElementById('ficha-senas').textContent    = cfg.senasParticulares || '—';
+
+        const listaContactos = document.getElementById('ficha-contactos');
+        cfg.contactos.forEach(c => {
+          if (!c.telefono) return;
+          const div = document.createElement('a');
+          div.className = 'contacto-item';
+          div.href = `tel:${c.telefono}`;
+          div.innerHTML = `
+            <div class="contacto-info">
+              <span class="contacto-nombre">${c.nombre || 'Contacto'}</span>
+              <span class="contacto-tel">${c.telefono}</span>
+            </div>
+            <div class="contacto-llamar">
+              <i class="fa-solid fa-phone"></i> LLAMAR
+            </div>`;
+          listaContactos.appendChild(div);
+        });
+      }
+    })();
+  </script>
 </body>
 </html>
