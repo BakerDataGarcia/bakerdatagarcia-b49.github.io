@@ -242,177 +242,159 @@
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+ <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey:            "AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs",
-      authDomain:        "moto-sticker-qr-28c34.firebaseapp.com",
-      projectId:         "moto-sticker-qr-28c34",
-      storageBucket:     "moto-sticker-qr-28c34.firebasestorage.app",
-      messagingSenderId: "959074534613",
-      appId:             "1:959074534613:web:38eb00f93d1f23235ace5c"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs",
+  authDomain: "moto-sticker-qr-28c34.firebaseapp.com",
+  projectId: "moto-sticker-qr-28c34",
+  storageBucket: "moto-sticker-qr-28c34.firebasestorage.app",
+  messagingSenderId: "959074534613",
+  appId: "1:959074534613:web:38eb00f93d1f23235ace5c"
+};
 
-    const app     = initializeApp(firebaseConfig);
-    const db      = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    // Extrae el ID legible del hostname
-    // bakerdatagarcia-b49.github.io → b49
-    // bakerdatagarcia-b01.github.io → b01
-    function obtenerID() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('id')) return params.get('id');
-      const host = window.location.hostname; // ej: bakerdatagarcia-b49.github.io
-      const match = host.match(/-(b\d+)\./i);
-      if (match) return match[1].toLowerCase(); // → b49
-      return host.replace(/\./g, '-');
-    }
-
-    const PERFIL_ID = obtenerID();
-
-    // Mostrar ID en el formulario
-    document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
-
-    async function cargarPerfil() {
-      try {
-        const snap = await getDoc(doc(db, 'perfiles', PERFIL_ID));
-        if (snap.exists()) {
-          mostrarFicha(snap.data());
-        } else {
-          mostrar('p-bienvenida');
-        }
-      } catch(e) {
-        console.error(e);
-        mostrar('p-bienvenida');
-      }
-    }
-
-    window.guardarPerfil = async function() {
-      const nombre   = document.getElementById('f-nombre').value.trim();
-      const fecha    = document.getElementById('f-fecha').value.trim();
-      const sangre   = document.getElementById('f-sangre').value;
-      const alergias = document.getElementById('f-alergias').value.trim();
-      const senas    = document.getElementById('f-senas').value.trim();
-      const c1n      = document.getElementById('f-c1-nombre').value.trim();
-      const c1t      = document.getElementById('f-c1-tel').value.trim();
-      const c2n      = document.getElementById('f-c2-nombre').value.trim();
-      const c2t      = document.getElementById('f-c2-tel').value.trim();
-      const c3n      = document.getElementById('f-c3-nombre').value.trim();
-      const c3t      = document.getElementById('f-c3-tel').value.trim();
-      const fotoFile = document.getElementById('f-foto').files[0];
-      const errDiv   = document.getElementById('form-error');
-      const errTxt   = document.getElementById('error-texto');
-      const btn      = document.getElementById('btn-guardar');
-
-      if (!nombre || !fecha || !sangre || !alergias || !c1t) {
-        errTxt.textContent = 'Por favor llena todos los campos requeridos.';
-        errDiv.style.display = 'flex';
-        errDiv.scrollIntoView({ behavior:'smooth', block:'center' });
-        return;
-      }
-      errDiv.style.display = 'none';
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Guardando...';
-
-      try {
-       let fotoUrl = '';
-
-if (fotoFile) {
-  const formData = new FormData();
-  formData.append("file", fotoFile);
-  formData.append("upload_preset", "moto_qr"); // 👈 tu preset
-
-  const res = await fetch("https://api.cloudinary.com/v1_1/deis2b9cq/image/upload", {
-    method: "POST",
-    body: formData
-  });
-
-  const data = await res.json();
-
-  if (!data.secure_url) {
-    throw new Error("Error subiendo imagen");
-  }
-
-  fotoUrl = data.secure_url;
+function obtenerID() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('id')) return params.get('id');
+  const host = window.location.hostname;
+  const match = host.match(/-(b\d+)\./i);
+  if (match) return match[1].toLowerCase();
+  return host.replace(/\./g, '-');
 }
 
-        const datos = {
-          nombre, fecha, sangre, alergias,
-          senas: senas || '',
-          fotoUrl,
-          contactos: [
-            { nombre: c1n, telefono: c1t },
-            { nombre: c2n, telefono: c2t },
-            { nombre: c3n, telefono: c3t },
-          ],
-          activadoEn: new Date().toISOString(),
-          stickerId: PERFIL_ID,
-        };
+const PERFIL_ID = obtenerID();
+document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
 
-        await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
-        window._datosGuardados = datos;
+async function cargarPerfil() {
+  try {
+    const snap = await getDoc(doc(db, 'perfiles', PERFIL_ID));
+    if (snap.exists()) {
+      mostrarFicha(snap.data());
+    } else {
+      mostrar('p-bienvenida');
+    }
+  } catch (e) {
+    console.error(e);
+    mostrar('p-bienvenida');
+  }
+}
 
-        // Mostrar ID en pantalla de éxito
-        document.getElementById('exito-id-valor').textContent = PERFIL_ID;
-        mostrar('p-exito');
+window.guardarPerfil = async function () {
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const fecha = document.getElementById('f-fecha').value.trim();
+  const sangre = document.getElementById('f-sangre').value;
+  const alergias = document.getElementById('f-alergias').value.trim();
+  const senas = document.getElementById('f-senas').value.trim();
+  const c1n = document.getElementById('f-c1-nombre').value.trim();
+  const c1t = document.getElementById('f-c1-tel').value.trim();
+  const c2n = document.getElementById('f-c2-nombre').value.trim();
+  const c2t = document.getElementById('f-c2-tel').value.trim();
+  const c3n = document.getElementById('f-c3-nombre').value.trim();
+  const c3t = document.getElementById('f-c3-tel').value.trim();
 
-      } catch(e) {
-        console.error(e);
-        errTxt.textContent = 'Error al guardar. Verifica tu conexión e intenta de nuevo. (' + e.code + ')';
-        errDiv.style.display = 'flex';
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Activar mi perfil de emergencia';
-      }
-    };
+  // 🔥 FIX REAL DEL FILE INPUT
+  const inputFoto = document.querySelector('#foto-area input[type="file"]');
+  const fotoFile = inputFoto ? inputFoto.files[0] : null;
 
-    window.verMiPerfil = function() {
-      if (window._datosGuardados) mostrarFicha(window._datosGuardados);
-    };
+  const errDiv = document.getElementById('form-error');
+  const errTxt = document.getElementById('error-texto');
+  const btn = document.getElementById('btn-guardar');
 
-    function mostrarFicha(d) {
-      document.getElementById('ficha-nombre').textContent   = d.nombre   || '—';
-      document.getElementById('ficha-sangre').textContent   = d.sangre   || '—';
-      document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna conocida';
-      document.getElementById('ficha-fecha').textContent    = d.fecha    || '—';
-      document.getElementById('ficha-id-label').textContent = 'ID: ' + (d.stickerId || PERFIL_ID);
+  if (!nombre || !fecha || !sangre || !alergias || !c1t) {
+    errTxt.textContent = 'Por favor llena todos los campos requeridos.';
+    errDiv.style.display = 'flex';
+    return;
+  }
 
-      const senasCard = document.getElementById('ficha-senas-card');
-      if (d.senas) { document.getElementById('ficha-senas').textContent = d.senas; }
-      else { senasCard.style.display = 'none'; }
+  btn.disabled = true;
+  btn.innerHTML = 'Guardando...';
 
-      const fotoWrap = document.getElementById('foto-wrap');
-      const foto = document.getElementById('ficha-foto');
-      if (d.fotoUrl) {
-        foto.src = d.fotoUrl;
-        foto.onerror = function() { fotoWrap.style.display = 'none'; };
-      } else {
-        fotoWrap.style.display = 'none';
-      }
+  try {
+    let fotoUrl = '';
 
-      const cont = document.getElementById('ficha-contactos');
-      cont.innerHTML = '';
-      (d.contactos || []).forEach(function(c) {
-        if (!c.telefono) return;
-        const a = document.createElement('a');
-        a.className = 'btn-llamar';
-        a.href = 'tel:' + c.telefono;
-        a.innerHTML =
-          '<div class="btn-llamar-info">' +
-            '<span class="btn-llamar-nombre">' + (c.nombre || 'Contacto') + '</span>' +
-            '<span class="btn-llamar-tel">' + c.telefono + '</span>' +
-          '</div>' +
-          '<div class="btn-llamar-icono"><i class="fa-solid fa-phone"></i></div>';
-        cont.appendChild(a);
+    if (fotoFile) {
+      console.log("Subiendo imagen...");
+
+      const formData = new FormData();
+      formData.append("file", fotoFile);
+      formData.append("upload_preset", "moto_qr");
+
+      const res = await fetch("https://api.cloudinary.com/v1_1/deis2b9cq/image/upload", {
+        method: "POST",
+        body: formData
       });
 
-      mostrar('p-ficha');
+      const data = await res.json();
+      console.log("Cloudinary:", data);
+
+      if (!data.secure_url) {
+        throw new Error("Cloudinary no devolvió URL");
+      }
+
+      fotoUrl = data.secure_url;
     }
 
-    cargarPerfil();
-  </script>
+    const datos = {
+      nombre, fecha, sangre, alergias,
+      senas: senas || '',
+      fotoUrl,
+      contactos: [
+        { nombre: c1n, telefono: c1t },
+        { nombre: c2n, telefono: c2t },
+        { nombre: c3n, telefono: c3t },
+      ],
+      activadoEn: new Date().toISOString(),
+      stickerId: PERFIL_ID,
+    };
+
+    console.log("Guardando en Firestore:", datos);
+
+    await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
+
+    window._datosGuardados = datos;
+    document.getElementById('exito-id-valor').textContent = PERFIL_ID;
+
+    mostrar('p-exito');
+
+  } catch (e) {
+    console.error(e);
+    errTxt.textContent = 'Error: ' + e.message;
+    errDiv.style.display = 'flex';
+
+    btn.disabled = false;
+    btn.innerHTML = 'Activar mi perfil';
+  }
+};
+
+window.verMiPerfil = function () {
+  if (window._datosGuardados) mostrarFicha(window._datosGuardados);
+};
+
+function mostrarFicha(d) {
+  document.getElementById('ficha-nombre').textContent = d.nombre || '—';
+  document.getElementById('ficha-sangre').textContent = d.sangre || '—';
+  document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna';
+  document.getElementById('ficha-fecha').textContent = d.fecha || '—';
+
+  const foto = document.getElementById('ficha-foto');
+  const wrap = document.getElementById('foto-wrap');
+
+  if (d.fotoUrl) {
+    foto.src = d.fotoUrl;
+  } else {
+    wrap.style.display = 'none';
+  }
+
+  mostrar('p-ficha');
+}
+
+cargarPerfil();
+</script>
 
   <script>
     function mostrar(id) {
