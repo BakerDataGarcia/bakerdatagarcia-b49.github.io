@@ -5,53 +5,265 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Datos del Motociclista</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="estilo.css">
 
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="Datos del Motociclista">
-  <meta property="og:description" content="Información de emergencia del motociclista">
-// nose solo es prueba 
+  <!-- ============================================================
+       CONFIGURACIÓN DEL STICKER
+       - Si ACTIVADO es false → muestra pantalla de activación
+       - Si ACTIVADO es true  → muestra la ficha del motociclista
+       ============================================================ -->
   <script>
     const STICKER_CONFIG = {
       ACTIVADO: false,          // ← cambiar a true cuando el moto envíe sus datos
-      NUMERO_STICKER: "B-01",   // ← número de este sticker (B-01, B-02, etc.)
+      NUMERO_STICKER: "B-01",   // ← número de este sticker
 
       // Datos del motociclista (llenar cuando ACTIVADO = true)
-      nombre:          "",
-      fechaNacimiento: "",
-      tipoSangre:      "",
-      alergias:        "",
+      nombre:            "",
+      fechaNacimiento:   "",
+      tipoSangre:        "",
+      alergias:          "",
       senasParticulares: "",
       contactos: [
         { nombre: "", telefono: "" },
         { nombre: "", telefono: "" },
         { nombre: "", telefono: "" },
       ],
-      fotoUrl: "img/hero.jpeg",  // ruta a la foto del moto
+      fotoUrl: "img/hero.jpeg",
     };
   </script>
+
+  <style>
+    /* ── Reset ── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --negro:    #0a0b0d;
+      --carbon:   #13151a;
+      --gris-osc: #1e2129;
+      --gris-med: #2c3040;
+      --gris-brd: #3a3f50;
+      --gris-txt: #8a90a0;
+      --blanco:   #f0f2f7;
+      --verde:    #1CB698;
+      --verde-osc:#0d8a72;
+      --rojo:     #e63946;
+      --rojo-osc: #c1121f;
+      --ig-grad:  linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--negro);
+      color: var(--blanco);
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .oculto { display: none !important; }
+    .pantalla { min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* ══ PANTALLA ACTIVACIÓN ══ */
+    .activacion-bg {
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse at 20% 50%, #1a2a3a 0%, var(--negro) 60%);
+      z-index: 0;
+    }
+    .activacion-contenido {
+      position: relative; z-index: 1;
+      max-width: 440px; margin: 0 auto;
+      padding: 48px 24px 64px;
+      display: flex; flex-direction: column; gap: 0;
+    }
+    .activacion-logo {
+      font-size: 40px; color: var(--verde);
+      margin-bottom: 16px;
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%,100% { transform: translateY(0); }
+      50%      { transform: translateY(-6px); }
+    }
+    .activacion-badge {
+      display: inline-block;
+      font-family: 'Courier New', monospace;
+      font-size: 11px; letter-spacing: 0.15em;
+      color: var(--verde);
+      border: 1px solid var(--verde);
+      border-radius: 4px; padding: 4px 10px;
+      margin-bottom: 20px; width: fit-content;
+    }
+    .activacion-titulo {
+      font-size: clamp(48px, 12vw, 72px);
+      font-weight: 800; line-height: 0.95;
+      color: var(--blanco); margin-bottom: 20px;
+    }
+    .activacion-desc {
+      font-size: 15px; color: var(--gris-txt);
+      line-height: 1.6; margin-bottom: 36px;
+    }
+    .pasos {
+      display: flex; flex-direction: column;
+      border-left: 1px solid var(--gris-brd);
+      margin-bottom: 40px;
+    }
+    .paso {
+      display: flex; align-items: flex-start;
+      gap: 16px; padding: 18px 0 18px 24px;
+      border-bottom: 1px solid var(--gris-brd);
+      position: relative;
+    }
+    .paso::before {
+      content: ''; position: absolute;
+      left: -4px; top: 50%; transform: translateY(-50%);
+      width: 7px; height: 7px; border-radius: 50%;
+      background: var(--verde); box-shadow: 0 0 10px var(--verde);
+    }
+    .paso:last-child { border-bottom: none; }
+    .paso-num {
+      font-family: 'Courier New', monospace;
+      font-size: 11px; color: var(--verde);
+      opacity: 0.7; margin-top: 2px; flex-shrink: 0;
+    }
+    .paso-texto { display: flex; flex-direction: column; gap: 4px; }
+    .paso-texto strong { font-size: 14px; font-weight: 600; color: var(--blanco); }
+    .paso-texto span { font-size: 13px; color: var(--gris-txt); line-height: 1.4; }
+    .highlight { color: var(--verde); }
+
+    .btn-ig {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; background: var(--ig-grad);
+      color: #fff; text-decoration: none;
+      font-size: 15px; font-weight: 600;
+      padding: 16px 24px; border-radius: 12px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 24px rgba(220,39,67,0.35);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .btn-ig:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 32px rgba(220,39,67,0.5);
+    }
+    .btn-ig i { font-size: 18px; }
+
+    .activacion-nota {
+      display: flex; align-items: center; gap: 8px;
+      font-size: 12px; color: var(--gris-txt);
+      justify-content: center;
+    }
+    .activacion-nota i { color: var(--verde); font-size: 13px; }
+
+    /* ══ PANTALLA FICHA ══ */
+    .ficha-header {
+      background: linear-gradient(160deg, var(--rojo-osc), #7b0d10);
+      padding: 40px 24px 32px;
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center;
+      position: relative; overflow: hidden;
+    }
+    .ficha-alerta {
+      display: flex; align-items: center; gap: 8px;
+      font-family: 'Courier New', monospace;
+      font-size: 11px; letter-spacing: 0.18em;
+      color: rgba(255,255,255,0.85);
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      padding: 6px 14px; border-radius: 100px;
+      margin-bottom: 24px;
+      animation: pulse-alert 2s ease-in-out infinite;
+    }
+    @keyframes pulse-alert {
+      0%,100% { box-shadow: 0 0 0 0 rgba(230,57,70,0.5); }
+      50%      { box-shadow: 0 0 0 8px rgba(230,57,70,0); }
+    }
+    .ficha-foto-wrap {
+      width: 110px; height: 110px;
+      border-radius: 50%;
+      border: 4px solid rgba(255,255,255,0.3);
+      overflow: hidden; margin-bottom: 16px;
+      background: var(--gris-osc);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+    }
+    .ficha-foto-wrap img { width: 100%; height: 100%; object-fit: cover; }
+    .ficha-nombre {
+      font-size: clamp(36px, 9vw, 54px);
+      font-weight: 800; color: #fff; line-height: 1;
+    }
+    .ficha-body {
+      flex: 1; background: var(--carbon);
+      padding: 24px 20px;
+      display: flex; flex-direction: column; gap: 16px;
+      max-width: 500px; width: 100%; margin: 0 auto;
+    }
+    .ficha-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .ficha-card {
+      background: var(--gris-osc); border-radius: 12px;
+      padding: 16px; display: flex; flex-direction: column; gap: 6px;
+      border: 1px solid var(--gris-brd);
+    }
+    .card-sangre { border-color: rgba(230,57,70,0.4); }
+    .card-icono { font-size: 16px; color: var(--gris-txt); margin-bottom: 2px; }
+    .card-sangre .card-icono { color: var(--rojo); }
+    .card-label {
+      font-size: 11px; font-family: 'Courier New', monospace;
+      letter-spacing: 0.08em; color: var(--gris-txt); text-transform: uppercase;
+    }
+    .card-valor { font-size: 40px; font-weight: 800; color: var(--blanco); line-height: 1; }
+    .card-sangre .card-valor { color: var(--rojo); }
+    .card-valor--sm { font-size: 22px; }
+
+    .ficha-seccion {
+      background: var(--gris-osc); border-radius: 12px;
+      padding: 16px; border: 1px solid var(--gris-brd);
+    }
+    .ficha-seccion-titulo {
+      font-size: 11px; font-family: 'Courier New', monospace;
+      letter-spacing: 0.1em; color: var(--gris-txt);
+      text-transform: uppercase; margin-bottom: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .ficha-seccion-titulo i { color: var(--verde); }
+    .ficha-seccion-texto { font-size: 15px; color: var(--blanco); line-height: 1.5; }
+
+    .contactos-lista { display: flex; flex-direction: column; gap: 10px; }
+    .contacto-item {
+      display: flex; align-items: center; justify-content: space-between;
+      background: var(--gris-med); border: 1px solid var(--gris-brd);
+      border-radius: 10px; padding: 14px 16px;
+      text-decoration: none;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .contacto-item:active { background: #323847; transform: scale(0.99); }
+    .contacto-info { display: flex; flex-direction: column; gap: 3px; }
+    .contacto-nombre { font-size: 14px; font-weight: 500; color: var(--blanco); }
+    .contacto-tel { font-family: 'Courier New', monospace; font-size: 13px; color: var(--gris-txt); }
+    .contacto-llamar {
+      display: flex; align-items: center; gap: 6px;
+      background: var(--verde); color: #fff;
+      font-size: 11px; font-weight: 600;
+      font-family: 'Courier New', monospace;
+      letter-spacing: 0.08em;
+      padding: 8px 14px; border-radius: 8px;
+    }
+
+    .ficha-footer {
+      background: var(--negro);
+      border-top: 1px solid var(--gris-brd);
+      padding: 16px 24px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; font-size: 12px; color: var(--gris-txt);
+    }
+    .ficha-footer a { color: var(--verde); text-decoration: none; font-weight: 500; }
+  </style>
 </head>
 <body>
 
-  <!-- ═══════════════════════════════════════════════
-       PANTALLA A: ACTIVACIÓN (cuando ACTIVADO=false)
-  ════════════════════════════════════════════════════ -->
+  <!-- PANTALLA A: ACTIVACIÓN -->
   <div id="pantalla-activacion" class="pantalla oculto">
-    <div class="activacion-bg">
-      <div class="activacion-noise"></div>
-    </div>
+    <div class="activacion-bg"></div>
     <div class="activacion-contenido">
-      <div class="activacion-logo">
-        <i class="fa-solid fa-motorcycle"></i>
-      </div>
+      <div class="activacion-logo"><i class="fa-solid fa-motorcycle"></i></div>
       <div class="activacion-badge">STICKER QR MOTO</div>
       <h1 class="activacion-titulo">Este QR aún<br>no está activo</h1>
-      <p class="activacion-desc">
-        Para activarlo y protegerte en carretera, sigue estos pasos:
-      </p>
-
+      <p class="activacion-desc">Para activarlo y protegerte en carretera, sigue estos pasos:</p>
       <div class="pasos">
         <div class="paso">
           <span class="paso-num">01</span>
@@ -75,12 +287,10 @@
           </div>
         </div>
       </div>
-
       <a id="btn-instagram" href="#" target="_blank" class="btn-ig">
         <i class="fa-brands fa-instagram"></i>
         Activar mi sticker en Instagram
       </a>
-
       <p class="activacion-nota">
         <i class="fa-solid fa-shield-halved"></i>
         Tus datos solo son visibles cuando alguien escanee tu QR
@@ -88,12 +298,8 @@
     </div>
   </div>
 
-
-  <!-- ═══════════════════════════════════════════════
-       PANTALLA B: FICHA DE EMERGENCIA (cuando ACTIVADO=true)
-  ════════════════════════════════════════════════════ -->
+  <!-- PANTALLA B: FICHA DE EMERGENCIA -->
   <div id="pantalla-ficha" class="pantalla oculto">
-
     <div class="ficha-header">
       <div class="ficha-alerta">
         <i class="fa-solid fa-triangle-exclamation"></i>
@@ -104,107 +310,84 @@
       </div>
       <h1 id="ficha-nombre" class="ficha-nombre"></h1>
     </div>
-
     <div class="ficha-body">
-
       <div class="ficha-grid">
-
         <div class="ficha-card card-sangre">
           <div class="card-icono"><i class="fa-solid fa-droplet"></i></div>
           <div class="card-label">Tipo de sangre</div>
           <div id="ficha-sangre" class="card-valor"></div>
         </div>
-
         <div class="ficha-card card-fecha">
           <div class="card-icono"><i class="fa-solid fa-cake-candles"></i></div>
           <div class="card-label">Fecha de nacimiento</div>
           <div id="ficha-fecha" class="card-valor card-valor--sm"></div>
         </div>
-
       </div>
-
       <div class="ficha-seccion">
-        <div class="ficha-seccion-titulo">
-          <i class="fa-solid fa-pills"></i> Alergias
-        </div>
+        <div class="ficha-seccion-titulo"><i class="fa-solid fa-pills"></i> Alergias</div>
         <div id="ficha-alergias" class="ficha-seccion-texto"></div>
       </div>
-
       <div class="ficha-seccion">
-        <div class="ficha-seccion-titulo">
-          <i class="fa-solid fa-id-card"></i> Señas particulares
-        </div>
+        <div class="ficha-seccion-titulo"><i class="fa-solid fa-id-card"></i> Señas particulares</div>
         <div id="ficha-senas" class="ficha-seccion-texto"></div>
       </div>
-
       <div class="ficha-seccion">
-        <div class="ficha-seccion-titulo">
-          <i class="fa-solid fa-phone-volume"></i> Contactos de emergencia
-        </div>
+        <div class="ficha-seccion-titulo"><i class="fa-solid fa-phone-volume"></i> Contactos de emergencia</div>
         <div id="ficha-contactos" class="contactos-lista"></div>
       </div>
-
     </div>
-
     <div class="ficha-footer">
       <span>Protegido por</span>
       <a href="https://instagram.com/b2b.dev" target="_blank">@b2b.dev</a>
     </div>
-
   </div>
-
 
   <script>
     (function () {
       const cfg = STICKER_CONFIG;
 
-      // Construir URL del DM de Instagram con mensaje pre-llenado
       const mensaje = encodeURIComponent(
-        `Hola! Quiero activar mi sticker #${cfg.NUMERO_STICKER} 🏍️\n\n` +
-        `Mis datos de emergencia son:\n` +
-        `• Nombre completo: \n` +
-        `• Fecha de nacimiento: \n` +
-        `• Tipo de sangre: \n` +
-        `• Alergias: \n` +
-        `• Señas particulares: \n` +
-        `• Contacto 1 (nombre y tel): \n` +
-        `• Contacto 2 (nombre y tel): \n` +
-        `• Contacto 3 (nombre y tel): \n`
+        'Hola! Quiero activar mi sticker #' + cfg.NUMERO_STICKER + ' 🏍️\n\n' +
+        'Mis datos de emergencia son:\n' +
+        '• Nombre completo: \n' +
+        '• Fecha de nacimiento: \n' +
+        '• Tipo de sangre: \n' +
+        '• Alergias: \n' +
+        '• Señas particulares: \n' +
+        '• Contacto 1 (nombre y tel): \n' +
+        '• Contacto 2 (nombre y tel): \n' +
+        '• Contacto 3 (nombre y tel): \n'
       );
       document.getElementById('btn-instagram').href =
-        `https://ig.me/m/b2b.dev?text=${mensaje}`;
+        'https://ig.me/m/b2b.dev?text=' + mensaje;
 
       if (!cfg.ACTIVADO) {
-        // Mostrar pantalla de activación
         document.getElementById('pantalla-activacion').classList.remove('oculto');
-        document.title = `Sticker ${cfg.NUMERO_STICKER} — Activar`;
+        document.title = 'Sticker ' + cfg.NUMERO_STICKER + ' — Activar';
       } else {
-        // Mostrar ficha del motociclista
         document.getElementById('pantalla-ficha').classList.remove('oculto');
-        document.title = `Emergencia — ${cfg.nombre}`;
+        document.title = 'Emergencia — ' + cfg.nombre;
 
-        document.getElementById('ficha-foto').src    = cfg.fotoUrl;
-        document.getElementById('ficha-nombre').textContent = cfg.nombre;
-        document.getElementById('ficha-sangre').textContent = cfg.tipoSangre || '—';
-        document.getElementById('ficha-fecha').textContent  = cfg.fechaNacimiento || '—';
-        document.getElementById('ficha-alergias').textContent = cfg.alergias || 'Ninguna conocida';
-        document.getElementById('ficha-senas').textContent    = cfg.senasParticulares || '—';
+        document.getElementById('ficha-foto').src             = cfg.fotoUrl;
+        document.getElementById('ficha-nombre').textContent   = cfg.nombre;
+        document.getElementById('ficha-sangre').textContent   = cfg.tipoSangre        || '—';
+        document.getElementById('ficha-fecha').textContent    = cfg.fechaNacimiento    || '—';
+        document.getElementById('ficha-alergias').textContent = cfg.alergias           || 'Ninguna conocida';
+        document.getElementById('ficha-senas').textContent    = cfg.senasParticulares  || '—';
 
-        const listaContactos = document.getElementById('ficha-contactos');
-        cfg.contactos.forEach(c => {
+        const lista = document.getElementById('ficha-contactos');
+        cfg.contactos.forEach(function(c) {
           if (!c.telefono) return;
-          const div = document.createElement('a');
-          div.className = 'contacto-item';
-          div.href = `tel:${c.telefono}`;
-          div.innerHTML = `
-            <div class="contacto-info">
-              <span class="contacto-nombre">${c.nombre || 'Contacto'}</span>
-              <span class="contacto-tel">${c.telefono}</span>
-            </div>
-            <div class="contacto-llamar">
-              <i class="fa-solid fa-phone"></i> LLAMAR
-            </div>`;
-          listaContactos.appendChild(div);
+          var a = document.createElement('a');
+          a.className = 'contacto-item';
+          a.href = 'tel:' + c.telefono;
+          a.innerHTML =
+            '<div class="contacto-info">' +
+              '<span class="contacto-nombre">' + (c.nombre || 'Contacto') + '</span>' +
+              '<span class="contacto-tel">' + c.telefono + '</span>' +
+            '</div>' +
+            '<div class="contacto-llamar"><i class="fa-solid fa-phone"></i> LLAMAR</div>';
+          lista.appendChild(a);
         });
       }
     })();
