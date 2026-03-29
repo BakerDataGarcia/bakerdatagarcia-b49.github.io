@@ -8,16 +8,17 @@
 
   <script>
     const STICKER_CONFIG = {
-      ACTIVADO: true,
-      NUMERO_STICKER: "B-01",
-      nombre:            "Prueba",
-      fechaNacimiento:   "2024/09/2026",
-      tipoSangre:        "o+",
-      alergias:          "Ninguna",
-      senasParticulares: "Tatuajes",
+      ACTIVADO: false,
+      // El número se asignará dinámicamente con la URL actual
+      NUMERO_STICKER: "",
+      nombre:            "",
+      fechaNacimiento:   "",
+      tipoSangre:        "",
+      alergias:          "",
+      senasParticulares: "",
       contactos: [
-        { nombre: "Madre", telefono: "5510452189" },
-        { nombre: "Yo", telefono: "5514105330" },
+        { nombre: "", telefono: "" },
+        { nombre: "", telefono: "" },
         { nombre: "", telefono: "" },
       ],
       fotoUrl: "img/hero.jpeg",
@@ -25,6 +26,7 @@
   </script>
 
   <style>
+    /* (todo el CSS se mantiene igual, no se modifica) */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
@@ -534,6 +536,9 @@
   <script>
     var mensajeTexto = '';
 
+    // Asignar la URL actual como número de sticker
+    STICKER_CONFIG.NUMERO_STICKER = window.location.href;
+
     function mostrar(id) {
       var pantallas = ['p-bienvenida','p-formulario','p-mensaje','p-ficha'];
       pantallas.forEach(function(p) {
@@ -616,6 +621,7 @@
     // ── Inicialización ──
     (function () {
       var cfg = STICKER_CONFIG;
+      // Mostrar la URL en el subtítulo del formulario
       document.getElementById('form-numero').textContent = cfg.NUMERO_STICKER;
 
       if (!cfg.ACTIVADO) {
