@@ -258,7 +258,6 @@
 
     const app     = initializeApp(firebaseConfig);
     const db      = getFirestore(app);
-    const storage = getStorage(app);
 
     // Extrae el ID legible del hostname
     // bakerdatagarcia-b49.github.io → b49
@@ -319,12 +318,26 @@
       btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Guardando...';
 
       try {
-        let fotoUrl = '';
-        if (fotoFile) {
-          const storageRef = ref(storage, 'fotos/' + PERFIL_ID);
-          await uploadBytes(storageRef, fotoFile);
-          fotoUrl = await getDownloadURL(storageRef);
-        }
+       let fotoUrl = '';
+
+if (fotoFile) {
+  const formData = new FormData();
+  formData.append("file", fotoFile);
+  formData.append("upload_preset", "moto_qr"); // 👈 tu preset
+
+  const res = await fetch("https://api.cloudinary.com/v1_1/deis2b9cq/image/upload", {
+    method: "POST",
+    body: formData
+  });
+
+  const data = await res.json();
+
+  if (!data.secure_url) {
+    throw new Error("Error subiendo imagen");
+  }
+
+  fotoUrl = data.secure_url;
+}
 
         const datos = {
           nombre, fecha, sangre, alergias,
