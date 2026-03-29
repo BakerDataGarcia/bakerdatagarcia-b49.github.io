@@ -11,17 +11,14 @@
       --negro:#0a0b0d;--carbon:#13151a;--gris-osc:#1e2129;--gris-med:#2c3040;
       --gris-brd:#3a3f50;--gris-txt:#8a90a0;--blanco:#f0f2f7;
       --verde:#1CB698;--verde-osc:#0d8a72;--rojo:#e63946;--rojo-osc:#c1121f;
-      --ig-grad:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
     }
     html,body{min-height:100vh;background:var(--negro);color:var(--blanco);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
     .oculto{display:none!important;}
     .pantalla{min-height:100vh;display:flex;flex-direction:column;}
-    /* LOADING */
     #p-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
     .loading-icon{font-size:40px;color:var(--verde);animation:spin 1s linear infinite;}
     @keyframes spin{to{transform:rotate(360deg)}}
     .loading-txt{font-size:14px;color:var(--gris-txt);}
-    /* BIENVENIDA */
     .activacion-bg{position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,#1a2a3a 0%,var(--negro) 60%);z-index:0;}
     .activacion-contenido{position:relative;z-index:1;max-width:440px;margin:0 auto;padding:48px 24px 64px;display:flex;flex-direction:column;}
     .activacion-logo{font-size:40px;color:var(--verde);margin-bottom:16px;animation:float 3s ease-in-out infinite;}
@@ -33,11 +30,11 @@
     .btn-primario:hover{transform:translateY(-2px);}
     .activacion-nota{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gris-txt);justify-content:center;}
     .activacion-nota i{color:var(--verde);}
-    /* FORMULARIO */
     .form-header{background:linear-gradient(160deg,#0d3d32,#0a0b0d);padding:32px 24px 24px;border-bottom:1px solid var(--gris-brd);}
     .form-back{display:flex;align-items:center;gap:8px;color:var(--verde);font-size:14px;background:none;border:none;cursor:pointer;margin-bottom:16px;padding:0;}
     .form-titulo{font-size:26px;font-weight:800;color:var(--blanco);margin-bottom:6px;}
     .form-subtitulo{font-size:13px;color:var(--gris-txt);}
+    .form-id-badge{display:inline-block;font-family:'Courier New',monospace;font-size:12px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:4px;padding:3px 8px;margin-top:6px;}
     .form-body{flex:1;padding:24px 20px 40px;max-width:500px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
     .form-grupo{display:flex;flex-direction:column;gap:8px;}
     .form-label{font-size:11px;font-family:'Courier New',monospace;letter-spacing:0.1em;color:var(--gris-txt);text-transform:uppercase;display:flex;align-items:center;gap:6px;}
@@ -67,11 +64,11 @@
     .exito-check{width:80px;height:80px;border-radius:50%;background:rgba(28,182,152,0.15);border:3px solid var(--verde);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--verde);margin-bottom:24px;animation:pop 0.5s cubic-bezier(0.34,1.56,0.64,1);}
     @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
     .exito-titulo{font-size:32px;font-weight:800;margin-bottom:12px;}
-    .exito-desc{font-size:15px;color:var(--gris-txt);line-height:1.7;margin-bottom:32px;}
-    .exito-separador{width:100%;height:1px;background:var(--gris-brd);margin:8px 0 24px;}
-    .exito-ig-titulo{font-size:13px;color:var(--gris-txt);margin-bottom:16px;}
-    .btn-ig{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--ig-grad);color:#fff;text-decoration:none;font-size:15px;font-weight:700;padding:16px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(220,39,67,0.35);}
-    .btn-ig-skip{font-size:12px;color:var(--gris-txt);margin-top:12px;cursor:pointer;background:none;border:none;text-decoration:underline;}
+    .exito-desc{font-size:15px;color:var(--gris-txt);line-height:1.7;margin-bottom:12px;}
+    .exito-id{font-family:'Courier New',monospace;font-size:13px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:8px;padding:10px 16px;margin-bottom:32px;width:100%;text-align:center;}
+    .exito-id span{font-size:11px;color:var(--gris-txt);display:block;margin-bottom:4px;letter-spacing:0.08em;}
+    .btn-ver-perfil{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s;}
+    .btn-ver-perfil:hover{transform:translateY(-2px);}
     /* EMERGENCIA */
     .ficha-header{background:linear-gradient(160deg,var(--rojo-osc),#7b0d10);padding:40px 24px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;}
     .ficha-alerta{display:flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.18em;color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:8px 16px;border-radius:100px;margin-bottom:20px;animation:pulse-alert 2s ease-in-out infinite;}
@@ -93,6 +90,7 @@
     .btn-llamar-nombre{font-size:16px;font-weight:700;}
     .btn-llamar-tel{font-size:13px;font-family:'Courier New',monospace;opacity:0.85;}
     .btn-llamar-icono{background:rgba(255,255,255,0.2);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .ficha-id{font-family:'Courier New',monospace;font-size:11px;color:var(--gris-txt);text-align:center;padding:12px;border-top:1px solid var(--gris-brd);margin-top:4px;}
     .ficha-footer{background:var(--negro);border-top:1px solid var(--gris-brd);padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--gris-txt);}
     .ficha-footer a{color:var(--verde);text-decoration:none;font-weight:500;}
   </style>
@@ -115,7 +113,7 @@
         <i class="fa-solid fa-shield-halved"></i>
         Activar mi sticker ahora
       </button>
-      <p class="activacion-nota"><i class="fa-solid fa-lock"></i> Sin cuentas ni contraseñas. Solo tú y quien escanee tu QR ven tus datos.</p>
+      <p class="activacion-nota"><i class="fa-solid fa-lock"></i> Sin cuentas ni contraseñas. Solo visible al escanear tu QR.</p>
     </div>
   </div>
 
@@ -124,6 +122,7 @@
       <button class="form-back" onclick="mostrar('p-bienvenida')"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
       <h1 class="form-titulo">Datos de emergencia</h1>
       <p class="form-subtitulo">Campos con <span style="color:var(--rojo)">*</span> son requeridos</p>
+      <div class="form-id-badge" id="badge-id"></div>
     </div>
     <div class="form-body">
       <div class="form-grupo">
@@ -193,19 +192,21 @@
     </div>
   </div>
 
+  <!-- ÉXITO: directo a ver perfil, sin Instagram -->
   <div id="p-exito" class="pantalla oculto">
     <div class="activacion-bg"></div>
     <div class="exito-contenido">
       <div class="exito-check"><i class="fa-solid fa-check"></i></div>
       <h1 class="exito-titulo">¡Tu perfil está activo!</h1>
-      <p class="exito-desc">Desde ahora, si alguien escanea tu QR verá tu información de emergencia de inmediato. No necesitas hacer nada más.</p>
-      <div class="exito-separador"></div>
-      <p class="exito-ig-titulo">Síguenos para editar tus datos, recuperar tu perfil y obtener beneficios exclusivos para motociclistas.</p>
-      <a href="https://instagram.com/b2b.dev" target="_blank" class="btn-ig">
-        <i class="fa-brands fa-instagram"></i>
-        Seguir @b2b.dev en Instagram
-      </a>
-      <button class="btn-ig-skip" onclick="verMiPerfil()">Ver mi perfil de emergencia</button>
+      <p class="exito-desc">Desde ahora cualquier persona que escanee tu QR verá tu información de emergencia de inmediato.</p>
+      <div class="exito-id">
+        <span>ID DE TU STICKER</span>
+        <strong id="exito-id-valor"></strong>
+      </div>
+      <button class="btn-ver-perfil" onclick="verMiPerfil()">
+        <i class="fa-solid fa-eye"></i>
+        Ver mi ficha de emergencia
+      </button>
     </div>
   </div>
 
@@ -233,6 +234,7 @@
         <div id="ficha-senas" class="ficha-card-texto"></div>
       </div>
       <div id="ficha-contactos"></div>
+      <div class="ficha-id" id="ficha-id-label"></div>
     </div>
     <div class="ficha-footer">
       <span>Protegido por</span>
@@ -258,13 +260,22 @@
     const db      = getFirestore(app);
     const storage = getStorage(app);
 
+    // Extrae el ID legible del hostname
+    // bakerdatagarcia-b49.github.io → b49
+    // bakerdatagarcia-b01.github.io → b01
     function obtenerID() {
       const params = new URLSearchParams(window.location.search);
       if (params.get('id')) return params.get('id');
-      return window.location.hostname.replace(/\./g, '-');
+      const host = window.location.hostname; // ej: bakerdatagarcia-b49.github.io
+      const match = host.match(/-(b\d+)\./i);
+      if (match) return match[1].toLowerCase(); // → b49
+      return host.replace(/\./g, '-');
     }
 
     const PERFIL_ID = obtenerID();
+
+    // Mostrar ID en el formulario
+    document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
 
     async function cargarPerfil() {
       try {
@@ -314,22 +325,30 @@
           await uploadBytes(storageRef, fotoFile);
           fotoUrl = await getDownloadURL(storageRef);
         }
+
         const datos = {
-          nombre, fecha, sangre, alergias, senas: senas||'', fotoUrl,
+          nombre, fecha, sangre, alergias,
+          senas: senas || '',
+          fotoUrl,
           contactos: [
-            {nombre:c1n, telefono:c1t},
-            {nombre:c2n, telefono:c2t},
-            {nombre:c3n, telefono:c3t},
+            { nombre: c1n, telefono: c1t },
+            { nombre: c2n, telefono: c2t },
+            { nombre: c3n, telefono: c3t },
           ],
           activadoEn: new Date().toISOString(),
           stickerId: PERFIL_ID,
         };
+
         await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
         window._datosGuardados = datos;
+
+        // Mostrar ID en pantalla de éxito
+        document.getElementById('exito-id-valor').textContent = PERFIL_ID;
         mostrar('p-exito');
+
       } catch(e) {
         console.error(e);
-        errTxt.textContent = 'Error al guardar. Verifica tu conexión e intenta de nuevo.';
+        errTxt.textContent = 'Error al guardar. Verifica tu conexión e intenta de nuevo. (' + e.code + ')';
         errDiv.style.display = 'flex';
         btn.disabled = false;
         btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Activar mi perfil de emergencia';
@@ -345,26 +364,37 @@
       document.getElementById('ficha-sangre').textContent   = d.sangre   || '—';
       document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna conocida';
       document.getElementById('ficha-fecha').textContent    = d.fecha    || '—';
+      document.getElementById('ficha-id-label').textContent = 'ID: ' + (d.stickerId || PERFIL_ID);
+
       const senasCard = document.getElementById('ficha-senas-card');
       if (d.senas) { document.getElementById('ficha-senas').textContent = d.senas; }
       else { senasCard.style.display = 'none'; }
+
+      const fotoWrap = document.getElementById('foto-wrap');
       const foto = document.getElementById('ficha-foto');
-      if (d.fotoUrl) { foto.src = d.fotoUrl; }
-      else { document.getElementById('foto-wrap').style.display = 'none'; }
+      if (d.fotoUrl) {
+        foto.src = d.fotoUrl;
+        foto.onerror = function() { fotoWrap.style.display = 'none'; };
+      } else {
+        fotoWrap.style.display = 'none';
+      }
+
       const cont = document.getElementById('ficha-contactos');
-      (d.contactos||[]).forEach(function(c) {
+      cont.innerHTML = '';
+      (d.contactos || []).forEach(function(c) {
         if (!c.telefono) return;
         const a = document.createElement('a');
         a.className = 'btn-llamar';
         a.href = 'tel:' + c.telefono;
         a.innerHTML =
           '<div class="btn-llamar-info">' +
-            '<span class="btn-llamar-nombre">' + (c.nombre||'Contacto') + '</span>' +
+            '<span class="btn-llamar-nombre">' + (c.nombre || 'Contacto') + '</span>' +
             '<span class="btn-llamar-tel">' + c.telefono + '</span>' +
           '</div>' +
           '<div class="btn-llamar-icono"><i class="fa-solid fa-phone"></i></div>';
         cont.appendChild(a);
       });
+
       mostrar('p-ficha');
     }
 
@@ -380,7 +410,7 @@
       window.scrollTo(0,0);
     }
     function previsualizarFoto(input) {
-      if (!input.files||!input.files[0]) return;
+      if (!input.files || !input.files[0]) return;
       const reader = new FileReader();
       reader.onload = function(e) {
         const area = document.getElementById('foto-area');
