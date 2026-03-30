@@ -93,12 +93,44 @@
     .ficha-id{font-family:'Courier New',monospace;font-size:11px;color:var(--gris-txt);text-align:center;padding:12px;border-top:1px solid var(--gris-brd);margin-top:4px;}
     .ficha-footer{background:var(--negro);border-top:1px solid var(--gris-brd);padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--gris-txt);}
     .ficha-footer a{color:var(--verde);text-decoration:none;font-weight:500;}
+    .loader {
+  width: 40px;
+  aspect-ratio: 1;
+  --c: linear-gradient(#1CB698 0 0); /* tu verde */
+  --m: radial-gradient(farthest-side,#1CB698 92%,#0000);
+  background: 
+    var(--m) center/12px 12px,
+    var(--c) left 50% top    -20px/8px 16px, 
+    var(--c) left 50% bottom -20px/8px 16px, 
+    var(--c) top  50% left   -20px/16px 8px, 
+    var(--c) top  50% right  -20px/16px 8px;
+  background-repeat: no-repeat;
+  animation: 
+    l18-1 1.5s infinite,
+    l18-2 1.5s infinite;
+}
+
+@keyframes l18-1 {
+  30%,70% {
+    background-position: 
+      center,
+      left 50% top    calc(50% - 8px),
+      left 50% bottom calc(50% - 8px),
+      top  50% left   calc(50% - 8px),
+      top  50% right  calc(50% - 8px)
+  }
+}
+
+@keyframes l18-2 {
+  0%,40%   {transform: rotate(0)}
+  60%,100% {transform: rotate(90deg)}
+}
   </style>
 </head>
 <body>
 
   <div id="p-loading">
-    <i class="fa-solid fa-circle-notch loading-icon"></i>
+    <i class="loader"></i>
     <span class="loading-txt">Ten paciencia...</span>
   </div>
 
