@@ -259,7 +259,11 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 function obtenerID() {
-  return window.location.href;
+  return window.location.href
+    .replace(/https?:\/\//, '') 
+    .replace(/\//g, '_')        
+    .replace(/\?/g, '_')
+    .replace(/=/g, '_');
 }
 
 const PERFIL_ID = obtenerID();
@@ -334,13 +338,23 @@ window.guardarPerfil = async function () {
     }
 
     const datos = {
-      id: PERFIL_ID, // 🔥 URL completa
+  id: window.location.href, 
+  nombre,
+  fecha,
+  sangre,
+  alergias,
+  senas: senas || '',
+  telefono: c1t,
+  fotoUrl,
+  contactos: [...],
+  activadoEn: new Date().toISOString(),
+};
       nombre,
       fecha,
       sangre,
       alergias,
       senas: senas || '',
-      telefono: c1t, // 🔥 teléfono principal directo
+      telefono: c1t, 
       fotoUrl,
       contactos: [
         { nombre: c1n, telefono: c1t },
