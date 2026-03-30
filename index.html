@@ -353,20 +353,6 @@ window.guardarPerfil = async function () {
   ],
   activadoEn: new Date().toISOString(),
 };
-      nombre,
-      fecha,
-      sangre,
-      alergias,
-      senas: senas || '',
-      telefono: c1t, 
-      fotoUrl,
-      contactos: [
-        { nombre: c1n, telefono: c1t },
-        { nombre: c2n, telefono: c2t },
-        { nombre: c3n, telefono: c3t },
-      ],
-      activadoEn: new Date().toISOString(),
-    };
 
     await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
 
