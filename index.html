@@ -298,8 +298,8 @@ window.guardarPerfil = async function () {
   const c3t = document.getElementById('f-c3-tel').value.trim();
 
   // 🔥 FIX REAL DEL FILE INPUT
-  const inputFoto = document.querySelector('#foto-area input[type="file"]');
-  const fotoFile = inputFoto ? inputFoto.files[0] : null;
+  const inputFoto = document.getElementById('f-foto');
+  const fotoFile = inputFoto && inputFoto.files.length ? inputFoto.files[0] : null;
 
   const errDiv = document.getElementById('form-error');
   const errTxt = document.getElementById('error-texto');
@@ -405,18 +405,24 @@ cargarPerfil();
       window.scrollTo(0,0);
     }
     function previsualizarFoto(input) {
-      if (!input.files || !input.files[0]) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const area = document.getElementById('foto-area');
-        area.innerHTML =
-          '<input type="file" accept="image/*" id="f-foto" onchange="previsualizarFoto(this)">' +
-          '<img src="' + e.target.result + '" class="foto-preview">' +
-          '<p style="font-size:13px;color:var(--verde)">Foto lista <i class="fa-solid fa-check"></i></p>' +
-          '<p style="font-size:11px;color:var(--gris-txt);margin-top:4px">Toca para cambiarla</p>';
-      };
-      reader.readAsDataURL(input.files[0]);
+  if (!input.files || !input.files[0]) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    let preview = document.querySelector('.foto-preview');
+
+    if (!preview) {
+      preview = document.createElement('img');
+      preview.className = 'foto-preview';
+      document.getElementById('foto-area').appendChild(preview);
     }
+
+    preview.src = e.target.result;
+  };
+
+  reader.readAsDataURL(input.files[0]);
+}
   </script>
 </body>
 </html>
