@@ -99,7 +99,7 @@
 
   <div id="p-loading">
     <i class="fa-solid fa-circle-notch loading-icon"></i>
-    <span class="loading-txt">Cargando...</span>
+    <span class="loading-txt">Ten paciencia...</span>
   </div>
 
   <div id="p-bienvenida" class="pantalla oculto">
@@ -337,14 +337,14 @@ window.guardarPerfil = async function () {
       fotoUrl = data.secure_url;
     }
 
-   const datos = {
-  id: window.location.href, 
+  const datos = {
+  id: window.location.href,
   nombre,
   fecha,
   sangre,
   alergias,
   senas: senas || '',
-  telefono: c1t, 
+  telefono: c1t,
   fotoUrl,
   contactos: [
     { nombre: c1n, telefono: c1t },
@@ -396,7 +396,6 @@ function mostrarFicha(d) {
   document.getElementById('ficha-fecha').textContent = d.fecha || '—';
   document.getElementById('ficha-senas').textContent = d.senas || '—';
 
-  // 🔥 ID visible
   document.getElementById('ficha-id-label').textContent = 'ID: ' + (d.id || '—');
 
   const foto = document.getElementById('ficha-foto');
@@ -408,7 +407,6 @@ function mostrarFicha(d) {
     wrap.style.display = 'none';
   }
 
-  // 🔥 contactos render
   const contenedor = document.getElementById('ficha-contactos');
   contenedor.innerHTML = '';
 
