@@ -259,12 +259,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 function obtenerID() {
-  const params = new URLSearchParams(window.location.search);
-  if (params.get('id')) return params.get('id');
-  const host = window.location.hostname;
-  const match = host.match(/-(b\d+)\./i);
-  if (match) return match[1].toLowerCase();
-  return host.replace(/\./g, '-');
+  return window.location.href;
 }
 
 const PERFIL_ID = obtenerID();
@@ -290,14 +285,16 @@ window.guardarPerfil = async function () {
   const sangre = document.getElementById('f-sangre').value;
   const alergias = document.getElementById('f-alergias').value.trim();
   const senas = document.getElementById('f-senas').value.trim();
+
   const c1n = document.getElementById('f-c1-nombre').value.trim();
   const c1t = document.getElementById('f-c1-tel').value.trim();
+
   const c2n = document.getElementById('f-c2-nombre').value.trim();
   const c2t = document.getElementById('f-c2-tel').value.trim();
+
   const c3n = document.getElementById('f-c3-nombre').value.trim();
   const c3t = document.getElementById('f-c3-tel').value.trim();
 
-  // 🔥 FIX REAL DEL FILE INPUT
   const inputFoto = document.getElementById('f-foto');
   const fotoFile = inputFoto && inputFoto.files.length ? inputFoto.files[0] : null;
 
@@ -318,8 +315,6 @@ window.guardarPerfil = async function () {
     let fotoUrl = '';
 
     if (fotoFile) {
-      console.log("Subiendo imagen...");
-
       const formData = new FormData();
       formData.append("file", fotoFile);
       formData.append("upload_preset", "moto_qr");
@@ -330,18 +325,22 @@ window.guardarPerfil = async function () {
       });
 
       const data = await res.json();
-      console.log("Cloudinary:", data);
 
       if (!data.secure_url) {
-        throw new Error("Cloudinary no devolvió URL");
+        throw new Error("Error subiendo imagen");
       }
 
       fotoUrl = data.secure_url;
     }
 
     const datos = {
-      nombre, fecha, sangre, alergias,
+      id: PERFIL_ID, // 🔥 URL completa
+      nombre,
+      fecha,
+      sangre,
+      alergias,
       senas: senas || '',
+      telefono: c1t, // 🔥 teléfono principal directo
       fotoUrl,
       contactos: [
         { nombre: c1n, telefono: c1t },
@@ -349,10 +348,7 @@ window.guardarPerfil = async function () {
         { nombre: c3n, telefono: c3t },
       ],
       activadoEn: new Date().toISOString(),
-      stickerId: PERFIL_ID,
     };
-
-    console.log("Guardando en Firestore:", datos);
 
     await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
 
@@ -380,6 +376,10 @@ function mostrarFicha(d) {
   document.getElementById('ficha-sangre').textContent = d.sangre || '—';
   document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna';
   document.getElementById('ficha-fecha').textContent = d.fecha || '—';
+  document.getElementById('ficha-senas').textContent = d.senas || '—';
+
+  // 🔥 ID visible
+  document.getElementById('ficha-id-label').textContent = 'ID: ' + (d.id || '—');
 
   const foto = document.getElementById('ficha-foto');
   const wrap = document.getElementById('foto-wrap');
@@ -388,6 +388,32 @@ function mostrarFicha(d) {
     foto.src = d.fotoUrl;
   } else {
     wrap.style.display = 'none';
+  }
+
+  // 🔥 contactos render
+  const contenedor = document.getElementById('ficha-contactos');
+  contenedor.innerHTML = '';
+
+  if (d.contactos) {
+    d.contactos.forEach(c => {
+      if (!c.telefono) return;
+
+      const a = document.createElement('a');
+      a.className = 'btn-llamar';
+      a.href = `tel:${c.telefono}`;
+
+      a.innerHTML = `
+        <div class="btn-llamar-info">
+          <div class="btn-llamar-nombre">${c.nombre || 'Contacto'}</div>
+          <div class="btn-llamar-tel">${c.telefono}</div>
+        </div>
+        <div class="btn-llamar-icono">
+          <i class="fa-solid fa-phone"></i>
+        </div>
+      `;
+
+      contenedor.appendChild(a);
+    });
   }
 
   mostrar('p-ficha');
