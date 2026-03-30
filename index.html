@@ -337,16 +337,20 @@ window.guardarPerfil = async function () {
       fotoUrl = data.secure_url;
     }
 
-    const datos = {
+   const datos = {
   id: window.location.href, 
   nombre,
   fecha,
   sangre,
   alergias,
   senas: senas || '',
-  telefono: c1t,
+  telefono: c1t, 
   fotoUrl,
-  contactos: [...],
+  contactos: [
+    { nombre: c1n, telefono: c1t },
+    { nombre: c2n, telefono: c2t },
+    { nombre: c3n, telefono: c3t },
+  ],
   activadoEn: new Date().toISOString(),
 };
       nombre,
