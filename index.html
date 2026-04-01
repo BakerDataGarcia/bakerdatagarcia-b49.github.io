@@ -8,213 +8,130 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     :root {
-      --negro:    #f0f2f7;
-      --carbon:   #ffffff;
-      --gris-osc: #e8ebf2;
-      --gris-med: #d0d5e0;
-      --gris-brd: #c0c7d6;
-      --gris-txt: #4a5060;
-      --blanco:   #0a0b0d;
-      --verde:    #1CB698;
-      --verde-osc:#0d8a72;
-      --rojo:     #e63946;
-      --rojo-osc: #c1121f;
-      --ig-grad:  linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
+      --negro:#0a0b0d;--carbon:#13151a;--gris-osc:#1e2129;--gris-med:#2c3040;
+      --gris-brd:#3a3f50;--gris-txt:#8a90a0;--blanco:#f0f2f7;
+      --verde:#1CB698;--verde-osc:#0d8a72;--rojo:#e63946;--rojo-osc:#c1121f;
     }
-    html, body {
-      min-height: 100vh;
-      background: var(--negro);
-      color: var(--blanco);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    .oculto { display: none !important; }
-    .pantalla { min-height: 100vh; display: flex; flex-direction: column; }
+    html,body{min-height:100vh;background:var(--negro);color:var(--blanco);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;}
+    .oculto{display:none!important;}
+    .pantalla{min-height:100vh;display:flex;flex-direction:column;}
+    #p-loading{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;}
+    .loading-icon{font-size:40px;color:var(--verde);animation:spin 1s linear infinite;}
+    @keyframes spin{to{transform:rotate(360deg)}}
+    .loading-txt{font-size:14px;color:var(--gris-txt);}
+    .activacion-bg{position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,#1a2a3a 0%,var(--negro) 60%);z-index:0;}
+    .activacion-contenido{position:relative;z-index:1;max-width:440px;margin:0 auto;padding:48px 24px 64px;display:flex;flex-direction:column;}
+    .activacion-logo{font-size:40px;color:var(--verde);margin-bottom:16px;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .activacion-badge{display:inline-block;font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;color:var(--verde);border:1px solid var(--verde);border-radius:4px;padding:4px 10px;margin-bottom:20px;width:fit-content;}
+    .activacion-titulo{font-size:clamp(42px,11vw,68px);font-weight:800;line-height:0.95;color:var(--blanco);margin-bottom:16px;}
+    .activacion-desc{font-size:15px;color:var(--gris-txt);line-height:1.6;margin-bottom:32px;}
+    .btn-primario{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;margin-bottom:16px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s;}
+    .btn-primario:hover{transform:translateY(-2px);}
+    .activacion-nota{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gris-txt);justify-content:center;}
+    .activacion-nota i{color:var(--verde);}
+    .form-header{background:linear-gradient(160deg,#0d3d32,#0a0b0d);padding:32px 24px 24px;border-bottom:1px solid var(--gris-brd);}
+    .form-back{display:flex;align-items:center;gap:8px;color:var(--verde);font-size:14px;background:none;border:none;cursor:pointer;margin-bottom:16px;padding:0;}
+    .form-titulo{font-size:26px;font-weight:800;color:var(--blanco);margin-bottom:6px;}
+    .form-subtitulo{font-size:13px;color:var(--gris-txt);}
+    .form-id-badge{display:inline-block;font-family:'Courier New',monospace;font-size:12px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:4px;padding:3px 8px;margin-top:6px;}
+    .form-body{flex:1;padding:24px 20px 40px;max-width:500px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:20px;}
+    .form-grupo{display:flex;flex-direction:column;gap:8px;}
+    .form-label{font-size:11px;font-family:'Courier New',monospace;letter-spacing:0.1em;color:var(--gris-txt);text-transform:uppercase;display:flex;align-items:center;gap:6px;}
+    .form-label i{color:var(--verde);}
+    .requerido{color:var(--rojo);}
+    .form-input,.form-select,.form-textarea{background:var(--gris-osc);border:1px solid var(--gris-brd);border-radius:10px;padding:14px 16px;color:var(--blanco);font-size:15px;font-family:inherit;width:100%;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none;}
+    .form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--verde);box-shadow:0 0 0 3px rgba(28,182,152,0.15);}
+    .form-input::placeholder,.form-textarea::placeholder{color:var(--gris-brd);}
+    .form-textarea{resize:none;height:80px;line-height:1.5;}
+    .form-select{color:var(--blanco);cursor:pointer;}
+    .form-select option{background:var(--gris-osc);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .contacto-bloque{background:var(--gris-osc);border-radius:12px;padding:16px;border:1px solid var(--gris-brd);display:flex;flex-direction:column;gap:12px;}
+    .contacto-bloque-titulo{font-size:12px;font-weight:600;color:var(--verde);display:flex;align-items:center;gap:6px;}
+    .foto-upload-area{background:var(--gris-osc);border:2px dashed var(--gris-brd);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative;}
+    .foto-upload-area:hover{border-color:var(--verde);}
+    .foto-upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;}
+    .foto-upload-area i{font-size:28px;color:var(--gris-txt);display:block;margin-bottom:8px;}
+    .foto-upload-area p{font-size:13px;color:var(--gris-txt);}
+    .foto-preview{width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--verde);margin:0 auto 8px;display:block;}
+    .error-msg{background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--rojo);display:none;align-items:center;gap:8px;}
+    .btn-generar{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s;}
+    .btn-generar:hover{transform:translateY(-2px);}
+    .btn-generar:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+    /* EXITO */
+    .exito-contenido{max-width:440px;margin:0 auto;padding:48px 24px 64px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1;}
+    .exito-check{width:80px;height:80px;border-radius:50%;background:rgba(28,182,152,0.15);border:3px solid var(--verde);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--verde);margin-bottom:24px;animation:pop 0.5s cubic-bezier(0.34,1.56,0.64,1);}
+    @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    .exito-titulo{font-size:32px;font-weight:800;margin-bottom:12px;}
+    .exito-desc{font-size:15px;color:var(--gris-txt);line-height:1.7;margin-bottom:12px;}
+    .exito-id{font-family:'Courier New',monospace;font-size:13px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:8px;padding:10px 16px;margin-bottom:32px;width:100%;text-align:center;}
+    .exito-id span{font-size:11px;color:var(--gris-txt);display:block;margin-bottom:4px;letter-spacing:0.08em;}
+    .btn-ver-perfil{display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s;}
+    .btn-ver-perfil:hover{transform:translateY(-2px);}
+    /* EMERGENCIA */
+    .ficha-header{background:linear-gradient(160deg,var(--rojo-osc),#7b0d10);padding:40px 24px 32px;display:flex;flex-direction:column;align-items:center;text-align:center;}
+    .ficha-alerta{display:flex;align-items:center;gap:8px;font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.18em;color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);padding:8px 16px;border-radius:100px;margin-bottom:20px;animation:pulse-alert 2s ease-in-out infinite;}
+    @keyframes pulse-alert{0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,0.5)}50%{box-shadow:0 0 0 10px rgba(230,57,70,0)}}
+    .ficha-foto-wrap{width:120px;height:120px;border-radius:50%;border:4px solid rgba(255,255,255,0.4);overflow:hidden;margin-bottom:16px;background:var(--gris-osc);}
+    .ficha-foto-wrap img{width:100%;height:100%;object-fit:cover;}
+    .ficha-nombre{font-size:clamp(32px,9vw,54px);font-weight:800;color:#fff;line-height:1;}
+    .ficha-body{flex:1;background:var(--carbon);padding:20px;display:flex;flex-direction:column;gap:14px;max-width:500px;width:100%;margin:0 auto;}
+    .sangre-grande{background:var(--rojo-osc);border-radius:12px;padding:16px;text-align:center;border:2px solid var(--rojo);}
+    .sangre-label{font-size:11px;font-family:'Courier New',monospace;letter-spacing:0.12em;color:rgba(255,255,255,0.6);text-transform:uppercase;margin-bottom:4px;}
+    .sangre-valor{font-size:64px;font-weight:800;color:#fff;line-height:1;}
+    .ficha-card{background:var(--gris-osc);border-radius:12px;padding:16px;border:1px solid var(--gris-brd);}
+    .ficha-card-titulo{font-size:11px;font-family:'Courier New',monospace;letter-spacing:0.1em;color:var(--gris-txt);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+    .ficha-card-titulo i{color:var(--verde);}
+    .ficha-card-texto{font-size:16px;color:var(--blanco);line-height:1.5;font-weight:500;}
+    .btn-llamar{display:flex;align-items:center;justify-content:space-between;background:var(--verde);color:#fff;text-decoration:none;padding:18px 20px;border-radius:14px;font-weight:700;font-size:16px;transition:background 0.2s,transform 0.15s;box-shadow:0 4px 20px rgba(28,182,152,0.3);margin-bottom:10px;}
+    .btn-llamar:active{background:var(--verde-osc);transform:scale(0.98);}
+    .btn-llamar-info{display:flex;flex-direction:column;gap:2px;}
+    .btn-llamar-nombre{font-size:16px;font-weight:700;}
+    .btn-llamar-tel{font-size:13px;font-family:'Courier New',monospace;opacity:0.85;}
+    .btn-llamar-icono{background:rgba(255,255,255,0.2);width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;}
+    .ficha-id{font-family:'Courier New',monospace;font-size:11px;color:var(--gris-txt);text-align:center;padding:12px;border-top:1px solid var(--gris-brd);margin-top:4px;}
+    .ficha-footer{background:var(--negro);border-top:1px solid var(--gris-brd);padding:16px 24px;display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--gris-txt);}
+    .ficha-footer a{color:var(--verde);text-decoration:none;font-weight:500;}
+    .loader {
+  width: 40px;
+  aspect-ratio: 1;
+  --c: linear-gradient(#1CB698 0 0); /* tu verde */
+  --m: radial-gradient(farthest-side,#1CB698 92%,#0000);
+  background: 
+    var(--m) center/12px 12px,
+    var(--c) left 50% top    -20px/8px 16px, 
+    var(--c) left 50% bottom -20px/8px 16px, 
+    var(--c) top  50% left   -20px/16px 8px, 
+    var(--c) top  50% right  -20px/16px 8px;
+  background-repeat: no-repeat;
+  animation: 
+    l18-1 1.5s infinite,
+    l18-2 1.5s infinite;
+}
 
-    /* LOADING */
-    #p-loading { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px; }
-    .loading-icon { font-size:40px;color:var(--verde);animation:spin 1s linear infinite; }
-    @keyframes spin { to { transform:rotate(360deg) } }
-    .loading-txt { font-size:14px;color:var(--gris-txt); }
+@keyframes l18-1 {
+  30%,70% {
+    background-position: 
+      center,
+      left 50% top    calc(50% - 8px),
+      left 50% bottom calc(50% - 8px),
+      top  50% left   calc(50% - 8px),
+      top  50% right  calc(50% - 8px)
+  }
+}
 
-    /* BIENVENIDA */
-    .activacion-bg { position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,#e0f2ef 0%,var(--negro) 60%);z-index:0; }
-    .activacion-contenido { position:relative;z-index:1;max-width:440px;margin:0 auto;padding:48px 24px 64px;display:flex;flex-direction:column; }
-    .activacion-logo { font-size:40px;color:var(--verde);margin-bottom:16px;animation:float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)} }
-    .activacion-badge { display:inline-block;font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;color:var(--verde);border:1px solid var(--verde);border-radius:4px;padding:4px 10px;margin-bottom:20px;width:fit-content; }
-    .activacion-titulo { font-size:clamp(42px,11vw,68px);font-weight:800;line-height:0.95;color:var(--blanco);margin-bottom:16px; }
-    .activacion-desc { font-size:15px;color:var(--gris-txt);line-height:1.6;margin-bottom:32px; }
-    .btn-primario { display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;margin-bottom:16px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s; }
-    .btn-primario:hover { transform:translateY(-2px); }
-    .activacion-nota { display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gris-txt);justify-content:center; }
-    .activacion-nota i { color:var(--verde); }
-
-    /* FORMULARIO */
-    .form-header { background:linear-gradient(160deg,#e0f2ef,#f0f2f7);padding:32px 24px 24px;border-bottom:1px solid var(--gris-brd); }
-    .form-back { display:flex;align-items:center;gap:8px;color:var(--verde);font-size:14px;background:none;border:none;cursor:pointer;margin-bottom:16px;padding:0; }
-    .form-titulo { font-size:26px;font-weight:800;color:var(--blanco);margin-bottom:6px; }
-    .form-subtitulo { font-size:13px;color:var(--gris-txt); }
-    .form-id-badge { display:inline-block;font-family:'Courier New',monospace;font-size:12px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:4px;padding:3px 8px;margin-top:6px; }
-    .form-body { flex:1;padding:24px 20px 40px;max-width:500px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:20px; }
-    .form-grupo { display:flex;flex-direction:column;gap:8px; }
-    .form-label { font-size:11px;font-family:'Courier New',monospace;letter-spacing:0.1em;color:var(--gris-txt);text-transform:uppercase;display:flex;align-items:center;gap:6px; }
-    .form-label i { color:var(--verde); }
-    .requerido { color:var(--rojo); }
-    .form-input,.form-select,.form-textarea { background:var(--gris-osc);border:1px solid var(--gris-brd);border-radius:10px;padding:14px 16px;color:var(--blanco);font-size:15px;font-family:inherit;width:100%;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none; }
-    .form-input:focus,.form-select:focus,.form-textarea:focus { outline:none;border-color:var(--verde);box-shadow:0 0 0 3px rgba(28,182,152,0.15); }
-    .form-input::placeholder,.form-textarea::placeholder { color:var(--gris-brd); }
-    .form-textarea { resize:none;height:80px;line-height:1.5; }
-    .form-select { color:var(--blanco);cursor:pointer; }
-    .form-select option { background:var(--gris-osc); }
-    .form-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-    .contacto-bloque { background:var(--gris-osc);border-radius:12px;padding:16px;border:1px solid var(--gris-brd);display:flex;flex-direction:column;gap:12px; }
-    .contacto-bloque-titulo { font-size:12px;font-weight:600;color:var(--verde);display:flex;align-items:center;gap:6px; }
-    .foto-upload-area { background:var(--gris-osc);border:2px dashed var(--gris-brd);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative; }
-    .foto-upload-area:hover { border-color:var(--verde); }
-    .foto-upload-area input { position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%; }
-    .foto-upload-area i { font-size:28px;color:var(--gris-txt);display:block;margin-bottom:8px; }
-    .foto-upload-area p { font-size:13px;color:var(--gris-txt); }
-    .foto-preview { width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--verde);margin:0 auto 8px;display:block; }
-    .error-msg { background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--rojo);display:none;align-items:center;gap:8px; }
-    .btn-generar { display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s; }
-    .btn-generar:hover { transform:translateY(-2px); }
-    .btn-generar:disabled { opacity:0.6;cursor:not-allowed;transform:none; }
-
-    /* ÉXITO */
-    .exito-contenido { max-width:440px;margin:0 auto;padding:48px 24px 64px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1; }
-    .exito-check { width:80px;height:80px;border-radius:50%;background:rgba(28,182,152,0.15);border:3px solid var(--verde);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--verde);margin-bottom:24px;animation:pop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
-    @keyframes pop { from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1} }
-    .exito-titulo { font-size:32px;font-weight:800;margin-bottom:12px; }
-    .exito-desc { font-size:15px;color:var(--gris-txt);line-height:1.7;margin-bottom:12px; }
-    .exito-id { font-family:'Courier New',monospace;font-size:13px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:8px;padding:10px 16px;margin-bottom:32px;width:100%;text-align:center; }
-    .exito-id span { font-size:11px;color:var(--gris-txt);display:block;margin-bottom:4px;letter-spacing:0.08em; }
-    .btn-ver-perfil { display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s; }
-    .btn-ver-perfil:hover { transform:translateY(-2px); }
-
-    /* ══ FICHA EMERGENCIA — sin scroll, todo visible ══ */
-    #p-ficha {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    /* Header rojo que se extiende hasta los bordes */
-    .ficha-header {
-      background: var(--rojo-osc);
-      padding: 20px 20px 24px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      flex-shrink: 0;
-    }
-
-    .ficha-alerta {
-      display:flex;align-items:center;gap:6px;
-      font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.15em;
-      color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);
-      border:1px solid rgba(255,255,255,0.3);padding:5px 12px;border-radius:100px;
-      margin-bottom:12px;animation:pulse-alert 2s ease-in-out infinite;
-    }
-    @keyframes pulse-alert { 0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,0.5)}50%{box-shadow:0 0 0 8px rgba(230,57,70,0)} }
-
-    .ficha-foto-wrap {
-      width:70px;height:70px;border-radius:50%;
-      border:3px solid rgba(255,255,255,0.5);
-      overflow:hidden;margin-bottom:8px;background:rgba(255,255,255,0.2);
-      flex-shrink:0;
-    }
-    .ficha-foto-wrap img { width:100%;height:100%;object-fit:cover; }
-
-    .ficha-nombre {
-      font-size:clamp(20px,5vw,28px);
-      font-weight:800;color:#fff;line-height:1.1;
-      max-width:100%;word-break:break-word;
-    }
-
-    /* Body compacto, sin overflow */
-    .ficha-body {
-      flex:1;
-      background: var(--rojo-osc); /* mismo color que header para que fluya */
-      padding: 0 12px 12px;
-      display:flex;flex-direction:column;gap:8px;
-      overflow:hidden;
-    }
-
-    /* Contenedor blanco redondeado arriba */
-    .ficha-inner {
-      background: var(--carbon);
-      border-radius: 20px 20px 12px 12px;
-      padding: 14px 14px 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      flex: 1;
-    }
-
-    /* Sangre grande pero compacta */
-    .sangre-grande {
-      background:var(--rojo-osc);border-radius:10px;
-      padding:10px 16px;display:flex;
-      align-items:center;justify-content:space-between;
-      border:1px solid rgba(230,57,70,0.4);
-      flex-shrink:0;
-    }
-    .sangre-label { font-size:10px;font-family:'Courier New',monospace;letter-spacing:0.1em;color:rgba(255,255,255,0.7);text-transform:uppercase; }
-    .sangre-valor { font-size:40px;font-weight:800;color:#fff;line-height:1; }
-
-    .ficha-fila { display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0; }
-
-    .ficha-card {
-      background:var(--gris-osc);border-radius:10px;
-      padding:10px 12px;border:1px solid var(--gris-brd);
-      flex-shrink:0;
-    }
-    .ficha-card-titulo {
-      font-size:9px;font-family:'Courier New',monospace;
-      letter-spacing:0.1em;color:var(--gris-txt);
-      text-transform:uppercase;margin-bottom:4px;
-      display:flex;align-items:center;gap:5px;
-    }
-    .ficha-card-titulo i { color:var(--verde);font-size:9px; }
-    .ficha-card-texto { font-size:13px;color:var(--blanco);line-height:1.3;font-weight:600; }
-
-    .ficha-card-full {
-      background:var(--gris-osc);border-radius:10px;
-      padding:10px 12px;border:1px solid var(--gris-brd);
-      flex-shrink:0;
-    }
-
-    /* Botones de llamada compactos */
-    .btn-llamar {
-      display:flex;align-items:center;justify-content:space-between;
-      background:var(--verde);color:#fff;text-decoration:none;
-      padding:12px 14px;border-radius:10px;
-      transition:background 0.2s;flex-shrink:0;
-    }
-    .btn-llamar:active { background:var(--verde-osc); }
-    .btn-llamar-info { display:flex;flex-direction:column;gap:1px; }
-    .btn-llamar-nombre { font-size:13px;font-weight:700; }
-    .btn-llamar-tel { font-size:11px;font-family:'Courier New',monospace;opacity:0.85; }
-    .btn-llamar-icono { background:rgba(255,255,255,0.2);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0; }
-
-    .ficha-footer {
-      background:var(--rojo-osc);
-      padding:8px 16px;
-      display:flex;align-items:center;justify-content:center;
-      gap:6px;font-size:11px;color:rgba(255,255,255,0.6);
-      flex-shrink:0;
-    }
-    .ficha-footer a { color:rgba(255,255,255,0.9);text-decoration:none;font-weight:500; }
+@keyframes l18-2 {
+  0%,40%   {transform: rotate(0)}
+  60%,100% {transform: rotate(90deg)}
+}
   </style>
 </head>
 <body>
 
   <div id="p-loading">
-    <i class="fa-solid fa-circle-notch loading-icon"></i>
-    <span class="loading-txt">Cargando...</span>
+    <i class="loader"></i>
+    <span class="loading-txt">Ten paciencia...</span>
   </div>
 
   <div id="p-bienvenida" class="pantalla oculto">
@@ -307,6 +224,7 @@
     </div>
   </div>
 
+  <!-- ÉXITO: directo a ver perfil, sin Instagram -->
   <div id="p-exito" class="pantalla oculto">
     <div class="activacion-bg"></div>
     <div class="exito-contenido">
@@ -324,230 +242,247 @@
     </div>
   </div>
 
-  <!-- FICHA DE EMERGENCIA: todo en pantalla, sin scroll -->
-  <div id="p-ficha" class="oculto">
+  <div id="p-ficha" class="pantalla oculto">
     <div class="ficha-header">
       <div class="ficha-alerta"><i class="fa-solid fa-triangle-exclamation"></i> INFORMACIÓN DE EMERGENCIA</div>
       <div class="ficha-foto-wrap" id="foto-wrap"><img id="ficha-foto" src="" alt="Foto"></div>
       <h1 id="ficha-nombre" class="ficha-nombre"></h1>
     </div>
-
     <div class="ficha-body">
-      <div class="ficha-inner">
-
-        <div style="display:flex;gap:8px;align-items:stretch;">
-          <div class="sangre-grande" style="flex:1;">
-            <div>
-              <div class="sangre-label"><i class="fa-solid fa-droplet"></i> Sangre</div>
-              <div id="ficha-sangre" class="sangre-valor"></div>
-            </div>
-          </div>
-          <div class="ficha-card" style="flex:1;">
-            <div class="ficha-card-titulo"><i class="fa-solid fa-cake-candles"></i> Nacimiento</div>
-            <div id="ficha-fecha" class="ficha-card-texto"></div>
-          </div>
-        </div>
-
-        <div class="ficha-card-full">
-          <div class="ficha-card-titulo"><i class="fa-solid fa-pills"></i> Alergias</div>
-          <div id="ficha-alergias" class="ficha-card-texto"></div>
-        </div>
-
-        <div class="ficha-card-full" id="ficha-senas-card">
-          <div class="ficha-card-titulo"><i class="fa-solid fa-id-card"></i> Señas particulares</div>
-          <div id="ficha-senas" class="ficha-card-texto"></div>
-        </div>
-
-        <div id="ficha-contactos"></div>
-
+      <div class="sangre-grande">
+        <div class="sangre-label"><i class="fa-solid fa-droplet"></i> Tipo de sangre</div>
+        <div id="ficha-sangre" class="sangre-valor"></div>
       </div>
+      <div class="ficha-card">
+        <div class="ficha-card-titulo"><i class="fa-solid fa-pills"></i> Alergias</div>
+        <div id="ficha-alergias" class="ficha-card-texto"></div>
+      </div>
+      <div class="ficha-card">
+        <div class="ficha-card-titulo"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento</div>
+        <div id="ficha-fecha" class="ficha-card-texto"></div>
+      </div>
+      <div class="ficha-card" id="ficha-senas-card">
+        <div class="ficha-card-titulo"><i class="fa-solid fa-id-card"></i> Señas particulares</div>
+        <div id="ficha-senas" class="ficha-card-texto"></div>
+      </div>
+      <div id="ficha-contactos"></div>
+      <div class="ficha-id" id="ficha-id-label"></div>
     </div>
-
     <div class="ficha-footer">
       <span>Protegido por</span>
       <a href="https://instagram.com/b2b.dev" target="_blank">@b2b.dev</a>
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+ <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey:            "AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs",
-      authDomain:        "moto-sticker-qr-28c34.firebaseapp.com",
-      projectId:         "moto-sticker-qr-28c34",
-      storageBucket:     "moto-sticker-qr-28c34.firebasestorage.app",
-      messagingSenderId: "959074534613",
-      appId:             "1:959074534613:web:38eb00f93d1f23235ace5c"
-    };
+const firebaseConfig = {
+  apiKey: "AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs",
+  authDomain: "moto-sticker-qr-28c34.firebaseapp.com",
+  projectId: "moto-sticker-qr-28c34",
+  storageBucket: "moto-sticker-qr-28c34.firebasestorage.app",
+  messagingSenderId: "959074534613",
+  appId: "1:959074534613:web:38eb00f93d1f23235ace5c"
+};
 
-    const app     = initializeApp(firebaseConfig);
-    const db      = getFirestore(app);
-    const storage = getStorage(app);
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    function obtenerID() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('id')) return params.get('id');
-      const host  = window.location.hostname;
-      const match = host.match(/-(b\d+)\./i);
-      if (match) return match[1].toLowerCase();
-      return host.replace(/\./g, '-');
+function obtenerID() {
+  return window.location.href
+    .replace(/https?:\/\//, '') 
+    .replace(/\//g, '_')        
+    .replace(/\?/g, '_')
+    .replace(/=/g, '_');
+}
+
+const PERFIL_ID = obtenerID();
+document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
+
+async function cargarPerfil() {
+  try {
+    const snap = await getDoc(doc(db, 'perfiles', PERFIL_ID));
+    if (snap.exists()) {
+      mostrarFicha(snap.data());
+    } else {
+      mostrar('p-bienvenida');
     }
+  } catch (e) {
+    console.error(e);
+    mostrar('p-bienvenida');
+  }
+}
 
-    // Ej: "+525512345609" → "55••••••09"
-    function ocultarTel(tel) {
-      const limpio = tel.replace(/\D/g, '');
-      if (limpio.length < 4) return tel;
-      const inicio = limpio.slice(-10, -8);   // 2 primeros del número local
-      const fin    = limpio.slice(-2);          // 2 últimos
-      return inicio + '••••••' + fin;
-    }
+window.guardarPerfil = async function () {
+  const nombre = document.getElementById('f-nombre').value.trim();
+  const fecha = document.getElementById('f-fecha').value.trim();
+  const sangre = document.getElementById('f-sangre').value;
+  const alergias = document.getElementById('f-alergias').value.trim();
+  const senas = document.getElementById('f-senas').value.trim();
 
-    const PERFIL_ID = obtenerID();
-    document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
+  const c1n = document.getElementById('f-c1-nombre').value.trim();
+  const c1t = document.getElementById('f-c1-tel').value.trim();
 
-    async function cargarPerfil() {
-      try {
-        const snap = await getDoc(doc(db, 'perfiles', PERFIL_ID));
-        if (snap.exists()) { mostrarFicha(snap.data()); }
-        else { mostrar('p-bienvenida'); }
-      } catch(e) { console.error(e); mostrar('p-bienvenida'); }
-    }
+  const c2n = document.getElementById('f-c2-nombre').value.trim();
+  const c2t = document.getElementById('f-c2-tel').value.trim();
 
-    window.guardarPerfil = async function() {
-      const nombre   = document.getElementById('f-nombre').value.trim();
-      const fecha    = document.getElementById('f-fecha').value.trim();
-      const sangre   = document.getElementById('f-sangre').value;
-      const alergias = document.getElementById('f-alergias').value.trim();
-      const senas    = document.getElementById('f-senas').value.trim();
-      const c1n      = document.getElementById('f-c1-nombre').value.trim();
-      const c1t      = document.getElementById('f-c1-tel').value.trim();
-      const c2n      = document.getElementById('f-c2-nombre').value.trim();
-      const c2t      = document.getElementById('f-c2-tel').value.trim();
-      const c3n      = document.getElementById('f-c3-nombre').value.trim();
-      const c3t      = document.getElementById('f-c3-tel').value.trim();
-      const fotoFile = document.getElementById('f-foto').files[0];
-      const errDiv   = document.getElementById('form-error');
-      const errTxt   = document.getElementById('error-texto');
-      const btn      = document.getElementById('btn-guardar');
+  const c3n = document.getElementById('f-c3-nombre').value.trim();
+  const c3t = document.getElementById('f-c3-tel').value.trim();
 
-      if (!nombre || !fecha || !sangre || !alergias || !c1t) {
-        errTxt.textContent = 'Por favor llena todos los campos requeridos.';
-        errDiv.style.display = 'flex';
-        errDiv.scrollIntoView({ behavior:'smooth', block:'center' });
-        return;
-      }
-      errDiv.style.display = 'none';
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Guardando...';
+  const inputFoto = document.getElementById('f-foto');
+  const fotoFile = inputFoto && inputFoto.files.length ? inputFoto.files[0] : null;
 
-      try {
-        let fotoUrl = '';
-        if (fotoFile) {
-          const storageRef = ref(storage, 'fotos/' + PERFIL_ID);
-          await uploadBytes(storageRef, fotoFile);
-          fotoUrl = await getDownloadURL(storageRef);
-        }
-        const datos = {
-          nombre, fecha, sangre, alergias, senas: senas||'', fotoUrl,
-          contactos: [
-            {nombre:c1n,telefono:c1t},
-            {nombre:c2n,telefono:c2t},
-            {nombre:c3n,telefono:c3t},
-          ],
-          activadoEn: new Date().toISOString(),
-          stickerId: PERFIL_ID,
-        };
-        await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
-        window._datosGuardados = datos;
-        document.getElementById('exito-id-valor').textContent = PERFIL_ID;
-        mostrar('p-exito');
-      } catch(e) {
-        console.error(e);
-        errTxt.textContent = 'Error al guardar (' + (e.code||e.message) + ')';
-        errDiv.style.display = 'flex';
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Activar mi perfil de emergencia';
-      }
-    };
+  const errDiv = document.getElementById('form-error');
+  const errTxt = document.getElementById('error-texto');
+  const btn = document.getElementById('btn-guardar');
 
-    window.verMiPerfil = function() {
-      if (window._datosGuardados) mostrarFicha(window._datosGuardados);
-    };
+  if (!nombre || !fecha || !sangre || !alergias || !c1t) {
+    errTxt.textContent = 'Por favor llena todos los campos requeridos.';
+    errDiv.style.display = 'flex';
+    return;
+  }
 
-    function mostrarFicha(d) {
-      document.getElementById('ficha-nombre').textContent   = d.nombre   || '—';
-      document.getElementById('ficha-sangre').textContent   = d.sangre   || '—';
-      document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna conocida';
-      document.getElementById('ficha-fecha').textContent    = d.fecha    || '—';
+  btn.disabled = true;
+  btn.innerHTML = 'Guardando...';
 
-      const senasCard = document.getElementById('ficha-senas-card');
-      if (d.senas) { document.getElementById('ficha-senas').textContent = d.senas; }
-      else { senasCard.style.display = 'none'; }
+  try {
+    let fotoUrl = '';
 
-      const fotoWrap = document.getElementById('foto-wrap');
-      const foto = document.getElementById('ficha-foto');
-      if (d.fotoUrl) {
-        foto.src = d.fotoUrl;
-        foto.onerror = function() { fotoWrap.style.display = 'none'; };
-      } else {
-        fotoWrap.style.display = 'none';
-      }
+    if (fotoFile) {
+      const formData = new FormData();
+      formData.append("file", fotoFile);
+      formData.append("upload_preset", "moto_qr");
 
-      const cont = document.getElementById('ficha-contactos');
-      cont.innerHTML = '';
-      (d.contactos||[]).forEach(function(c) {
-        if (!c.telefono) return;
-        const a = document.createElement('a');
-        a.className = 'btn-llamar';
-        a.href = 'tel:' + c.telefono;
-        a.innerHTML =
-          '<div class="btn-llamar-info">' +
-            '<span class="btn-llamar-nombre">' + (c.nombre||'Contacto') + '</span>' +
-            '<span class="btn-llamar-tel">' + ocultarTel(c.telefono) + '</span>' +
-          '</div>' +
-          '<div class="btn-llamar-icono"><i class="fa-solid fa-phone"></i></div>';
-        cont.appendChild(a);
+      const res = await fetch("https://api.cloudinary.com/v1_1/deis2b9cq/image/upload", {
+        method: "POST",
+        body: formData
       });
 
-      // Mostrar ficha ocupando toda la pantalla
-      ['p-loading','p-bienvenida','p-formulario','p-exito'].forEach(function(p){
-        document.getElementById(p).classList.add('oculto');
-      });
-      const ficha = document.getElementById('p-ficha');
-      ficha.classList.remove('oculto');
-      ficha.style.cssText = 'display:flex;flex-direction:column;height:100vh;overflow:hidden;';
-      window.scrollTo(0,0);
+      const data = await res.json();
+
+      if (!data.secure_url) {
+        throw new Error("Error subiendo imagen");
+      }
+
+      fotoUrl = data.secure_url;
     }
 
-    cargarPerfil();
-  </script>
+  const datos = {
+  id: window.location.href,
+  nombre,
+  fecha,
+  sangre,
+  alergias,
+  senas: senas || '',
+  telefono: c1t,
+  fotoUrl,
+  contactos: [
+    { nombre: c1n, telefono: c1t },
+    { nombre: c2n, telefono: c2t },
+    { nombre: c3n, telefono: c3t },
+  ],
+  activadoEn: new Date().toISOString(),
+};
+
+    await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
+
+    window._datosGuardados = datos;
+    document.getElementById('exito-id-valor').textContent = PERFIL_ID;
+
+    mostrar('p-exito');
+
+  } catch (e) {
+    console.error(e);
+    errTxt.textContent = 'Error: ' + e.message;
+    errDiv.style.display = 'flex';
+
+    btn.disabled = false;
+    btn.innerHTML = 'Activar mi perfil';
+  }
+};
+
+window.verMiPerfil = function () {
+  if (window._datosGuardados) mostrarFicha(window._datosGuardados);
+};
+
+function mostrarFicha(d) {
+  document.getElementById('ficha-nombre').textContent = d.nombre || '—';
+  document.getElementById('ficha-sangre').textContent = d.sangre || '—';
+  document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna';
+  document.getElementById('ficha-fecha').textContent = d.fecha || '—';
+  document.getElementById('ficha-senas').textContent = d.senas || '—';
+
+  document.getElementById('ficha-id-label').textContent = 'ID: ' + (d.id || '—');
+
+  const foto = document.getElementById('ficha-foto');
+  const wrap = document.getElementById('foto-wrap');
+
+  if (d.fotoUrl) {
+    foto.src = d.fotoUrl;
+  } else {
+    wrap.style.display = 'none';
+  }
+
+  const contenedor = document.getElementById('ficha-contactos');
+  contenedor.innerHTML = '';
+
+  if (d.contactos) {
+    d.contactos.forEach(c => {
+      if (!c.telefono) return;
+
+      const a = document.createElement('a');
+      a.className = 'btn-llamar';
+      a.href = `tel:${c.telefono}`;
+
+      a.innerHTML = `
+        <div class="btn-llamar-info">
+          <div class="btn-llamar-nombre">${c.nombre || 'Contacto'}</div>
+          <div class="btn-llamar-tel">${c.telefono}</div>
+        </div>
+        <div class="btn-llamar-icono">
+          <i class="fa-solid fa-phone"></i>
+        </div>
+      `;
+
+      contenedor.appendChild(a);
+    });
+  }
+
+  mostrar('p-ficha');
+}
+
+cargarPerfil();
+</script>
 
   <script>
     function mostrar(id) {
       ['p-loading','p-bienvenida','p-formulario','p-exito','p-ficha'].forEach(function(p){
-        var el = document.getElementById(p);
-        el.classList.add('oculto');
-        el.style.cssText = '';
+        document.getElementById(p).classList.add('oculto');
       });
       document.getElementById(id).classList.remove('oculto');
       window.scrollTo(0,0);
     }
-    function previsualizarFoto(input) {
-      if (!input.files||!input.files[0]) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const area = document.getElementById('foto-area');
-        area.innerHTML =
-          '<input type="file" accept="image/*" id="f-foto" onchange="previsualizarFoto(this)">' +
-          '<img src="' + e.target.result + '" class="foto-preview">' +
-          '<p style="font-size:13px;color:var(--verde)">Foto lista <i class="fa-solid fa-check"></i></p>' +
-          '<p style="font-size:11px;color:var(--gris-txt);margin-top:4px">Toca para cambiarla</p>';
-      };
-      reader.readAsDataURL(input.files[0]);
+   function previsualizarFoto(input) {
+  if (!input.files || !input.files[0]) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    let preview = document.querySelector('.foto-preview');
+
+    if (!preview) {
+      preview = document.createElement('img');
+      preview.className = 'foto-preview';
+      document.getElementById('foto-area').appendChild(preview);
     }
+
+    preview.src = e.target.result;
+  };
+
+  reader.readAsDataURL(input.files[0]);
+}
   </script>
 </body>
 </html>
