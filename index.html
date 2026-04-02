@@ -7,6 +7,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* Paleta clara por defecto (modo claro) */
     :root {
       --negro:    #f0f2f7;
       --carbon:   #ffffff;
@@ -21,533 +23,1031 @@
       --rojo-osc: #c1121f;
       --ig-grad:  linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
     }
-    html, body {
-      min-height: 100vh;
-      background: var(--negro);
-      color: var(--blanco);
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      -webkit-font-smoothing: antialiased;
-    }
-    .oculto { display: none !important; }
-    .pantalla { min-height: 100vh; display: flex; flex-direction: column; }
 
-    /* LOADING */
-    #p-loading { min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px; }
-    .loading-icon { font-size:40px;color:var(--verde);animation:spin 1s linear infinite; }
-    @keyframes spin { to { transform:rotate(360deg) } }
-    .loading-txt { font-size:14px;color:var(--gris-txt); }
-
-    /* BIENVENIDA */
-    .activacion-bg { position:fixed;inset:0;background:radial-gradient(ellipse at 20% 50%,#e0f2ef 0%,var(--negro) 60%);z-index:0; }
-    .activacion-contenido { position:relative;z-index:1;max-width:440px;margin:0 auto;padding:48px 24px 64px;display:flex;flex-direction:column; }
-    .activacion-logo { font-size:40px;color:var(--verde);margin-bottom:16px;animation:float 3s ease-in-out infinite; }
-    @keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)} }
-    .activacion-badge { display:inline-block;font-family:'Courier New',monospace;font-size:11px;letter-spacing:0.15em;color:var(--verde);border:1px solid var(--verde);border-radius:4px;padding:4px 10px;margin-bottom:20px;width:fit-content; }
-    .activacion-titulo { font-size:clamp(42px,11vw,68px);font-weight:800;line-height:0.95;color:var(--blanco);margin-bottom:16px; }
-    .activacion-desc { font-size:15px;color:var(--gris-txt);line-height:1.6;margin-bottom:32px; }
-    .btn-primario { display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;margin-bottom:16px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s; }
-    .btn-primario:hover { transform:translateY(-2px); }
-    .activacion-nota { display:flex;align-items:center;gap:8px;font-size:12px;color:var(--gris-txt);justify-content:center; }
-    .activacion-nota i { color:var(--verde); }
-
-    /* FORMULARIO */
-    .form-header { background:linear-gradient(160deg,#e0f2ef,#f0f2f7);padding:32px 24px 24px;border-bottom:1px solid var(--gris-brd); }
-    .form-back { display:flex;align-items:center;gap:8px;color:var(--verde);font-size:14px;background:none;border:none;cursor:pointer;margin-bottom:16px;padding:0; }
-    .form-titulo { font-size:26px;font-weight:800;color:var(--blanco);margin-bottom:6px; }
-    .form-subtitulo { font-size:13px;color:var(--gris-txt); }
-    .form-id-badge { display:inline-block;font-family:'Courier New',monospace;font-size:12px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:4px;padding:3px 8px;margin-top:6px; }
-    .form-body { flex:1;padding:24px 20px 40px;max-width:500px;width:100%;margin:0 auto;display:flex;flex-direction:column;gap:20px; }
-    .form-grupo { display:flex;flex-direction:column;gap:8px; }
-    .form-label { font-size:11px;font-family:'Courier New',monospace;letter-spacing:0.1em;color:var(--gris-txt);text-transform:uppercase;display:flex;align-items:center;gap:6px; }
-    .form-label i { color:var(--verde); }
-    .requerido { color:var(--rojo); }
-    .form-input,.form-select,.form-textarea { background:var(--gris-osc);border:1px solid var(--gris-brd);border-radius:10px;padding:14px 16px;color:var(--blanco);font-size:15px;font-family:inherit;width:100%;transition:border-color 0.2s,box-shadow 0.2s;-webkit-appearance:none; }
-    .form-input:focus,.form-select:focus,.form-textarea:focus { outline:none;border-color:var(--verde);box-shadow:0 0 0 3px rgba(28,182,152,0.15); }
-    .form-input::placeholder,.form-textarea::placeholder { color:var(--gris-brd); }
-    .form-textarea { resize:none;height:80px;line-height:1.5; }
-    .form-select { color:var(--blanco);cursor:pointer; }
-    .form-select option { background:var(--gris-osc); }
-    .form-row { display:grid;grid-template-columns:1fr 1fr;gap:12px; }
-    .contacto-bloque { background:var(--gris-osc);border-radius:12px;padding:16px;border:1px solid var(--gris-brd);display:flex;flex-direction:column;gap:12px; }
-    .contacto-bloque-titulo { font-size:12px;font-weight:600;color:var(--verde);display:flex;align-items:center;gap:6px; }
-    .foto-upload-area { background:var(--gris-osc);border:2px dashed var(--gris-brd);border-radius:12px;padding:24px;text-align:center;cursor:pointer;transition:border-color 0.2s;position:relative; }
-    .foto-upload-area:hover { border-color:var(--verde); }
-    .foto-upload-area input { position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%; }
-    .foto-upload-area i { font-size:28px;color:var(--gris-txt);display:block;margin-bottom:8px; }
-    .foto-upload-area p { font-size:13px;color:var(--gris-txt); }
-    .foto-preview { width:80px;height:80px;border-radius:50%;object-fit:cover;border:3px solid var(--verde);margin:0 auto 8px;display:block; }
-    .error-msg { background:rgba(230,57,70,0.1);border:1px solid rgba(230,57,70,0.3);border-radius:8px;padding:12px 16px;font-size:13px;color:var(--rojo);display:none;align-items:center;gap:8px; }
-    .btn-generar { display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s; }
-    .btn-generar:hover { transform:translateY(-2px); }
-    .btn-generar:disabled { opacity:0.6;cursor:not-allowed;transform:none; }
-
-    /* ÉXITO */
-    .exito-contenido { max-width:440px;margin:0 auto;padding:48px 24px 64px;display:flex;flex-direction:column;align-items:center;text-align:center;position:relative;z-index:1; }
-    .exito-check { width:80px;height:80px;border-radius:50%;background:rgba(28,182,152,0.15);border:3px solid var(--verde);display:flex;align-items:center;justify-content:center;font-size:36px;color:var(--verde);margin-bottom:24px;animation:pop 0.5s cubic-bezier(0.34,1.56,0.64,1); }
-    @keyframes pop { from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1} }
-    .exito-titulo { font-size:32px;font-weight:800;margin-bottom:12px; }
-    .exito-desc { font-size:15px;color:var(--gris-txt);line-height:1.7;margin-bottom:12px; }
-    .exito-id { font-family:'Courier New',monospace;font-size:13px;color:var(--verde);background:rgba(28,182,152,0.1);border:1px solid rgba(28,182,152,0.3);border-radius:8px;padding:10px 16px;margin-bottom:32px;width:100%;text-align:center; }
-    .exito-id span { font-size:11px;color:var(--gris-txt);display:block;margin-bottom:4px;letter-spacing:0.08em; }
-    .btn-ver-perfil { display:flex;align-items:center;justify-content:center;gap:10px;background:var(--verde);color:#fff;border:none;cursor:pointer;font-size:16px;font-weight:700;padding:18px 24px;border-radius:12px;width:100%;box-shadow:0 4px 24px rgba(28,182,152,0.35);transition:transform 0.2s; }
-    .btn-ver-perfil:hover { transform:translateY(-2px); }
-
-    /* ══ FICHA EMERGENCIA — sin scroll, todo visible ══ */
-    #p-ficha {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
+    /* Paleta oscura si el sistema lo pide */
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --negro:    #0a0b0d;
+        --carbon:   #13151a;
+        --gris-osc: #1e2129;
+        --gris-med: #2c3040;
+        --gris-brd: #3a3f50;
+        --gris-txt: #8a90a0;
+        --blanco:   #f0f2f7;
+        /* verde y rojo se mantienen igual */
+      }
     }
 
-    /* Header rojo que se extiende hasta los bordes */
-    .ficha-header {
-      background: var(--rojo-osc);
-      padding: 20px 20px 24px;
+    html,body{
+      min-height:100vh;
+      background:var(--negro);
+      color:var(--blanco);
+      font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+      -webkit-font-smoothing:antialiased;
+    }
+    .oculto{display:none!important;}
+    .pantalla{min-height:100vh;display:flex;flex-direction:column;}
+
+    #p-loading{
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      gap:16px;
+    }
+    .loading-txt{font-size:14px;color:var(--gris-txt);}
+
+    /* fondos con degradado que se adaptan al modo */
+    .activacion-bg{
+      position:fixed;
+      inset:0;
+      background:radial-gradient(ellipse at 20% 50%,#e0f2ef 0%,var(--negro) 60%);
+      z-index:0;
+    }
+    @media (prefers-color-scheme: dark) {
+      .activacion-bg{
+        background:radial-gradient(ellipse at 20% 50%,#1a2a3a 0%,var(--negro) 60%);
+      }
+    }
+
+    .activacion-contenido{
+      position:relative;
+      z-index:1;
+      max-width:440px;
+      margin:0 auto;
+      padding:48px 24px 64px;
+      display:flex;
+      flex-direction:column;
+    }
+    .activacion-logo{
+      font-size:40px;
+      color:var(--verde);
+      margin-bottom:16px;
+      animation:float 3s ease-in-out infinite;
+    }
+    @keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+    .activacion-badge{
+      display:inline-block;
+      font-family:'Courier New',monospace;
+      font-size:11px;
+      letter-spacing:0.15em;
+      color:var(--verde);
+      border:1px solid var(--verde);
+      border-radius:4px;
+      padding:4px 10px;
+      margin-bottom:20px;
+      width:fit-content;
+    }
+    .activacion-titulo{
+      font-size:clamp(42px,11vw,68px);
+      font-weight:800;
+      line-height:0.95;
+      color:var(--blanco);
+      margin-bottom:16px;
+    }
+    .activacion-desc{
+      font-size:15px;
+      color:var(--gris-txt);
+      line-height:1.6;
+      margin-bottom:32px;
+    }
+    .btn-primario{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      background:var(--verde);
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:700;
+      padding:18px 24px;
+      border-radius:12px;
+      margin-bottom:16px;
+      width:100%;
+      box-shadow:0 4px 24px rgba(28,182,152,0.35);
+      transition:transform 0.2s;
+    }
+    .btn-primario:hover{transform:translateY(-2px);}
+    .activacion-nota{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-size:12px;
+      color:var(--gris-txt);
+      justify-content:center;
+    }
+    .activacion-nota i{color:var(--verde);}
+
+    .form-header{
+      background:linear-gradient(160deg,#e0f2ef,#f0f2f7);
+      padding:32px 24px 24px;
+      border-bottom:1px solid var(--gris-brd);
+    }
+    @media (prefers-color-scheme: dark) {
+      .form-header{
+        background:linear-gradient(160deg,#0d3d32,#0a0b0d);
+      }
+    }
+    .form-back{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      color:var(--verde);
+      font-size:14px;
+      background:none;
+      border:none;
+      cursor:pointer;
+      margin-bottom:16px;
+      padding:0;
+    }
+    .form-titulo{
+      font-size:26px;
+      font-weight:800;
+      color:var(--blanco);
+      margin-bottom:6px;
+    }
+    .form-subtitulo{
+      font-size:13px;
+      color:var(--gris-txt);
+    }
+    .form-id-badge{
+      display:inline-block;
+      font-family:'Courier New',monospace;
+      font-size:12px;
+      color:var(--verde);
+      background:rgba(28,182,152,0.1);
+      border:1px solid rgba(28,182,152,0.3);
+      border-radius:4px;
+      padding:3px 8px;
+      margin-top:6px;
+    }
+    .form-body{
+      flex:1;
+      padding:24px 20px 40px;
+      max-width:500px;
+      width:100%;
+      margin:0 auto;
+      display:flex;
+      flex-direction:column;
+      gap:20px;
+    }
+    .form-grupo{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .form-label{
+      font-size:11px;
+      font-family:'Courier New',monospace;
+      letter-spacing:0.1em;
+      color:var(--gris-txt);
+      text-transform:uppercase;
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .form-label i{color:var(--verde);}
+    .requerido{color:var(--rojo);}
+    .form-input,.form-select,.form-textarea{
+      background:var(--gris-osc);
+      border:1px solid var(--gris-brd);
+      border-radius:10px;
+      padding:14px 16px;
+      color:var(--blanco);
+      font-size:15px;
+      font-family:inherit;
+      width:100%;
+      transition:border-color 0.2s,box-shadow 0.2s;
+      -webkit-appearance:none;
+    }
+    .form-input:focus,.form-select:focus,.form-textarea:focus{
+      outline:none;
+      border-color:var(--verde);
+      box-shadow:0 0 0 3px rgba(28,182,152,0.15);
+    }
+    .form-input::placeholder,.form-textarea::placeholder{color:var(--gris-brd);}
+    .form-textarea{resize:none;height:80px;line-height:1.5;}
+    .form-select{color:var(--blanco);cursor:pointer;}
+    .form-select option{background:var(--gris-osc);}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+    .contacto-bloque{
+      background:var(--gris-osc);
+      border-radius:12px;
+      padding:16px;
+      border:1px solid var(--gris-brd);
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .contacto-bloque-titulo{
+      font-size:12px;
+      font-weight:600;
+      color:var(--verde);
+      display:flex;
+      align-items:center;
+      gap:6px;
+    }
+    .foto-upload-area{
+      background:var(--gris-osc);
+      border:2px dashed var(--gris-brd);
+      border-radius:12px;
+      padding:24px;
+      text-align:center;
+      cursor:pointer;
+      transition:border-color 0.2s;
+      position:relative;
+    }
+    .foto-upload-area:hover{border-color:var(--verde);}
+    .foto-upload-area input{
+      position:absolute;
+      inset:0;
+      opacity:0;
+      cursor:pointer;
+      width:100%;
+      height:100%;
+    }
+    .foto-upload-area i{font-size:28px;color:var(--gris-txt);display:block;margin-bottom:8px;}
+    .foto-upload-area p{font-size:13px;color:var(--gris-txt);}
+    .foto-preview{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      object-fit:cover;
+      border:3px solid var(--verde);
+      margin:0 auto 8px;
+      display:block;
+    }
+    .error-msg{
+      background:rgba(230,57,70,0.1);
+      border:1px solid rgba(230,57,70,0.3);
+      border-radius:8px;
+      padding:12px 16px;
+      font-size:13px;
+      color:var(--rojo);
+      display:none;
+      align-items:center;
+      gap:8px;
+    }
+    .btn-generar{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      background:var(--verde);
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:700;
+      padding:18px 24px;
+      border-radius:12px;
+      width:100%;
+      box-shadow:0 4px 24px rgba(28,182,152,0.35);
+      transition:transform 0.2s;
+    }
+    .btn-generar:hover{transform:translateY(-2px);}
+    .btn-generar:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+    /* Éxito */
+    .exito-contenido{
+      max-width:440px;
+      margin:0 auto;
+      padding:48px 24px 64px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
+      position:relative;
+      z-index:1;
+    }
+    .exito-check{
+      width:80px;
+      height:80px;
+      border-radius:50%;
+      background:rgba(28,182,152,0.15);
+      border:3px solid var(--verde);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:36px;
+      color:var(--verde);
+      margin-bottom:24px;
+      animation:pop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+    @keyframes pop{from{transform:scale(0);opacity:0}to{transform:scale(1);opacity:1}}
+    .exito-titulo{font-size:32px;font-weight:800;margin-bottom:12px;}
+    .exito-desc{font-size:15px;color:var(--gris-txt);line-height:1.7;margin-bottom:12px;}
+    .exito-id{
+      font-family:'Courier New',monospace;
+      font-size:13px;
+      color:var(--verde);
+      background:rgba(28,182,152,0.1);
+      border:1px solid rgba(28,182,152,0.3);
+      border-radius:8px;
+      padding:10px 16px;
+      margin-bottom:24px;
+      width:100%;
+      text-align:center;
+    }
+    .exito-id span{font-size:11px;color:var(--gris-txt);display:block;margin-bottom:4px;letter-spacing:0.08em;}
+    .btn-ver-perfil{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      background:var(--verde);
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      font-size:16px;
+      font-weight:700;
+      padding:18px 24px;
+      border-radius:12px;
+      width:100%;
+      box-shadow:0 4px 24px rgba(28,182,152,0.35);
+      transition:transform 0.2s;
+      margin-bottom:20px;
+    }
+    .btn-ver-perfil:hover{transform:translateY(-2px);}
+    .ig-cta{
+      width:100%;
+      background:var(--gris-osc);
+      border:1px solid var(--gris-brd);
+      border-radius:16px;
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      text-align:center;
+    }
+    .ig-cta-top{display:flex;align-items:center;gap:12px;}
+    .ig-avatar{
+      width:46px;
+      height:46px;
+      border-radius:50%;
+      background:var(--ig-grad);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-size:22px;
+      flex-shrink:0;
+    }
+    .ig-cta-info{text-align:left;}
+    .ig-cta-handle{font-weight:800;font-size:15px;color:var(--blanco);}
+    .ig-cta-sub{font-size:12px;color:var(--gris-txt);margin-top:2px;}
+    .ig-cta-texto{font-size:13px;color:var(--gris-txt);line-height:1.55;text-align:left;}
+    .btn-ig{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      background:var(--ig-grad);
+      color:#fff;
+      border:none;
+      cursor:pointer;
+      font-size:15px;
+      font-weight:700;
+      padding:14px 20px;
+      border-radius:10px;
+      width:100%;
+      text-decoration:none;
+      transition:opacity 0.2s,transform 0.2s;
+    }
+    .btn-ig:hover{opacity:0.9;transform:translateY(-1px);}
+
+    /* NUEVA FICHA DE EMERGENCIA - DISEÑO PROFESIONAL */
+    .ficha-emergencia {
+      flex: 1;
+      background: var(--carbon);
+      border-radius: 32px 32px 0 0;
+      margin-top: -20px;
+      padding: 24px 20px 32px;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    }
+    @media (prefers-color-scheme: dark) {
+      .ficha-emergencia {
+        box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
+      }
+    }
+
+    /* Header de la ficha (foto + nombre) */
+    .ficha-header-moderno {
+      background: linear-gradient(135deg, var(--rojo-osc), var(--rojo));
+      padding: 32px 24px 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      flex-shrink: 0;
+      border-bottom-left-radius: 24px;
+      border-bottom-right-radius: 24px;
+    }
+    .ficha-foto-wrap-moderno {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      border: 3px solid rgba(255,255,255,0.6);
+      overflow: hidden;
+      margin-bottom: 12px;
+      background: var(--gris-osc);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    }
+    .ficha-foto-wrap-moderno img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .ficha-nombre-moderno {
+      font-size: 28px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 6px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+    .ficha-badge {
+      background: rgba(255,255,255,0.2);
+      backdrop-filter: blur(4px);
+      border-radius: 40px;
+      padding: 4px 12px;
+      font-size: 12px;
+      font-weight: 600;
+      color: white;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
 
-    .ficha-alerta {
-      display:flex;align-items:center;gap:6px;
-      font-family:'Courier New',monospace;font-size:10px;letter-spacing:0.15em;
-      color:rgba(255,255,255,0.9);background:rgba(255,255,255,0.15);
-      border:1px solid rgba(255,255,255,0.3);padding:5px 12px;border-radius:100px;
-      margin-bottom:12px;animation:pulse-alert 2s ease-in-out infinite;
+    /* Tarjetas de datos vitales */
+    .vital-grid {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 24px;
     }
-    @keyframes pulse-alert { 0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,0.5)}50%{box-shadow:0 0 0 8px rgba(230,57,70,0)} }
-
-    .ficha-foto-wrap {
-      width:70px;height:70px;border-radius:50%;
-      border:3px solid rgba(255,255,255,0.5);
-      overflow:hidden;margin-bottom:8px;background:rgba(255,255,255,0.2);
-      flex-shrink:0;
+    .vital-card {
+      flex: 1;
+      background: var(--gris-osc);
+      border-radius: 20px;
+      padding: 16px;
+      text-align: center;
+      border: 1px solid var(--gris-brd);
+      transition: transform 0.2s, box-shadow 0.2s;
     }
-    .ficha-foto-wrap img { width:100%;height:100%;object-fit:cover; }
+    .vital-card i {
+      font-size: 28px;
+      margin-bottom: 8px;
+      display: block;
+    }
+    .vital-card .vital-label {
+      font-size: 11px;
+      text-transform: uppercase;
+      font-weight: 600;
+      color: var(--gris-txt);
+      letter-spacing: 0.5px;
+      margin-bottom: 4px;
+    }
+    .vital-card .vital-value {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--blanco);
+    }
+    .card-sangre i { color: var(--rojo); }
+    .card-alergias i { color: var(--verde); }
 
-    .ficha-nombre {
-      font-size:clamp(20px,5vw,28px);
-      font-weight:800;color:#fff;line-height:1.1;
-      max-width:100%;word-break:break-word;
+    /* Detalles en lista */
+    .details-modern {
+      background: var(--gris-osc);
+      border-radius: 20px;
+      border: 1px solid var(--gris-brd);
+      margin-bottom: 24px;
+      overflow: hidden;
+    }
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--gris-brd);
+    }
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+    .detail-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gris-txt);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .detail-value {
+      font-weight: 600;
+      color: var(--blanco);
+      text-align: right;
+      flex: 1;
+      margin-left: 16px;
     }
 
-    /* Body compacto, sin overflow */
-    .ficha-body {
-      flex:1;
-      background: var(--rojo-osc); /* mismo color que header para que fluya */
-      padding: 0 12px 12px;
-      display:flex;flex-direction:column;gap:8px;
-      overflow:hidden;
+    /* Contactos */
+    .contactos-section {
+      margin-bottom: 24px;
     }
-
-    /* Contenedor blanco redondeado arriba */
-    .ficha-inner {
-      background: var(--carbon);
-      border-radius: 20px 20px 12px 12px;
-      padding: 14px 14px 10px;
+    .contactos-title {
+      font-size: 16px;
+      font-weight: 700;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blanco);
+    }
+    .contactos-title i {
+      color: var(--rojo);
+    }
+    .contact-list {
       display: flex;
       flex-direction: column;
+      gap: 12px;
+    }
+    .contact-btn {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--gris-osc);
+      border: 1px solid var(--gris-brd);
+      border-radius: 60px;
+      padding: 12px 20px;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.2s, transform 0.1s;
+    }
+    .contact-btn:active {
+      transform: scale(0.98);
+      background: var(--gris-med);
+    }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .contact-name {
+      font-weight: 700;
+      font-size: 16px;
+    }
+    .contact-number {
+      font-size: 13px;
+      color: var(--gris-txt);
+      font-family: monospace;
+    }
+    .call-icon-circle {
+      background: var(--verde);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 18px;
+    }
+
+    /* Footer final */
+    .ficha-footer-modern {
+      margin-top: 16px;
+      text-align: center;
+      border-top: 1px solid var(--gris-brd);
+      padding-top: 20px;
+    }
+    .ficha-id-modern {
+      font-family: monospace;
+      font-size: 11px;
+      color: var(--gris-txt);
+      margin-bottom: 16px;
+    }
+    .instagram-link {
+      display: inline-flex;
+      align-items: center;
       gap: 8px;
-      flex: 1;
+      background: var(--ig-grad);
+      color: white;
+      text-decoration: none;
+      padding: 8px 20px;
+      border-radius: 40px;
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 12px;
+      transition: opacity 0.2s;
+    }
+    .instagram-link:hover {
+      opacity: 0.9;
+    }
+    .legal-text {
+      font-size: 10px;
+      color: var(--gris-txt);
     }
 
-    /* Sangre grande pero compacta */
-    .sangre-grande {
-      background:var(--rojo-osc);border-radius:10px;
-      padding:10px 16px;display:flex;
-      align-items:center;justify-content:space-between;
-      border:1px solid rgba(230,57,70,0.4);
-      flex-shrink:0;
+    /* Loader común */
+    .loader {
+      width: 40px;
+      aspect-ratio: 1;
+      --c: linear-gradient(#1CB698 0 0);
+      --m: radial-gradient(farthest-side,#1CB698 92%,#0000);
+      background: var(--m) center/12px 12px,
+                  var(--c) left 50% top    -20px/8px 16px, 
+                  var(--c) left 50% bottom -20px/8px 16px, 
+                  var(--c) top  50% left   -20px/16px 8px, 
+                  var(--c) top  50% right  -20px/16px 8px;
+      background-repeat: no-repeat;
+      animation: l18-1 1.5s infinite, l18-2 1.5s infinite;
     }
-    .sangre-label { font-size:10px;font-family:'Courier New',monospace;letter-spacing:0.1em;color:rgba(255,255,255,0.7);text-transform:uppercase; }
-    .sangre-valor { font-size:40px;font-weight:800;color:#fff;line-height:1; }
-
-    .ficha-fila { display:grid;grid-template-columns:1fr 1fr;gap:8px;flex-shrink:0; }
-
-    .ficha-card {
-      background:var(--gris-osc);border-radius:10px;
-      padding:10px 12px;border:1px solid var(--gris-brd);
-      flex-shrink:0;
+    @keyframes l18-1 {
+      30%,70% {
+        background-position: 
+          center,
+          left 50% top    calc(50% - 8px),
+          left 50% bottom calc(50% - 8px),
+          top  50% left   calc(50% - 8px),
+          top  50% right  calc(50% - 8px);
+      }
     }
-    .ficha-card-titulo {
-      font-size:9px;font-family:'Courier New',monospace;
-      letter-spacing:0.1em;color:var(--gris-txt);
-      text-transform:uppercase;margin-bottom:4px;
-      display:flex;align-items:center;gap:5px;
+    @keyframes l18-2 {
+      0%,40%   {transform: rotate(0)}
+      60%,100% {transform: rotate(90deg)}
     }
-    .ficha-card-titulo i { color:var(--verde);font-size:9px; }
-    .ficha-card-texto { font-size:13px;color:var(--blanco);line-height:1.3;font-weight:600; }
-
-    .ficha-card-full {
-      background:var(--gris-osc);border-radius:10px;
-      padding:10px 12px;border:1px solid var(--gris-brd);
-      flex-shrink:0;
-    }
-
-    /* Botones de llamada compactos */
-    .btn-llamar {
-      display:flex;align-items:center;justify-content:space-between;
-      background:var(--verde);color:#fff;text-decoration:none;
-      padding:12px 14px;border-radius:10px;
-      transition:background 0.2s;flex-shrink:0;
-    }
-    .btn-llamar:active { background:var(--verde-osc); }
-    .btn-llamar-info { display:flex;flex-direction:column;gap:1px; }
-    .btn-llamar-nombre { font-size:13px;font-weight:700; }
-    .btn-llamar-tel { font-size:11px;font-family:'Courier New',monospace;opacity:0.85; }
-    .btn-llamar-icono { background:rgba(255,255,255,0.2);width:36px;height:36px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0; }
-
-    .ficha-footer {
-      background:var(--rojo-osc);
-      padding:8px 16px;
-      display:flex;align-items:center;justify-content:center;
-      gap:6px;font-size:11px;color:rgba(255,255,255,0.6);
-      flex-shrink:0;
-    }
-    .ficha-footer a { color:rgba(255,255,255,0.9);text-decoration:none;font-weight:500; }
   </style>
 </head>
 <body>
 
-  <div id="p-loading">
-    <i class="fa-solid fa-circle-notch loading-icon"></i>
-    <span class="loading-txt">Cargando...</span>
+<div id="p-loading">
+  <i class="loader"></i>
+  <span class="loading-txt">Ten paciencia...</span>
+</div>
+
+<div id="p-bienvenida" class="pantalla oculto">
+  <div class="activacion-bg"></div>
+  <div class="activacion-contenido">
+    <div class="activacion-logo"><i class="fa-solid fa-motorcycle"></i></div>
+    <div class="activacion-badge">STICKER QR MOTO</div>
+    <h1 class="activacion-titulo">Este QR aún<br>no está activo</h1>
+    <p class="activacion-desc">Actívalo en menos de 2 minutos. Tus datos estarán disponibles de inmediato en caso de emergencia.</p>
+    <button class="btn-primario" onclick="mostrar('p-formulario')">
+      <i class="fa-solid fa-shield-halved"></i>
+      Activar mi sticker ahora
+    </button>
+    <p class="activacion-nota"><i class="fa-solid fa-lock"></i> Sin cuentas ni contraseñas. Solo visible al escanear tu QR.</p>
   </div>
+</div>
 
-  <div id="p-bienvenida" class="pantalla oculto">
-    <div class="activacion-bg"></div>
-    <div class="activacion-contenido">
-      <div class="activacion-logo"><i class="fa-solid fa-motorcycle"></i></div>
-      <div class="activacion-badge">STICKER QR MOTO</div>
-      <h1 class="activacion-titulo">Este QR aún<br>no está activo</h1>
-      <p class="activacion-desc">Actívalo en menos de 2 minutos. Tus datos estarán disponibles de inmediato en caso de emergencia.</p>
-      <button class="btn-primario" onclick="mostrar('p-formulario')">
-        <i class="fa-solid fa-shield-halved"></i>
-        Activar mi sticker ahora
-      </button>
-      <p class="activacion-nota"><i class="fa-solid fa-lock"></i> Sin cuentas ni contraseñas. Solo visible al escanear tu QR.</p>
+<div id="p-formulario" class="pantalla oculto">
+  <div class="form-header">
+    <button class="form-back" onclick="mostrar('p-bienvenida')"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
+    <h1 class="form-titulo">Datos de emergencia</h1>
+    <p class="form-subtitulo">Campos con <span style="color:var(--rojo)">*</span> son requeridos</p>
+    <div class="form-id-badge" id="badge-id"></div>
+  </div>
+  <div class="form-body">
+    <div class="form-grupo">
+      <label class="form-label"><i class="fa-solid fa-user"></i> Nombre completo <span class="requerido">*</span></label>
+      <input id="f-nombre" class="form-input" type="text" placeholder="Ej. Juan Pérez García" autocomplete="name">
+    </div>
+    <div class="form-row">
+      <div class="form-grupo">
+        <label class="form-label"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento <span class="requerido">*</span></label>
+        <input id="f-fecha" class="form-input" type="date" placeholder="DD/MM/AAAA">
+      </div>
+      <div class="form-grupo">
+        <label class="form-label"><i class="fa-solid fa-droplet"></i> Tipo de sangre <span class="requerido">*</span></label>
+        <select id="f-sangre" class="form-select">
+          <option value="">Seleccionar</option>
+          <option>A+</option><option>A-</option>
+          <option>B+</option><option>B-</option>
+          <option>AB+</option><option>AB-</option>
+          <option>O+</option><option>O-</option>
+          <option>No sé</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-grupo">
+      <label class="form-label"><i class="fa-solid fa-pills"></i> Alergias <span class="requerido">*</span></label>
+      <input id="f-alergias" class="form-input" type="text" placeholder="Ej. Penicilina, látex · o escribe 'Ninguna'">
+    </div>
+    <div class="form-grupo">
+      <label class="form-label"><i class="fa-solid fa-id-card"></i> Señas particulares</label>
+      <textarea id="f-senas" class="form-textarea" placeholder="Ej. Tatuaje en brazo izquierdo, cicatriz en rodilla..."></textarea>
+    </div>
+    <div class="form-grupo">
+      <label class="form-label"><i class="fa-solid fa-phone-volume"></i> Contactos de emergencia <span class="requerido">*</span></label>
+      <div class="contacto-bloque">
+        <div class="contacto-bloque-titulo"><i class="fa-solid fa-1"></i> Contacto principal</div>
+        <input id="f-c1-nombre" class="form-input" type="text" placeholder="Nombre">
+        <input id="f-c1-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
+      </div>
+      <div class="contacto-bloque" style="margin-top:12px">
+        <div class="contacto-bloque-titulo"><i class="fa-solid fa-2"></i> Contacto secundario</div>
+        <input id="f-c2-nombre" class="form-input" type="text" placeholder="Nombre">
+        <input id="f-c2-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
+      </div>
+      <div class="contacto-bloque" style="margin-top:12px">
+        <div class="contacto-bloque-titulo"><i class="fa-solid fa-3"></i> Contacto adicional (opcional)</div>
+        <input id="f-c3-nombre" class="form-input" type="text" placeholder="Nombre">
+        <input id="f-c3-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
+      </div>
+    </div>
+    <div class="form-grupo">
+      <label class="form-label"><i class="fa-solid fa-camera"></i> Foto (opcional)</label>
+      <div class="foto-upload-area" id="foto-area">
+        <input type="file" accept="image/*" id="f-foto" onchange="previsualizarFoto(this)">
+        <i class="fa-solid fa-image"></i>
+        <p>Toca para subir una foto tuya</p>
+        <p style="font-size:11px;margin-top:4px;color:var(--gris-brd)">Ayuda a identificarte en caso de accidente</p>
+      </div>
+    </div>
+    <div id="form-error" class="error-msg">
+      <i class="fa-solid fa-circle-exclamation"></i>
+      <span id="error-texto">Por favor llena todos los campos requeridos.</span>
+    </div>
+    <button id="btn-guardar" class="btn-generar" onclick="guardarPerfil()">
+      <i class="fa-solid fa-shield-halved"></i>
+      Activar mi perfil de emergencia
+    </button>
+  </div>
+</div>
+
+<div id="p-exito" class="pantalla oculto">
+  <div class="activacion-bg"></div>
+  <div class="exito-contenido">
+    <div class="exito-check"><i class="fa-solid fa-check"></i></div>
+    <h1 class="exito-titulo">¡Tu perfil está activo!</h1>
+    <p class="exito-desc">Desde ahora cualquier persona que escanee tu QR verá tu información de emergencia de inmediato.</p>
+    <div class="exito-id">
+      <span>ID DE TU STICKER</span>
+      <strong id="exito-id-valor"></strong>
+    </div>
+    <button class="btn-ver-perfil" onclick="verMiPerfil()">
+      <i class="fa-solid fa-eye"></i>
+      Ver mi ficha de emergencia
+    </button>
+
+    <div class="ig-cta">
+      <div class="ig-cta-top">
+        <div class="ig-avatar"><i class="fa-brands fa-instagram"></i></div>
+        <div class="ig-cta-info">
+          <div class="ig-cta-handle">@b2b.dev</div>
+          <div class="ig-cta-sub">Creadores de tu sticker QR</div>
+        </div>
+      </div>
+      <p class="ig-cta-texto">¿Necesitas actualizar tus datos más adelante? Escríbenos por Instagram.</p>
+      <a class="btn-ig" href="https://instagram.com/b2b.dev" target="_blank" rel="noopener">
+        <i class="fa-brands fa-instagram"></i>
+        Seguir @b2b.dev en Instagram
+      </a>
     </div>
   </div>
+</div>
 
-  <div id="p-formulario" class="pantalla oculto">
-    <div class="form-header">
-      <button class="form-back" onclick="mostrar('p-bienvenida')"><i class="fa-solid fa-arrow-left"></i> Regresar</button>
-      <h1 class="form-titulo">Datos de emergencia</h1>
-      <p class="form-subtitulo">Campos con <span style="color:var(--rojo)">*</span> son requeridos</p>
-      <div class="form-id-badge" id="badge-id"></div>
+<div id="p-ficha" class="pantalla oculto">
+  <!-- Nuevo diseño de ficha -->
+  <div class="ficha-header-moderno">
+    <div class="ficha-foto-wrap-moderno" id="foto-wrap-moderno">
+      <img id="ficha-foto-moderno" src="" alt="Foto">
     </div>
-    <div class="form-body">
-      <div class="form-grupo">
-        <label class="form-label"><i class="fa-solid fa-user"></i> Nombre completo <span class="requerido">*</span></label>
-        <input id="f-nombre" class="form-input" type="text" placeholder="Ej. Juan Pérez García" autocomplete="name">
-      </div>
-      <div class="form-row">
-        <div class="form-grupo">
-          <label class="form-label"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento <span class="requerido">*</span></label>
-          <input id="f-fecha" class="form-input" type="text" placeholder="DD/MM/AAAA">
-        </div>
-        <div class="form-grupo">
-          <label class="form-label"><i class="fa-solid fa-droplet"></i> Tipo de sangre <span class="requerido">*</span></label>
-          <select id="f-sangre" class="form-select">
-            <option value="">Seleccionar</option>
-            <option>A+</option><option>A-</option>
-            <option>B+</option><option>B-</option>
-            <option>AB+</option><option>AB-</option>
-            <option>O+</option><option>O-</option>
-            <option>No sé</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-grupo">
-        <label class="form-label"><i class="fa-solid fa-pills"></i> Alergias <span class="requerido">*</span></label>
-        <input id="f-alergias" class="form-input" type="text" placeholder="Ej. Penicilina, látex · o escribe 'Ninguna'">
-      </div>
-      <div class="form-grupo">
-        <label class="form-label"><i class="fa-solid fa-id-card"></i> Señas particulares</label>
-        <textarea id="f-senas" class="form-textarea" placeholder="Ej. Tatuaje en brazo izquierdo, cicatriz en rodilla..."></textarea>
-      </div>
-      <div class="form-grupo">
-        <label class="form-label"><i class="fa-solid fa-phone-volume"></i> Contactos de emergencia <span class="requerido">*</span></label>
-        <div class="contacto-bloque">
-          <div class="contacto-bloque-titulo"><i class="fa-solid fa-1"></i> Contacto principal</div>
-          <input id="f-c1-nombre" class="form-input" type="text" placeholder="Nombre">
-          <input id="f-c1-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
-        </div>
-        <div class="contacto-bloque" style="margin-top:12px">
-          <div class="contacto-bloque-titulo"><i class="fa-solid fa-2"></i> Contacto secundario</div>
-          <input id="f-c2-nombre" class="form-input" type="text" placeholder="Nombre">
-          <input id="f-c2-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
-        </div>
-        <div class="contacto-bloque" style="margin-top:12px">
-          <div class="contacto-bloque-titulo"><i class="fa-solid fa-3"></i> Contacto adicional (opcional)</div>
-          <input id="f-c3-nombre" class="form-input" type="text" placeholder="Nombre">
-          <input id="f-c3-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
-        </div>
-      </div>
-      <div class="form-grupo">
-        <label class="form-label"><i class="fa-solid fa-camera"></i> Foto (opcional)</label>
-        <div class="foto-upload-area" id="foto-area">
-          <input type="file" accept="image/*" id="f-foto" onchange="previsualizarFoto(this)">
-          <i class="fa-solid fa-image"></i>
-          <p>Toca para subir una foto tuya</p>
-          <p style="font-size:11px;margin-top:4px;color:var(--gris-brd)">Ayuda a identificarte en caso de accidente</p>
-        </div>
-      </div>
-      <div id="form-error" class="error-msg">
-        <i class="fa-solid fa-circle-exclamation"></i>
-        <span id="error-texto">Por favor llena todos los campos requeridos.</span>
-      </div>
-      <button id="btn-guardar" class="btn-generar" onclick="guardarPerfil()">
-        <i class="fa-solid fa-shield-halved"></i>
-        Activar mi perfil de emergencia
-      </button>
-    </div>
-  </div>
-
-  <div id="p-exito" class="pantalla oculto">
-    <div class="activacion-bg"></div>
-    <div class="exito-contenido">
-      <div class="exito-check"><i class="fa-solid fa-check"></i></div>
-      <h1 class="exito-titulo">¡Tu perfil está activo!</h1>
-      <p class="exito-desc">Desde ahora cualquier persona que escanee tu QR verá tu información de emergencia de inmediato.</p>
-      <div class="exito-id">
-        <span>ID DE TU STICKER</span>
-        <strong id="exito-id-valor"></strong>
-      </div>
-      <button class="btn-ver-perfil" onclick="verMiPerfil()">
-        <i class="fa-solid fa-eye"></i>
-        Ver mi ficha de emergencia
-      </button>
-    </div>
-  </div>
-
-  <!-- FICHA DE EMERGENCIA: todo en pantalla, sin scroll -->
-  <div id="p-ficha" class="oculto">
-    <div class="ficha-header">
-      <div class="ficha-alerta"><i class="fa-solid fa-triangle-exclamation"></i> INFORMACIÓN DE EMERGENCIA</div>
-      <div class="ficha-foto-wrap" id="foto-wrap"><img id="ficha-foto" src="" alt="Foto"></div>
-      <h1 id="ficha-nombre" class="ficha-nombre"></h1>
-    </div>
-
-    <div class="ficha-body">
-      <div class="ficha-inner">
-
-        <div style="display:flex;gap:8px;align-items:stretch;">
-          <div class="sangre-grande" style="flex:1;">
-            <div>
-              <div class="sangre-label"><i class="fa-solid fa-droplet"></i> Sangre</div>
-              <div id="ficha-sangre" class="sangre-valor"></div>
-            </div>
-          </div>
-          <div class="ficha-card" style="flex:1;">
-            <div class="ficha-card-titulo"><i class="fa-solid fa-cake-candles"></i> Nacimiento</div>
-            <div id="ficha-fecha" class="ficha-card-texto"></div>
-          </div>
-        </div>
-
-        <div class="ficha-card-full">
-          <div class="ficha-card-titulo"><i class="fa-solid fa-pills"></i> Alergias</div>
-          <div id="ficha-alergias" class="ficha-card-texto"></div>
-        </div>
-
-        <div class="ficha-card-full" id="ficha-senas-card">
-          <div class="ficha-card-titulo"><i class="fa-solid fa-id-card"></i> Señas particulares</div>
-          <div id="ficha-senas" class="ficha-card-texto"></div>
-        </div>
-
-        <div id="ficha-contactos"></div>
-
-      </div>
-    </div>
-
-    <div class="ficha-footer">
-      <span>Protegido por</span>
-      <a href="https://instagram.com/b2b.dev" target="_blank">@b2b.dev</a>
+    <h1 id="ficha-nombre-moderno" class="ficha-nombre-moderno"></h1>
+    <div class="ficha-badge">
+      <i class="fa-solid fa-motorcycle"></i> FICHA DE EMERGENCIA
     </div>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-storage.js";
+  <div class="ficha-emergencia">
+    <!-- Tarjetas vitales -->
+    <div class="vital-grid">
+      <div class="vital-card card-sangre">
+        <i class="fa-solid fa-droplet"></i>
+        <div class="vital-label">Tipo de sangre</div>
+        <div id="ficha-sangre-moderno" class="vital-value"></div>
+      </div>
+      <div class="vital-card card-alergias">
+        <i class="fa-solid fa-pills"></i>
+        <div class="vital-label">Alergias</div>
+        <div id="ficha-alergias-moderno" class="vital-value"></div>
+      </div>
+    </div>
 
-    const firebaseConfig = {
-      apiKey:            "AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs",
-      authDomain:        "moto-sticker-qr-28c34.firebaseapp.com",
-      projectId:         "moto-sticker-qr-28c34",
-      storageBucket:     "moto-sticker-qr-28c34.firebasestorage.app",
-      messagingSenderId: "959074534613",
-      appId:             "1:959074534613:web:38eb00f93d1f23235ace5c"
-    };
+    <!-- Detalles adicionales -->
+    <div class="details-modern">
+      <div class="detail-row">
+        <div class="detail-label"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento</div>
+        <div id="ficha-fecha-moderno" class="detail-value"></div>
+      </div>
+      <div class="detail-row">
+        <div class="detail-label"><i class="fa-solid fa-id-card"></i> Señas particulares</div>
+        <div id="ficha-senas-moderno" class="detail-value"></div>
+      </div>
+    </div>
 
-    const app     = initializeApp(firebaseConfig);
-    const db      = getFirestore(app);
-    const storage = getStorage(app);
+    <!-- Contactos -->
+    <div class="contactos-section">
+      <div class="contactos-title">
+        <i class="fa-solid fa-phone-volume"></i> Contactos de emergencia
+      </div>
+      <div id="ficha-contactos-moderno" class="contact-list"></div>
+    </div>
 
-    function obtenerID() {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('id')) return params.get('id');
-      const host  = window.location.hostname;
-      const match = host.match(/-(b\d+)\./i);
-      if (match) return match[1].toLowerCase();
-      return host.replace(/\./g, '-');
-    }
+    <!-- Footer con ID e Instagram -->
+    <div class="ficha-footer-modern">
+      <div id="ficha-id-moderno" class="ficha-id-modern"></div>
+      <a href="https://instagram.com/b2b.dev" target="_blank" rel="noopener" class="instagram-link">
+        <i class="fa-brands fa-instagram"></i> @b2b.dev
+      </a>
+      <div class="legal-text">Sticker QR de emergencia para motociclistas</div>
+    </div>
+  </div>
+</div>
 
-    // Ej: "+525512345609" → "55••••••09"
-    function ocultarTel(tel) {
-      const limpio = tel.replace(/\D/g, '');
-      if (limpio.length < 4) return tel;
-      const inicio = limpio.slice(-10, -8);   // 2 primeros del número local
-      const fin    = limpio.slice(-2);          // 2 últimos
-      return inicio + '••••••' + fin;
-    }
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-    const PERFIL_ID = obtenerID();
-    document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
+  const firebaseConfig = {
+    apiKey: "AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs",
+    authDomain: "moto-sticker-qr-28c34.firebaseapp.com",
+    projectId: "moto-sticker-qr-28c34",
+    storageBucket: "moto-sticker-qr-28c34.firebasestorage.app",
+    messagingSenderId: "959074534613",
+    appId: "1:959074534613:web:38eb00f93d1f23235ace5c"
+  };
 
-    async function cargarPerfil() {
-      try {
-        const snap = await getDoc(doc(db, 'perfiles', PERFIL_ID));
-        if (snap.exists()) { mostrarFicha(snap.data()); }
-        else { mostrar('p-bienvenida'); }
-      } catch(e) { console.error(e); mostrar('p-bienvenida'); }
-    }
+  const app = initializeApp(firebaseConfig);
+  const db  = getFirestore(app);
 
-    window.guardarPerfil = async function() {
-      const nombre   = document.getElementById('f-nombre').value.trim();
-      const fecha    = document.getElementById('f-fecha').value.trim();
-      const sangre   = document.getElementById('f-sangre').value;
-      const alergias = document.getElementById('f-alergias').value.trim();
-      const senas    = document.getElementById('f-senas').value.trim();
-      const c1n      = document.getElementById('f-c1-nombre').value.trim();
-      const c1t      = document.getElementById('f-c1-tel').value.trim();
-      const c2n      = document.getElementById('f-c2-nombre').value.trim();
-      const c2t      = document.getElementById('f-c2-tel').value.trim();
-      const c3n      = document.getElementById('f-c3-nombre').value.trim();
-      const c3t      = document.getElementById('f-c3-tel').value.trim();
-      const fotoFile = document.getElementById('f-foto').files[0];
-      const errDiv   = document.getElementById('form-error');
-      const errTxt   = document.getElementById('error-texto');
-      const btn      = document.getElementById('btn-guardar');
+  function obtenerID() {
+    return window.location.href
+      .replace(/https?:\/\//, '')
+      .replace(/\//g, '_')
+      .replace(/\?/g, '_')
+      .replace(/=/g, '_');
+  }
 
-      if (!nombre || !fecha || !sangre || !alergias || !c1t) {
-        errTxt.textContent = 'Por favor llena todos los campos requeridos.';
-        errDiv.style.display = 'flex';
-        errDiv.scrollIntoView({ behavior:'smooth', block:'center' });
-        return;
-      }
-      errDiv.style.display = 'none';
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-circle-notch fa-spin"></i> Guardando...';
+  function ocultarTel(tel) {
+    const limpio = tel.replace(/\D/g, '');
+    if (limpio.length < 4) return tel;
+    const inicio = limpio.slice(-10, -8);
+    const fin    = limpio.slice(-2);
+    return inicio + '••••••' + fin;
+  }
 
-      try {
-        let fotoUrl = '';
-        if (fotoFile) {
-          const storageRef = ref(storage, 'fotos/' + PERFIL_ID);
-          await uploadBytes(storageRef, fotoFile);
-          fotoUrl = await getDownloadURL(storageRef);
-        }
-        const datos = {
-          nombre, fecha, sangre, alergias, senas: senas||'', fotoUrl,
-          contactos: [
-            {nombre:c1n,telefono:c1t},
-            {nombre:c2n,telefono:c2t},
-            {nombre:c3n,telefono:c3t},
-          ],
-          activadoEn: new Date().toISOString(),
-          stickerId: PERFIL_ID,
-        };
-        await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
-        window._datosGuardados = datos;
-        document.getElementById('exito-id-valor').textContent = PERFIL_ID;
-        mostrar('p-exito');
-      } catch(e) {
-        console.error(e);
-        errTxt.textContent = 'Error al guardar (' + (e.code||e.message) + ')';
-        errDiv.style.display = 'flex';
-        btn.disabled = false;
-        btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Activar mi perfil de emergencia';
-      }
-    };
+  const PERFIL_ID = obtenerID();
+  document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
 
-    window.verMiPerfil = function() {
-      if (window._datosGuardados) mostrarFicha(window._datosGuardados);
-    };
-
-    function mostrarFicha(d) {
-      document.getElementById('ficha-nombre').textContent   = d.nombre   || '—';
-      document.getElementById('ficha-sangre').textContent   = d.sangre   || '—';
-      document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna conocida';
-      document.getElementById('ficha-fecha').textContent    = d.fecha    || '—';
-
-      const senasCard = document.getElementById('ficha-senas-card');
-      if (d.senas) { document.getElementById('ficha-senas').textContent = d.senas; }
-      else { senasCard.style.display = 'none'; }
-
-      const fotoWrap = document.getElementById('foto-wrap');
-      const foto = document.getElementById('ficha-foto');
-      if (d.fotoUrl) {
-        foto.src = d.fotoUrl;
-        foto.onerror = function() { fotoWrap.style.display = 'none'; };
+  async function cargarPerfil() {
+    try {
+      const snap = await getDoc(doc(db, 'perfiles', PERFIL_ID));
+      if (snap.exists()) {
+        mostrarFicha(snap.data());
       } else {
-        fotoWrap.style.display = 'none';
+        mostrar('p-bienvenida');
+      }
+    } catch (e) {
+      console.error(e);
+      mostrar('p-bienvenida');
+    }
+  }
+
+  window.guardarPerfil = async function () {
+    const nombre   = document.getElementById('f-nombre').value.trim();
+    const fecha    = document.getElementById('f-fecha').value.trim();
+    const sangre   = document.getElementById('f-sangre').value;
+    const alergias = document.getElementById('f-alergias').value.trim();
+    const senas    = document.getElementById('f-senas').value.trim();
+    const c1n      = document.getElementById('f-c1-nombre').value.trim();
+    const c1t      = document.getElementById('f-c1-tel').value.trim();
+    const c2n      = document.getElementById('f-c2-nombre').value.trim();
+    const c2t      = document.getElementById('f-c2-tel').value.trim();
+    const c3n      = document.getElementById('f-c3-nombre').value.trim();
+    const c3t      = document.getElementById('f-c3-tel').value.trim();
+    const inputFoto = document.getElementById('f-foto');
+    const fotoFile  = inputFoto && inputFoto.files.length ? inputFoto.files[0] : null;
+    const errDiv   = document.getElementById('form-error');
+    const errTxt   = document.getElementById('error-texto');
+    const btn      = document.getElementById('btn-guardar');
+
+    if (!nombre || !fecha || !sangre || !alergias || !c1t) {
+      errTxt.textContent = 'Por favor llena todos los campos requeridos.';
+      errDiv.style.display = 'flex';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = 'Guardando...';
+
+    try {
+      let fotoUrl = '';
+
+      if (fotoFile) {
+        const formData = new FormData();
+        formData.append("file", fotoFile);
+        formData.append("upload_preset", "moto_qr");
+        const res  = await fetch("https://api.cloudinary.com/v1_1/deis2b9cq/image/upload", { method: "POST", body: formData });
+        const data = await res.json();
+        if (!data.secure_url) throw new Error("Error subiendo imagen");
+        fotoUrl = data.secure_url;
       }
 
-      const cont = document.getElementById('ficha-contactos');
-      cont.innerHTML = '';
-      (d.contactos||[]).forEach(function(c) {
+      const datos = {
+        id: window.location.href,
+        nombre, fecha, sangre, alergias,
+        senas: senas || '',
+        telefono: c1t,
+        fotoUrl,
+        contactos: [
+          { nombre: c1n, telefono: c1t },
+          { nombre: c2n, telefono: c2t },
+          { nombre: c3n, telefono: c3t },
+        ],
+        activadoEn: new Date().toISOString(),
+      };
+
+      await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
+      window._datosGuardados = datos;
+      document.getElementById('exito-id-valor').textContent = PERFIL_ID;
+      mostrar('p-exito');
+
+    } catch (e) {
+      console.error(e);
+      errTxt.textContent = 'Error: ' + e.message;
+      errDiv.style.display = 'flex';
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Activar mi perfil de emergencia';
+    }
+  };
+
+  window.verMiPerfil = function () {
+    if (window._datosGuardados) mostrarFicha(window._datosGuardados);
+  };
+
+  function mostrarFicha(d) {
+    // Actualizar elementos nuevos
+    document.getElementById('ficha-nombre-moderno').textContent = d.nombre || '—';
+    document.getElementById('ficha-sangre-moderno').textContent = d.sangre || '—';
+    document.getElementById('ficha-alergias-moderno').textContent = d.alergias || 'Ninguna';
+    document.getElementById('ficha-fecha-moderno').textContent = d.fecha || '—';
+    document.getElementById('ficha-senas-moderno').textContent = d.senas || '—';
+    document.getElementById('ficha-id-moderno').textContent = 'ID: ' + (d.id || '—');
+
+    const foto = document.getElementById('ficha-foto-moderno');
+    const wrap = document.getElementById('foto-wrap-moderno');
+    if (d.fotoUrl) { foto.src = d.fotoUrl; wrap.style.display = 'block'; }
+    else { wrap.style.display = 'none'; }
+
+    const contenedor = document.getElementById('ficha-contactos-moderno');
+    contenedor.innerHTML = '';
+
+    if (d.contactos) {
+      d.contactos.forEach(c => {
         if (!c.telefono) return;
         const a = document.createElement('a');
-        a.className = 'btn-llamar';
+        a.className = 'contact-btn';
         a.href = 'tel:' + c.telefono;
-        a.innerHTML =
-          '<div class="btn-llamar-info">' +
-            '<span class="btn-llamar-nombre">' + (c.nombre||'Contacto') + '</span>' +
-            '<span class="btn-llamar-tel">' + ocultarTel(c.telefono) + '</span>' +
-          '</div>' +
-          '<div class="btn-llamar-icono"><i class="fa-solid fa-phone"></i></div>';
-        cont.appendChild(a);
+        a.innerHTML = `
+          <div class="contact-info">
+            <span class="contact-name">${c.nombre || 'Contacto'}</span>
+            <span class="contact-number">${ocultarTel(c.telefono)}</span>
+          </div>
+          <div class="call-icon-circle">
+            <i class="fa-solid fa-phone"></i>
+          </div>
+        `;
+        contenedor.appendChild(a);
       });
-
-      // Mostrar ficha ocupando toda la pantalla
-      ['p-loading','p-bienvenida','p-formulario','p-exito'].forEach(function(p){
-        document.getElementById(p).classList.add('oculto');
-      });
-      const ficha = document.getElementById('p-ficha');
-      ficha.classList.remove('oculto');
-      ficha.style.cssText = 'display:flex;flex-direction:column;height:100vh;overflow:hidden;';
-      window.scrollTo(0,0);
     }
 
-    cargarPerfil();
-  </script>
+    mostrar('p-ficha');
+  }
 
-  <script>
-    function mostrar(id) {
-      ['p-loading','p-bienvenida','p-formulario','p-exito','p-ficha'].forEach(function(p){
-        var el = document.getElementById(p);
-        el.classList.add('oculto');
-        el.style.cssText = '';
-      });
-      document.getElementById(id).classList.remove('oculto');
-      window.scrollTo(0,0);
-    }
-    function previsualizarFoto(input) {
-      if (!input.files||!input.files[0]) return;
-      const reader = new FileReader();
-      reader.onload = function(e) {
-        const area = document.getElementById('foto-area');
-        area.innerHTML =
-          '<input type="file" accept="image/*" id="f-foto" onchange="previsualizarFoto(this)">' +
-          '<img src="' + e.target.result + '" class="foto-preview">' +
-          '<p style="font-size:13px;color:var(--verde)">Foto lista <i class="fa-solid fa-check"></i></p>' +
-          '<p style="font-size:11px;color:var(--gris-txt);margin-top:4px">Toca para cambiarla</p>';
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  </script>
+  cargarPerfil();
+</script>
+
+<script>
+  function mostrar(id) {
+    ['p-loading','p-bienvenida','p-formulario','p-exito','p-ficha'].forEach(function(p){
+      document.getElementById(p).classList.add('oculto');
+    });
+    document.getElementById(id).classList.remove('oculto');
+    window.scrollTo(0,0);
+  }
+  function previsualizarFoto(input) {
+    if (!input.files || !input.files[0]) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+      let preview = document.querySelector('.foto-preview');
+      if (!preview) {
+        preview = document.createElement('img');
+        preview.className = 'foto-preview';
+        document.getElementById('foto-area').appendChild(preview);
+      }
+      preview.src = e.target.result;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+</script>
 </body>
 </html>
