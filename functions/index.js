@@ -5,6 +5,17 @@ const token = process.env.PUSHOVER_TOKEN;
 const user = process.env.PUSHOVER_USER;
 
 exports.notificarPushover = functions.https.onRequest(async (req, res) => {
+  // Configurar CORS para permitir peticiones desde cualquier origen
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', 'Content-Type');
+
+  // Responder a la pre-solicitud OPTIONS (navegadores)
+  if (req.method === 'OPTIONS') {
+    res.status(204).send('');
+    return;
+  }
+
   if (req.method !== 'POST') {
     res.status(405).send('Method Not Allowed');
     return;
