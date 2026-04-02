@@ -843,12 +843,13 @@
   const db  = getFirestore(app);
 
   function obtenerID() {
-    return window.location.href
-      .replace(/https?:\/\//, '')
-      .replace(/\//g, '_')
-      .replace(/\?/g, '_')
-      .replace(/=/g, '_');
-  }
+  let path = window.location.pathname.replace(/^\/|\/$/g, '');
+  if (!path) return 'default';
+  let lastSegment = path.split('/').pop();
+  let parts = lastSegment.split('-');
+  let shortId = parts[parts.length - 1].split('.')[0];
+  return shortId;
+}
 
   function ocultarTel(tel) {
     const limpio = tel.replace(/\D/g, '');
