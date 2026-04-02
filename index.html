@@ -7,10 +7,8 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    /* ===== VARIABLES GLOBALES (ficha + resto) ===== */
+    
     :root {
-      /* Modo claro (valores invertidos respecto a la referencia) */
       --bg-color: #f8fafc;
       --card-bg: #ffffff;
       --accent: #10b981;
@@ -28,7 +26,7 @@
 
     @media (prefers-color-scheme: dark) {
       :root {
-        /* Modo oscuro: colores exactos de la referencia */
+        /* Modo oscuro */
         --bg-color: #0f172a;
         --card-bg: #1e293b;
         --accent: #10b981;
@@ -44,8 +42,6 @@
         --shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
       }
     }
-
-    /* Estilos base que NO interfieren con otras pantallas */
     html, body {
       min-height: 100vh;
       background: var(--bg-color);
@@ -56,8 +52,7 @@
 
     .oculto { display: none !important; }
     .pantalla { min-height: 100vh; display: flex; flex-direction: column; }
-
-    /* ===== LOADING, BIENVENIDA, FORM, ÉXITO (sin cambios) ===== */
+    
     #p-loading {
       min-height: 100vh;
       display: flex;
@@ -83,7 +78,6 @@
     @keyframes l18-1 { 30%,70% { background-position: center, left 50% top calc(50% - 8px), left 50% bottom calc(50% - 8px), top 50% left calc(50% - 8px), top 50% right calc(50% - 8px); } }
     @keyframes l18-2 { 0%,40% { transform: rotate(0); } 60%,100% { transform: rotate(90deg); } }
 
-    /* Bienvenida */
     .activacion-bg {
       position: fixed;
       inset: 0;
@@ -158,7 +152,6 @@
     }
     .activacion-nota i { color: var(--accent); }
 
-    /* Formulario */
     .form-header {
       background: linear-gradient(160deg, #e0f2ef, var(--bg-color));
       padding: 32px 24px 24px;
@@ -235,7 +228,23 @@
     .form-textarea { resize: none; height: 80px; line-height: 1.5; }
     .form-select { color: var(--text-main); cursor: pointer; }
     .form-select option { background: var(--card-bg); }
-    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  width: 100%;
+}
+    /* Cada grupo dentro del grid debe poder reducirse */
+.form-row .form-grupo {
+  min-width: 0; /* Permite que el contenido se ajuste */
+}
+
+/* Los inputs y selects dentro del grid ocupan todo el ancho de su celda */
+.form-row .form-input,
+.form-row .form-select {
+  width: 100%;
+  box-sizing: border-box;
+}
     .contacto-bloque {
       background: var(--card-bg);
       border-radius: 12px;
@@ -314,7 +323,6 @@
     .btn-generar:hover { transform: translateY(-2px); }
     .btn-generar:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 
-    /* Éxito */
     .exito-contenido {
       max-width: 440px;
       margin: 0 auto;
@@ -422,13 +430,11 @@
     }
     .btn-ig:hover { opacity: 0.9; transform: translateY(-1px); }
 
-    /* ===== NUEVA FICHA DE EMERGENCIA (estilo referencia + footer original) ===== */
     #p-ficha {
       background-color: var(--bg-color);
       padding-bottom: 40px;
     }
 
-    /* Navbar de la ficha */
     .ficha-navbar {
       display: flex;
       justify-content: space-between;
@@ -455,15 +461,12 @@
       font-weight: 600;
       border: 1px solid var(--status-border);
     }
-
-    /* Contenedor principal de la ficha */
     .ficha-container {
       max-width: 480px;
       margin: 20px auto;
       padding: 0 20px;
     }
 
-    /* Header de perfil (avatar + nombre) */
     .ficha-profile-header {
       text-align: center;
       margin-bottom: 30px;
@@ -489,7 +492,6 @@
       letter-spacing: 1px;
     }
 
-    /* Grid de información */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
@@ -522,7 +524,6 @@
       font-weight: 600;
     }
 
-    /* Sección de contactos de emergencia */
     .emergency-section h3 {
       font-size: 1rem;
       margin-bottom: 15px;
@@ -535,7 +536,7 @@
       gap: 12px;
       margin-bottom: 20px;
     }
-    /* Botón de llamada (estilo referencia pero conserva nombre + teléfono) */
+
     .btn-llamar {
       background: var(--phone-btn-bg);
       color: white;
@@ -578,7 +579,7 @@
       font-size: 18px;
     }
 
-    /* Footer original (Instagram y legal) */
+   
     .ficha-footer {
       background: var(--card-bg);
       border-top: 1px solid var(--border-light);
@@ -765,11 +766,10 @@
   </div>
 </div>
 
-<!-- NUEVA FICHA DE EMERGENCIA (estilo referencia + footer original) -->
 <div id="p-ficha" class="pantalla oculto">
   <div class="ficha-navbar">
-    <div class="ficha-logo">BAKER<span>DATA</span></div>
-    <div class="ficha-status-badge">Ficha Médica</div>
+    <div class="ficha-logo">B<span>2</span>B</div>
+    <div class="ficha-status-badge">Ficha de Emergencia</div>
   </div>
 
   <div class="ficha-container">
