@@ -90,7 +90,7 @@
     .ficha-logo { font-weight: 700; letter-spacing: -1px; font-size: 1.2rem; }
     .ficha-logo span { color: var(--accent); }
     .ficha-status-badge { background: var(--status-bg); color: var(--status-text); padding: 4px 12px; border-radius: 20px; font-size: .75rem; font-weight: 600; border: 1px solid var(--status-border); }
-    .ficha-container { max-width: 616px; margin: 24px auto; padding: 0 20px; }
+    .ficha-container { max-width: 616px; margin: 16px auto; padding: 0 20px; }
     .ficha-profile-header { text-align: center; margin-bottom: 24px; }
     .avatar-wrapper img {
       width: 115px;           
@@ -115,16 +115,16 @@
     .info-card.full-width .value { white-space: normal; font-size: .92rem; }
 
     .emergency-section h3 { font-size: .86rem; margin-bottom: 12px; text-align: center; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
-    .phone-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
+    .phone-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 12px; }
     .btn-llamar { background: var(--phone-btn-bg); color: white; text-decoration: none; padding: 14px 17px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; font-weight: 600; box-shadow: 0 3px 12px rgba(225,29,72,.2); transition: background .2s, transform .15s; }
     .btn-llamar:active { background: var(--phone-btn-hover); transform: scale(.98); }
     .btn-llamar-info { display: flex; flex-direction: column; gap: 3px; }
     .btn-llamar-nombre { font-size: 15px; font-weight: 700; }
     .btn-llamar-tel { font-size: 13px; font-family: 'Courier New', monospace; opacity: .85; }
     .btn-llamar-icono { background: rgba(255,255,255,.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-    .ficha-id { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-muted); text-align: center; padding: 12px; border-top: 1px solid var(--border-light); margin-top: 8px; }
+    .ficha-id { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-muted); text-align: center; padding: 12px; border-top: 1px solid var(--border-light); margin-top: 4px; }
 
-    .ficha-footer { padding: 5px 20px 28px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-top: 1px solid var(--border-light); margin-top: 16px; }
+    .ficha-footer { padding: 5px 20px 20px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-top: 1px solid var(--border-light); margin-top: 16px; }
     .ficha-footer-legal { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.8; }
     .ficha-footer-legal a { color: var(--accent); text-decoration: none; font-weight: 600; }
     .ficha-footer-legal a:hover { text-decoration: underline; }
