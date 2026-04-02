@@ -229,27 +229,25 @@
     .form-select { color: var(--text-main); cursor: pointer; }
     .form-select option { background: var(--card-bg); }
     /*.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }*/
-    /* Asegura que la fila siempre se mantenga como dos columnas */
-.form-row {
+   .form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   width: 100%;
 }
 
-/* Permite que cada grupo se reduzca */
+/* Obliga a que cada celda pueda reducirse */
 .form-row .form-grupo {
-  min-width: 0; /* clave para que el contenido no fuerce el ancho mínimo */
+  min-width: 0;  /* Esto evita que el contenido fuerce el ancho mínimo */
 }
 
-/* Los inputs y selects dentro de la fila también deben poder reducirse */
+/* Anula el ancho mínimo del date picker */
 .form-row .form-input,
 .form-row .form-select {
-  min-width: 0;   /* anula el tamaño mínimo del input type="date" */
+  min-width: 0;   /* ¡Clave para el type="date"! */
   width: 100%;
   box-sizing: border-box;
 }
-
 @media (max-width: 420px) {
   .form-row {
     gap: 8px;
