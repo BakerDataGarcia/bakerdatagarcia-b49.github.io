@@ -93,30 +93,39 @@
     .ig-cta-sub { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
     .ig-cta-arrow { color: var(--text-muted); font-size: 11px; }
 
-    /* ===== FICHA CON ZOOM +10% ===== */
+    /* ===== FICHA CON ZOOM +10% Y FOTO MÁS GRANDE/CENTRADA ===== */
     #p-ficha { background-color: var(--bg-color); padding-bottom: 40px; }
     .ficha-navbar { display: flex; justify-content: space-between; align-items: center; padding: 14px 20px; background: var(--navbar-bg); backdrop-filter: blur(10px); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid var(--border-light); }
     .ficha-logo { font-weight: 700; letter-spacing: -1px; font-size: 1.2rem; }
     .ficha-logo span { color: var(--accent); }
     .ficha-status-badge { background: var(--status-bg); color: var(--status-text); padding: 4px 12px; border-radius: 20px; font-size: .75rem; font-weight: 600; border: 1px solid var(--status-border); }
-    .ficha-container { max-width: 616px; /* +10% desde 560px */ margin: 24px auto; padding: 0 20px; }
+    .ficha-container { max-width: 616px; margin: 24px auto; padding: 0 20px; }
     .ficha-profile-header { text-align: center; margin-bottom: 24px; }
-    .avatar-wrapper img { width: 97px; /* +10% desde 88px */ height: 97px; border-radius: 50%; border: 3px solid var(--accent); padding: 4px; margin-bottom: 12px; object-fit: cover; }
-    .ficha-profile-header h1 { font-size: 1.43rem; /* +10% desde 1.3rem */ font-weight: 700; margin: 0; }
+    .avatar-wrapper img {
+      width: 115px;            /* más grande que antes (97px) */
+      height: 115px;
+      border-radius: 50%;
+      border: 3px solid var(--accent);
+      padding: 4px;
+      margin: 0 auto 12px auto; /* centrado horizontal */
+      display: block;
+      object-fit: cover;
+    }
+    .ficha-profile-header h1 { font-size: 1.43rem; font-weight: 700; margin: 0; }
     .ficha-subtitle { color: var(--text-muted); font-size: .86rem; text-transform: uppercase; letter-spacing: 1px; margin-top: 4px; }
 
     .info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 22px; }
-    .info-card { background: var(--card-bg); padding: 12px 15px; /* +10% aprox */ border-radius: 11px; display: flex; flex-direction: row; align-items: center; gap: 10px; border: 1px solid var(--border-light); box-shadow: var(--shadow); }
+    .info-card { background: var(--card-bg); padding: 12px 15px; border-radius: 11px; display: flex; flex-direction: row; align-items: center; gap: 10px; border: 1px solid var(--border-light); box-shadow: var(--shadow); }
     .info-card.full-width { grid-column: span 2; }
     .info-card > i { font-size: .95rem; color: var(--accent); flex-shrink: 0; width: 16px; text-align: center; }
     .info-card-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; flex: 1; }
     .info-card .label { font-size: .66rem; color: var(--text-muted); text-transform: uppercase; font-weight: 600; letter-spacing: .04em; white-space: nowrap; }
-    .info-card .value { font-size: .96rem; /* +10% */ font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .info-card .value { font-size: .96rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .info-card.full-width .value { white-space: normal; font-size: .92rem; }
 
-    .emergency-section h3 { font-size: .86rem; /* +10% */ margin-bottom: 12px; text-align: center; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
+    .emergency-section h3 { font-size: .86rem; margin-bottom: 12px; text-align: center; color: var(--text-muted); text-transform: uppercase; letter-spacing: .06em; font-weight: 600; }
     .phone-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 18px; }
-    .btn-llamar { background: var(--phone-btn-bg); color: white; text-decoration: none; padding: 14px 17px; /* +10% */ border-radius: 12px; display: flex; align-items: center; justify-content: space-between; font-weight: 600; box-shadow: 0 3px 12px rgba(225,29,72,.2); transition: background .2s, transform .15s; }
+    .btn-llamar { background: var(--phone-btn-bg); color: white; text-decoration: none; padding: 14px 17px; border-radius: 12px; display: flex; align-items: center; justify-content: space-between; font-weight: 600; box-shadow: 0 3px 12px rgba(225,29,72,.2); transition: background .2s, transform .15s; }
     .btn-llamar:active { background: var(--phone-btn-hover); transform: scale(.98); }
     .btn-llamar-info { display: flex; flex-direction: column; gap: 3px; }
     .btn-llamar-nombre { font-size: 15px; font-weight: 700; }
@@ -132,6 +141,7 @@
 </head>
 <body>
 
+<!-- Mismo HTML que antes, sin cambios estructurales, solo el CSS de la foto se actualizó -->
 <div id="p-loading" class="pantalla">
   <i class="loader"></i>
   <span class="loading-txt">Ten paciencia...</span>
@@ -335,10 +345,9 @@
   }
   const PERFIL_ID = obtenerID();
   document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
-  window._dG = null; // cache del perfil
+  window._dG = null;
 
   window.mostrar = function(id, replaceHistory = false) {
-    // Bloquear formulario si ya existe perfil (evita registro duplicado)
     if (id === 'p-formulario' && window._dG) {
       id = 'p-ficha';
     }
@@ -346,7 +355,6 @@
     pantallas.forEach(p => document.getElementById(p).classList.add('oculto'));
     document.getElementById(id).classList.remove('oculto');
     window.scrollTo(0,0);
-    // Manejo del historial del navegador
     if (replaceHistory) {
       history.replaceState({ pantalla: id }, '', window.location.href);
     } else {
@@ -360,7 +368,7 @@
       if (snap.exists()) {
         const data = snap.data();
         window._dG = data;
-        mostrarFicha(data, true); // replace history con la ficha
+        mostrarFicha(data, true);
       } else {
         window._dG = null;
         mostrar('p-bienvenida', true);
@@ -446,7 +454,7 @@
       await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
       window._dG = datos;
       document.getElementById('exito-id-valor').textContent = PERFIL_ID;
-      mostrar('p-exito', true); // reemplaza historial (elimina el formulario)
+      mostrar('p-exito', true);
     } catch(e) {
       console.error(e);
       errorText.textContent = 'Error: ' + e.message;
@@ -460,7 +468,7 @@
     if (window._dG) {
       mostrarFicha(window._dG, true);
     } else {
-      cargarPerfil(); // fallback
+      cargarPerfil();
     }
   };
 
@@ -472,15 +480,12 @@
     }
   };
 
-  // Sincronizar con flechas del navegador
   window.addEventListener('popstate', function(event) {
-    cargarPerfil(); // vuelve a evaluar el perfil y muestra la pantalla correcta
+    cargarPerfil();
   });
 
-  // Inicializar
   cargarPerfil();
 
-  // Helper para previsualizar foto
   window.previsualizarFoto = function(input) {
     if (!input.files || !input.files[0]) return;
     const reader = new FileReader();
@@ -499,7 +504,6 @@
 
 <script>
   (function() {
-    // Prevenir inspección (opcional)
     document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
     document.addEventListener('keydown', function(e) {
       if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J' || e.key === 'C')) || (e.ctrlKey && e.key === 'U')) {
