@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Moto Sticker QR</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
-  <link rel="shortcut icon" href="./img/logo.jpg" type="image/x-icon">
   <link rel="stylesheet" href="estilo.css">
-
 </head>
 <body>
 
@@ -46,7 +44,7 @@
     <div class="form-row">
       <div class="form-grupo">
         <label class="form-label"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento <span class="requerido">*</span></label>
-        <input id="f-fecha" class="form-input" type="date" placeholder="DD/MM/AAAA">
+        <input id="f-fecha" class="form-input" type="date">
       </div>
       <div class="form-grupo">
         <label class="form-label"><i class="fa-solid fa-droplet"></i> Tipo de sangre <span class="requerido">*</span></label>
@@ -73,17 +71,17 @@
       <div class="contacto-bloque">
         <div class="contacto-bloque-titulo"><i class="fa-solid fa-1"></i> Contacto principal</div>
         <input id="f-c1-nombre" class="form-input" type="text" placeholder="Nombre">
-        <input id="f-c1-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678" minlength="10" maxlength="10">
+        <input id="f-c1-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
       </div>
       <div class="contacto-bloque" style="margin-top:12px">
         <div class="contacto-bloque-titulo"><i class="fa-solid fa-2"></i> Contacto secundario</div>
         <input id="f-c2-nombre" class="form-input" type="text" placeholder="Nombre">
-        <input id="f-c2-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678" minlength="10" maxlength="10">
+        <input id="f-c2-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
       </div>
       <div class="contacto-bloque" style="margin-top:12px">
         <div class="contacto-bloque-titulo"><i class="fa-solid fa-3"></i> Contacto adicional (opcional)</div>
         <input id="f-c3-nombre" class="form-input" type="text" placeholder="Nombre">
-        <input id="f-c3-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678" minlength="10" maxlength="10">
+        <input id="f-c3-tel" class="form-input" type="tel" placeholder="+52 55 1234 5678">
       </div>
     </div>
     <div class="form-grupo">
@@ -121,20 +119,14 @@
       Ver mi ficha de emergencia
     </button>
 
-    <div class="ig-cta">
-      <div class="ig-cta-top">
-        <div class="ig-avatar"><i class="fa-brands fa-instagram"></i></div>
-        <div class="ig-cta-info">
-          <div class="ig-cta-handle">@b2b.dev</div>
-          <div class="ig-cta-sub">Creadores de tu sticker QR</div>
-        </div>
+    <a class="ig-cta" href="https://instagram.com/b2b.dev" target="_blank" rel="noopener">
+      <div class="ig-avatar"><i class="fa-brands fa-instagram"></i></div>
+      <div class="ig-cta-info">
+        <div class="ig-cta-handle">@b2b.dev</div>
+        <div class="ig-cta-sub">¿Necesitas actualizar tus datos? Escríbenos</div>
       </div>
-      <p class="ig-cta-texto">¿Necesitas actualizar tus datos más adelante? Escríbenos por Instagram.</p>
-      <a class="btn-ig" href="https://instagram.com/b2b.dev" target="_blank" rel="noopener">
-        <i class="fa-brands fa-instagram"></i>
-        Seguir @b2b.dev en Instagram
-      </a>
-    </div>
+      <i class="fa-solid fa-arrow-right ig-cta-arrow"></i>
+    </a>
   </div>
 </div>
 
@@ -153,26 +145,35 @@
       <p class="ficha-subtitle">Motociclista</p>
     </div>
 
+
     <div class="info-grid">
       <div class="info-card">
         <i class="fa-solid fa-droplet"></i>
-        <span class="label">Tipo de Sangre</span>
-        <span id="ficha-sangre" class="value">—</span>
+        <div class="info-card-text">
+          <span class="label">Tipo de Sangre</span>
+          <span id="ficha-sangre" class="value">—</span>
+        </div>
       </div>
       <div class="info-card">
         <i class="fa-solid fa-calendar-day"></i>
-        <span class="label">Nacimiento</span>
-        <span id="ficha-fecha" class="value">—</span>
+        <div class="info-card-text">
+          <span class="label">Nacimiento</span>
+          <span id="ficha-fecha" class="value">—</span>
+        </div>
       </div>
       <div class="info-card full-width">
         <i class="fa-solid fa-triangle-exclamation"></i>
-        <span class="label">Alergias</span>
-        <span id="ficha-alergias" class="value">—</span>
+        <div class="info-card-text">
+          <span class="label">Alergias</span>
+          <span id="ficha-alergias" class="value">—</span>
+        </div>
       </div>
       <div class="info-card full-width">
         <i class="fa-solid fa-eye"></i>
-        <span class="label">Señas Particulares</span>
-        <span id="ficha-senas" class="value">—</span>
+        <div class="info-card-text">
+          <span class="label">Señas Particulares</span>
+          <span id="ficha-senas" class="value">—</span>
+        </div>
       </div>
     </div>
 
@@ -184,199 +185,62 @@
     <div class="ficha-id" id="ficha-id-label"></div>
   </div>
 
+
   <div class="ficha-footer">
-    <a class="ficha-footer-ig" href="https://instagram.com/b2b.dev" target="_blank" rel="noopener">
-      <div class="ficha-footer-ig-icon"><i class="fa-brands fa-instagram"></i></div>
-      <div class="ficha-footer-ig-texto">
-        <div class="ficha-footer-ig-handle">@b2b.dev</div>
-        <div class="ficha-footer-ig-sub">¿Necesitas cambiar tus datos? Escríbenos</div>
-      </div>
-      <i class="fa-solid fa-arrow-right ficha-footer-ig-arrow"></i>
-    </a>
-    <div class="ficha-footer-legal">Sticker QR de emergencia para motociclistas</div>
+    <p class="ficha-footer-legal">
+      Sticker QR de emergencia · Hecho por <a href="https://instagram.com/b2b.dev" target="_blank" rel="noopener">@b2b.dev</a>
+    </p>
+    <p class="ficha-footer-legal">
+      ¿Necesitas cambiar tus datos? <a href="https://instagram.com/b2b.dev" target="_blank" rel="noopener">Escríbenos en Instagram</a>
+    </p>
   </div>
 </div>
 
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs",
-    authDomain: "moto-sticker-qr-28c34.firebaseapp.com",
-    projectId: "moto-sticker-qr-28c34",
-    storageBucket: "moto-sticker-qr-28c34.firebasestorage.app",
-    messagingSenderId: "959074534613",
-    appId: "1:959074534613:web:38eb00f93d1f23235ace5c"
+  import{initializeApp}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import{getFirestore,doc,getDoc,setDoc}from"https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  const _0x4a=['AIzaSyB0fs01xzRwNPDRQ-uA5XGTQ50TtKMaiTs','moto-sticker-qr-28c34.firebaseapp.com','moto-sticker-qr-28c34','moto-sticker-qr-28c34.firebasestorage.app','959074534613','1:959074534613:web:38eb00f93d1f23235ace5c'];
+  const app=initializeApp({apiKey:_0x4a[0],authDomain:_0x4a[1],projectId:_0x4a[2],storageBucket:_0x4a[3],messagingSenderId:_0x4a[4],appId:_0x4a[5]});
+  const db=getFirestore(app);
+  function obtenerID(){let p=window.location.pathname.replace(/^\/|\/$/g,'');if(!p)return'default';let l=p.split('/').pop();let pts=l.split('-');return pts[pts.length-1].split('.')[0]}
+  function ocultarTel(t){const l=t.replace(/\D/g,'');if(l.length<4)return t;return l.slice(-10,-8)+'••••••'+l.slice(-2)}
+  const PERFIL_ID=obtenerID();
+  document.getElementById('badge-id').textContent='Sticker ID: '+PERFIL_ID;
+  async function cargarPerfil(){try{const s=await getDoc(doc(db,'perfiles',PERFIL_ID));s.exists()?mostrarFicha(s.data()):mostrar('p-bienvenida')}catch(e){console.error(e);mostrar('p-bienvenida')}}
+  window.guardarPerfil=async function(){
+    const n=document.getElementById('f-nombre').value.trim(),f=document.getElementById('f-fecha').value.trim(),s=document.getElementById('f-sangre').value,a=document.getElementById('f-alergias').value.trim(),se=document.getElementById('f-senas').value.trim(),c1n=document.getElementById('f-c1-nombre').value.trim(),c1t=document.getElementById('f-c1-tel').value.trim(),c2n=document.getElementById('f-c2-nombre').value.trim(),c2t=document.getElementById('f-c2-tel').value.trim(),c3n=document.getElementById('f-c3-nombre').value.trim(),c3t=document.getElementById('f-c3-tel').value.trim(),fi=document.getElementById('f-foto'),ff=fi&&fi.files.length?fi.files[0]:null,eD=document.getElementById('form-error'),eT=document.getElementById('error-texto'),btn=document.getElementById('btn-guardar');
+    if(!n||!f||!s||!a||!c1t){eT.textContent='Por favor llena todos los campos requeridos.';eD.style.display='flex';return}
+    btn.disabled=true;btn.innerHTML='Guardando...';
+    try{
+      let fu='';
+      if(ff){const fd=new FormData();fd.append('file',ff);fd.append('upload_preset','moto_qr');const r=await fetch('https://api.cloudinary.com/v1_1/deis2b9cq/image/upload',{method:'POST',body:fd});const d=await r.json();if(!d.secure_url)throw new Error('Error subiendo imagen');fu=d.secure_url}
+      const datos={id:PERFIL_ID,nombre:n,fecha:f,sangre:s,alergias:a,senas:se||'',telefono:c1t,fotoUrl:fu,contactos:[{nombre:c1n,telefono:c1t},{nombre:c2n,telefono:c2t},{nombre:c3n,telefono:c3t}],activadoEn:new Date().toISOString()};
+      await setDoc(doc(db,'perfiles',PERFIL_ID),datos);
+      window._dG=datos;document.getElementById('exito-id-valor').textContent=PERFIL_ID;mostrar('p-exito');
+    }catch(e){console.error(e);eT.textContent='Error: '+e.message;eD.style.display='flex';btn.disabled=false;btn.innerHTML='<i class="fa-solid fa-shield-halved"></i> Activar mi perfil de emergencia'}
   };
-
-  const app = initializeApp(firebaseConfig);
-  const db  = getFirestore(app);
-
-  function obtenerID() {
-  let path = window.location.pathname.replace(/^\/|\/$/g, '');
-  if (!path) return 'default';
-  let lastSegment = path.split('/').pop();
-  let parts = lastSegment.split('-');
-  let shortId = parts[parts.length - 1].split('.')[0];
-  return shortId;
-}
-
-  function ocultarTel(tel) {
-    const limpio = tel.replace(/\D/g, '');
-    if (limpio.length < 4) return tel;
-    const inicio = limpio.slice(-10, -8);
-    const fin    = limpio.slice(-2);
-    return inicio + '••••••' + fin;
-  }
-
-  const PERFIL_ID = obtenerID();
-  document.getElementById('badge-id').textContent = 'Sticker ID: ' + PERFIL_ID;
-
-  async function cargarPerfil() {
-    try {
-      const snap = await getDoc(doc(db, 'perfiles', PERFIL_ID));
-      if (snap.exists()) {
-        mostrarFicha(snap.data());
-      } else {
-        mostrar('p-bienvenida');
-      }
-    } catch (e) {
-      console.error(e);
-      mostrar('p-bienvenida');
-    }
-  }
-
-  window.guardarPerfil = async function () {
-    const nombre   = document.getElementById('f-nombre').value.trim();
-    const fecha    = document.getElementById('f-fecha').value.trim();
-    const sangre   = document.getElementById('f-sangre').value;
-    const alergias = document.getElementById('f-alergias').value.trim();
-    const senas    = document.getElementById('f-senas').value.trim();
-    const c1n      = document.getElementById('f-c1-nombre').value.trim();
-    const c1t      = document.getElementById('f-c1-tel').value.trim();
-    const c2n      = document.getElementById('f-c2-nombre').value.trim();
-    const c2t      = document.getElementById('f-c2-tel').value.trim();
-    const c3n      = document.getElementById('f-c3-nombre').value.trim();
-    const c3t      = document.getElementById('f-c3-tel').value.trim();
-    const inputFoto = document.getElementById('f-foto');
-    const fotoFile  = inputFoto && inputFoto.files.length ? inputFoto.files[0] : null;
-    const errDiv   = document.getElementById('form-error');
-    const errTxt   = document.getElementById('error-texto');
-    const btn      = document.getElementById('btn-guardar');
-
-    if (!nombre || !fecha || !sangre || !alergias || !c1t) {
-      errTxt.textContent = 'Por favor llena todos los campos requeridos.';
-      errDiv.style.display = 'flex';
-      return;
-    }
-
-    btn.disabled = true;
-    btn.innerHTML = 'Guardando...';
-
-    try {
-      let fotoUrl = '';
-
-      if (fotoFile) {
-        const formData = new FormData();
-        formData.append("file", fotoFile);
-        formData.append("upload_preset", "moto_qr");
-        const res  = await fetch("https://api.cloudinary.com/v1_1/deis2b9cq/image/upload", { method: "POST", body: formData });
-        const data = await res.json();
-        if (!data.secure_url) throw new Error("Error subiendo imagen");
-        fotoUrl = data.secure_url;
-      }
-
-      const datos = {
-        id: PERFIL_ID,
-        nombre, fecha, sangre, alergias,
-        senas: senas || '',
-        telefono: c1t,
-        fotoUrl,
-        contactos: [
-          { nombre: c1n, telefono: c1t },
-          { nombre: c2n, telefono: c2t },
-          { nombre: c3n, telefono: c3t },
-        ],
-        activadoEn: new Date().toISOString(),
-      };
-
-      await setDoc(doc(db, 'perfiles', PERFIL_ID), datos);
-      window._datosGuardados = datos;
-      document.getElementById('exito-id-valor').textContent = PERFIL_ID;
-      mostrar('p-exito');
-
-    } catch (e) {
-      console.error(e);
-      errTxt.textContent = 'Error: ' + e.message;
-      errDiv.style.display = 'flex';
-      btn.disabled = false;
-      btn.innerHTML = '<i class="fa-solid fa-shield-halved"></i> Activar mi perfil de emergencia';
-    }
-  };
-
-  window.verMiPerfil = function () {
-    if (window._datosGuardados) mostrarFicha(window._datosGuardados);
-  };
-
-  function mostrarFicha(d) {
-    document.getElementById('ficha-nombre').textContent   = d.nombre   || '—';
-    document.getElementById('ficha-sangre').textContent   = d.sangre   || '—';
-    document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna';
-    document.getElementById('ficha-fecha').textContent    = d.fecha    || '—';
-    document.getElementById('ficha-senas').textContent    = d.senas    || '—';
-    document.getElementById('ficha-id-label').textContent = 'ID: ' + (d.id || '—');
-
-    const foto = document.getElementById('ficha-foto');
-    if (d.fotoUrl) { foto.src = d.fotoUrl; } else { foto.src = ''; }
-
-    const contenedor = document.getElementById('ficha-contactos');
-    contenedor.innerHTML = '';
-
-    if (d.contactos) {
-      d.contactos.forEach(c => {
-        if (!c.telefono) return;
-        const a = document.createElement('a');
-        a.className = 'btn-llamar';
-        a.href = 'tel:' + c.telefono;
-        a.innerHTML =
-          '<div class="btn-llamar-info">' +
-            '<div class="btn-llamar-nombre">' + (c.nombre || 'Contacto') + '</div>' +
-            '<div class="btn-llamar-tel">' + ocultarTel(c.telefono) + '</div>' +
-          '</div>' +
-          '<div class="btn-llamar-icono"><i class="fa-solid fa-phone"></i></div>';
-        contenedor.appendChild(a);
-      });
-    }
-
+  window.verMiPerfil=function(){if(window._dG)mostrarFicha(window._dG)};
+  function mostrarFicha(d){
+    document.getElementById('ficha-nombre').textContent=d.nombre||'—';
+    document.getElementById('ficha-sangre').textContent=d.sangre||'—';
+    document.getElementById('ficha-alergias').textContent=d.alergias||'Ninguna';
+    document.getElementById('ficha-fecha').textContent=d.fecha||'—';
+    document.getElementById('ficha-senas').textContent=d.senas||'—';
+    document.getElementById('ficha-id-label').textContent='ID: '+(d.id||'—');
+    const foto=document.getElementById('ficha-foto');
+    foto.src=d.fotoUrl||'';
+    if(!d.fotoUrl)foto.style.display='none';
+    const c=document.getElementById('ficha-contactos');c.innerHTML='';
+    if(d.contactos){d.contactos.forEach(x=>{if(!x.telefono)return;const a=document.createElement('a');a.className='btn-llamar';a.href='tel:'+x.telefono;a.innerHTML='<div class="btn-llamar-info"><div class="btn-llamar-nombre">'+(x.nombre||'Contacto')+'</div><div class="btn-llamar-tel">'+ocultarTel(x.telefono)+'</div></div><div class="btn-llamar-icono"><i class="fa-solid fa-phone"></i></div>';c.appendChild(a)})}
     mostrar('p-ficha');
   }
-
   cargarPerfil();
 </script>
-
 <script>
-  function mostrar(id) {
-    ['p-loading','p-bienvenida','p-formulario','p-exito','p-ficha'].forEach(function(p){
-      document.getElementById(p).classList.add('oculto');
-    });
-    document.getElementById(id).classList.remove('oculto');
-    window.scrollTo(0,0);
-  }
-  function previsualizarFoto(input) {
-    if (!input.files || !input.files[0]) return;
-    const reader = new FileReader();
-    reader.onload = function(e) {
-      let preview = document.querySelector('.foto-preview');
-      if (!preview) {
-        preview = document.createElement('img');
-        preview.className = 'foto-preview';
-        document.getElementById('foto-area').appendChild(preview);
-      }
-      preview.src = e.target.result;
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
+  function mostrar(id){['p-loading','p-bienvenida','p-formulario','p-exito','p-ficha'].forEach(function(p){document.getElementById(p).classList.add('oculto')});document.getElementById(id).classList.remove('oculto');window.scrollTo(0,0)}
+  function previsualizarFoto(input){if(!input.files||!input.files[0])return;const r=new FileReader();r.onload=function(e){let p=document.querySelector('.foto-preview');if(!p){p=document.createElement('img');p.className='foto-preview';document.getElementById('foto-area').appendChild(p)}p.src=e.target.result};r.readAsDataURL(input.files[0])}
+  document.addEventListener('contextmenu',function(e){e.preventDefault()});
+  document.addEventListener('keydown',function(e){if(e.key==='F12'||(e.ctrlKey&&e.shiftKey&&(e.key==='I'||e.key==='J'||e.key==='C'))||(e.ctrlKey&&e.key==='U')){e.preventDefault()}});
 </script>
 </body>
 </html>
