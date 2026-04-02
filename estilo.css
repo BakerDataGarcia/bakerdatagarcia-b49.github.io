@@ -1,4 +1,4 @@
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     
     :root {
       --bg-color: #f8fafc;
@@ -507,16 +507,16 @@
       letter-spacing: 1px;
     }
 
-    /* === MEJORAS PARA HACER LOS CUBOS MÁS LARGOS === */
+    /* Estilos de la ficha con los tamaños exactos que pediste */
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;         /* antes 15px -> más separación entre tarjetas */
-      margin-bottom: 36px; /* antes 30px */
+      gap: 15px;          /* ← tal como en tu snippet */
+      margin-bottom: 30px; /* ← tal como en tu snippet */
     }
     .info-card {
       background: var(--card-bg);
-      padding: 24px;      /* antes 20px -> más altura interior */
+      padding: 20px;        /* ← tal como en tu snippet */
       border-radius: 16px;
       display: flex;
       flex-direction: column;
@@ -525,7 +525,7 @@
     }
     .info-card.full-width { grid-column: span 2; }
     .info-card i {
-      font-size: 1.3rem;   /* antes 1.2rem */
+      font-size: 1.2rem;    /* ← tal como en tu snippet */
       margin-bottom: 10px;
       color: var(--accent);
     }
@@ -536,7 +536,7 @@
       font-weight: 600;
     }
     .info-card .value {
-      font-size: 1.2rem;   /* antes 1.1rem */
+      font-size: 1.1rem;    /* ← tal como en tu snippet */
       font-weight: 600;
     }
 
