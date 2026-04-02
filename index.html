@@ -8,7 +8,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    /* Paleta clara por defecto (modo claro) */
+    /* modo claro */
     :root {
       --negro:    #f0f2f7;
       --carbon:   #ffffff;
@@ -24,7 +24,7 @@
       --ig-grad:  linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
     }
 
-    /* Paleta oscura si el sistema lo pide */
+    /* modo dark */
     @media (prefers-color-scheme: dark) {
       :root {
         --negro:    #0a0b0d;
@@ -419,232 +419,167 @@
     }
     .btn-ig:hover{opacity:0.9;transform:translateY(-1px);}
 
-    /* NUEVA FICHA DE EMERGENCIA - DISEÑO PROFESIONAL */
-    .ficha-emergencia {
-      flex: 1;
-      background: var(--carbon);
-      border-radius: 32px 32px 0 0;
-      margin-top: -20px;
-      padding: 24px 20px 32px;
-      box-shadow: 0 -4px 20px rgba(0,0,0,0.05);
+    /* Ficha de emergencia */
+    .ficha-header{
+      background:linear-gradient(160deg,var(--rojo-osc),#7b0d10);
+      padding:40px 24px 32px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      text-align:center;
     }
-    @media (prefers-color-scheme: dark) {
-      .ficha-emergencia {
-        box-shadow: 0 -4px 20px rgba(0,0,0,0.3);
-      }
+    .ficha-alerta{
+      display:flex;
+      align-items:center;
+      gap:8px;
+      font-family:'Courier New',monospace;
+      font-size:11px;
+      letter-spacing:0.18em;
+      color:rgba(255,255,255,0.9);
+      background:rgba(255,255,255,0.15);
+      border:1px solid rgba(255,255,255,0.3);
+      padding:8px 16px;
+      border-radius:100px;
+      margin-bottom:20px;
+      animation:pulse-alert 2s ease-in-out infinite;
     }
-
-    /* Header de la ficha (foto + nombre) */
-    .ficha-header-moderno {
-      background: linear-gradient(135deg, var(--rojo-osc), var(--rojo));
-      padding: 32px 24px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      border-bottom-left-radius: 24px;
-      border-bottom-right-radius: 24px;
+    @keyframes pulse-alert{0%,100%{box-shadow:0 0 0 0 rgba(230,57,70,0.5)}50%{box-shadow:0 0 0 10px rgba(230,57,70,0)}}
+    .ficha-foto-wrap{
+      width:120px;
+      height:120px;
+      border-radius:50%;
+      border:4px solid rgba(255,255,255,0.4);
+      overflow:hidden;
+      margin-bottom:16px;
+      background:var(--gris-osc);
     }
-    .ficha-foto-wrap-moderno {
-      width: 100px;
-      height: 100px;
-      border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.6);
-      overflow: hidden;
-      margin-bottom: 12px;
-      background: var(--gris-osc);
-      box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+    .ficha-foto-wrap img{width:100%;height:100%;object-fit:cover;}
+    .ficha-nombre{font-size:clamp(32px,9vw,54px);font-weight:800;color:#fff;line-height:1;}
+    .ficha-body{
+      flex:1;
+      background:var(--carbon);
+      padding:20px;
+      display:flex;
+      flex-direction:column;
+      gap:14px;
+      max-width:500px;
+      width:100%;
+      margin:0 auto;
     }
-    .ficha-foto-wrap-moderno img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
+    .sangre-grande{
+      background:var(--rojo-osc);
+      border-radius:12px;
+      padding:16px;
+      text-align:center;
+      border:2px solid var(--rojo);
     }
-    .ficha-nombre-moderno {
-      font-size: 28px;
-      font-weight: 800;
-      color: white;
-      margin-bottom: 6px;
-      text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    .sangre-label{
+      font-size:11px;
+      font-family:'Courier New',monospace;
+      letter-spacing:0.12em;
+      color:rgba(255,255,255,0.6);
+      text-transform:uppercase;
+      margin-bottom:4px;
     }
-    .ficha-badge {
-      background: rgba(255,255,255,0.2);
-      backdrop-filter: blur(4px);
-      border-radius: 40px;
-      padding: 4px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: white;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+    .sangre-valor{font-size:64px;font-weight:800;color:#fff;line-height:1;}
+    .ficha-card{
+      background:var(--gris-osc);
+      border-radius:12px;
+      padding:16px;
+      border:1px solid var(--gris-brd);
     }
-
-    /* Tarjetas de datos vitales */
-    .vital-grid {
-      display: flex;
-      gap: 16px;
-      margin-bottom: 24px;
+    .ficha-card-titulo{
+      font-size:11px;
+      font-family:'Courier New',monospace;
+      letter-spacing:0.1em;
+      color:var(--gris-txt);
+      text-transform:uppercase;
+      margin-bottom:8px;
+      display:flex;
+      align-items:center;
+      gap:8px;
     }
-    .vital-card {
-      flex: 1;
-      background: var(--gris-osc);
-      border-radius: 20px;
-      padding: 16px;
-      text-align: center;
-      border: 1px solid var(--gris-brd);
-      transition: transform 0.2s, box-shadow 0.2s;
+    .ficha-card-titulo i{color:var(--verde);}
+    .ficha-card-texto{font-size:16px;color:var(--blanco);line-height:1.5;font-weight:500;}
+    .btn-llamar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      background:var(--verde);
+      color:#fff;
+      text-decoration:none;
+      padding:18px 20px;
+      border-radius:14px;
+      font-weight:700;
+      font-size:16px;
+      transition:background 0.2s,transform 0.15s;
+      box-shadow:0 4px 20px rgba(28,182,152,0.3);
+      margin-bottom:10px;
     }
-    .vital-card i {
-      font-size: 28px;
-      margin-bottom: 8px;
-      display: block;
+    .btn-llamar:active{background:var(--verde-osc);transform:scale(0.98);}
+    .btn-llamar-info{display:flex;flex-direction:column;gap:2px;}
+    .btn-llamar-nombre{font-size:16px;font-weight:700;}
+    .btn-llamar-tel{font-size:13px;font-family:'Courier New',monospace;opacity:0.85;}
+    .btn-llamar-icono{
+      background:rgba(255,255,255,0.2);
+      width:44px;
+      height:44px;
+      border-radius:50%;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-size:18px;
     }
-    .vital-card .vital-label {
-      font-size: 11px;
-      text-transform: uppercase;
-      font-weight: 600;
-      color: var(--gris-txt);
-      letter-spacing: 0.5px;
-      margin-bottom: 4px;
+    .ficha-id{
+      font-family:'Courier New',monospace;
+      font-size:11px;
+      color:var(--gris-txt);
+      text-align:center;
+      padding:12px;
+      border-top:1px solid var(--gris-brd);
+      margin-top:4px;
     }
-    .vital-card .vital-value {
-      font-size: 28px;
-      font-weight: 800;
-      color: var(--blanco);
+    .ficha-footer{
+      background:var(--negro);
+      border-top:1px solid var(--gris-brd);
+      padding:20px 20px 32px;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:12px;
     }
-    .card-sangre i { color: var(--rojo); }
-    .card-alergias i { color: var(--verde); }
-
-    /* Detalles en lista */
-    .details-modern {
-      background: var(--gris-osc);
-      border-radius: 20px;
-      border: 1px solid var(--gris-brd);
-      margin-bottom: 24px;
-      overflow: hidden;
+    .ficha-footer-ig{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      background:var(--gris-osc);
+      border:1px solid var(--gris-brd);
+      border-radius:14px;
+      padding:14px 16px;
+      width:100%;
+      max-width:500px;
+      text-decoration:none;
+      transition:border-color 0.2s,transform 0.15s;
     }
-    .detail-row {
-      display: flex;
-      justify-content: space-between;
-      padding: 16px 20px;
-      border-bottom: 1px solid var(--gris-brd);
+    .ficha-footer-ig:active{transform:scale(0.98);}
+    .ficha-footer-ig:hover{border-color:var(--gris-txt);}
+    .ficha-footer-ig-icon{
+      width:38px;
+      height:38px;
+      border-radius:50%;
+      background:var(--ig-grad);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      color:#fff;
+      font-size:18px;
+      flex-shrink:0;
     }
-    .detail-row:last-child {
-      border-bottom: none;
-    }
-    .detail-label {
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--gris-txt);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .detail-value {
-      font-weight: 600;
-      color: var(--blanco);
-      text-align: right;
-      flex: 1;
-      margin-left: 16px;
-    }
-
-    /* Contactos */
-    .contactos-section {
-      margin-bottom: 24px;
-    }
-    .contactos-title {
-      font-size: 16px;
-      font-weight: 700;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      color: var(--blanco);
-    }
-    .contactos-title i {
-      color: var(--rojo);
-    }
-    .contact-list {
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .contact-btn {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: var(--gris-osc);
-      border: 1px solid var(--gris-brd);
-      border-radius: 60px;
-      padding: 12px 20px;
-      text-decoration: none;
-      color: inherit;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .contact-btn:active {
-      transform: scale(0.98);
-      background: var(--gris-med);
-    }
-    .contact-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .contact-name {
-      font-weight: 700;
-      font-size: 16px;
-    }
-    .contact-number {
-      font-size: 13px;
-      color: var(--gris-txt);
-      font-family: monospace;
-    }
-    .call-icon-circle {
-      background: var(--verde);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      font-size: 18px;
-    }
-
-    /* Footer final */
-    .ficha-footer-modern {
-      margin-top: 16px;
-      text-align: center;
-      border-top: 1px solid var(--gris-brd);
-      padding-top: 20px;
-    }
-    .ficha-id-modern {
-      font-family: monospace;
-      font-size: 11px;
-      color: var(--gris-txt);
-      margin-bottom: 16px;
-    }
-    .instagram-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--ig-grad);
-      color: white;
-      text-decoration: none;
-      padding: 8px 20px;
-      border-radius: 40px;
-      font-size: 13px;
-      font-weight: 600;
-      margin-bottom: 12px;
-      transition: opacity 0.2s;
-    }
-    .instagram-link:hover {
-      opacity: 0.9;
-    }
-    .legal-text {
-      font-size: 10px;
-      color: var(--gris-txt);
-    }
+    .ficha-footer-ig-texto{flex:1;}
+    .ficha-footer-ig-handle{font-size:14px;font-weight:700;color:var(--blanco);}
+    .ficha-footer-ig-sub{font-size:11px;color:var(--gris-txt);margin-top:2px;}
+    .ficha-footer-ig-arrow{color:var(--gris-txt);font-size:13px;}
+    .ficha-footer-legal{font-size:11px;color:var(--gris-txt);}
 
     /* Loader común */
     .loader {
@@ -806,60 +741,42 @@
 </div>
 
 <div id="p-ficha" class="pantalla oculto">
-  <!-- Nuevo diseño de ficha -->
-  <div class="ficha-header-moderno">
-    <div class="ficha-foto-wrap-moderno" id="foto-wrap-moderno">
-      <img id="ficha-foto-moderno" src="" alt="Foto">
+  <div class="ficha-header">
+    <div class="ficha-alerta"><i class="fa-solid fa-triangle-exclamation"></i> INFORMACIÓN DE EMERGENCIA</div>
+    <div class="ficha-foto-wrap" id="foto-wrap"><img id="ficha-foto" src="" alt="Foto"></div>
+    <h1 id="ficha-nombre" class="ficha-nombre"></h1>
+  </div>
+  <div class="ficha-body">
+    <div class="sangre-grande">
+      <div class="sangre-label"><i class="fa-solid fa-droplet"></i> Tipo de sangre</div>
+      <div id="ficha-sangre" class="sangre-valor"></div>
     </div>
-    <h1 id="ficha-nombre-moderno" class="ficha-nombre-moderno"></h1>
-    <div class="ficha-badge">
-      <i class="fa-solid fa-motorcycle"></i> FICHA DE EMERGENCIA
+    <div class="ficha-card">
+      <div class="ficha-card-titulo"><i class="fa-solid fa-pills"></i> Alergias</div>
+      <div id="ficha-alergias" class="ficha-card-texto"></div>
     </div>
+    <div class="ficha-card">
+      <div class="ficha-card-titulo"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento</div>
+      <div id="ficha-fecha" class="ficha-card-texto"></div>
+    </div>
+    <div class="ficha-card" id="ficha-senas-card">
+      <div class="ficha-card-titulo"><i class="fa-solid fa-id-card"></i> Señas particulares</div>
+      <div id="ficha-senas" class="ficha-card-texto"></div>
+    </div>
+    <div id="ficha-contactos"></div>
+    <div class="ficha-id" id="ficha-id-label"></div>
   </div>
 
-  <div class="ficha-emergencia">
-    <!-- Tarjetas vitales -->
-    <div class="vital-grid">
-      <div class="vital-card card-sangre">
-        <i class="fa-solid fa-droplet"></i>
-        <div class="vital-label">Tipo de sangre</div>
-        <div id="ficha-sangre-moderno" class="vital-value"></div>
+  <div class="ficha-footer">
+    <a class="ficha-footer-ig" href="https://instagram.com/b2b.dev" target="_blank" rel="noopener">
+      <div class="ficha-footer-ig-icon"><i class="fa-brands fa-instagram"></i></div>
+      <div class="ficha-footer-ig-texto">
+        <div class="ficha-footer-ig-handle">@b2b.dev</div>
+        <div class="ficha-footer-ig-sub">¿Necesitas cambiar tus datos? Escríbenos</div>
       </div>
-      <div class="vital-card card-alergias">
-        <i class="fa-solid fa-pills"></i>
-        <div class="vital-label">Alergias</div>
-        <div id="ficha-alergias-moderno" class="vital-value"></div>
-      </div>
-    </div>
-
-    <!-- Detalles adicionales -->
-    <div class="details-modern">
-      <div class="detail-row">
-        <div class="detail-label"><i class="fa-solid fa-cake-candles"></i> Fecha de nacimiento</div>
-        <div id="ficha-fecha-moderno" class="detail-value"></div>
-      </div>
-      <div class="detail-row">
-        <div class="detail-label"><i class="fa-solid fa-id-card"></i> Señas particulares</div>
-        <div id="ficha-senas-moderno" class="detail-value"></div>
-      </div>
-    </div>
-
-    <!-- Contactos -->
-    <div class="contactos-section">
-      <div class="contactos-title">
-        <i class="fa-solid fa-phone-volume"></i> Contactos de emergencia
-      </div>
-      <div id="ficha-contactos-moderno" class="contact-list"></div>
-    </div>
-
-    <!-- Footer con ID e Instagram -->
-    <div class="ficha-footer-modern">
-      <div id="ficha-id-moderno" class="ficha-id-modern"></div>
-      <a href="https://instagram.com/b2b.dev" target="_blank" rel="noopener" class="instagram-link">
-        <i class="fa-brands fa-instagram"></i> @b2b.dev
-      </a>
-      <div class="legal-text">Sticker QR de emergencia para motociclistas</div>
-    </div>
+      <i class="fa-solid fa-arrow-right ficha-footer-ig-arrow"></i>
+    </a>
+    <div class="ficha-footer-legal">Sticker QR de emergencia para motociclistas</div>
   </div>
 </div>
 
@@ -985,37 +902,33 @@
   };
 
   function mostrarFicha(d) {
-    // Actualizar elementos nuevos
-    document.getElementById('ficha-nombre-moderno').textContent = d.nombre || '—';
-    document.getElementById('ficha-sangre-moderno').textContent = d.sangre || '—';
-    document.getElementById('ficha-alergias-moderno').textContent = d.alergias || 'Ninguna';
-    document.getElementById('ficha-fecha-moderno').textContent = d.fecha || '—';
-    document.getElementById('ficha-senas-moderno').textContent = d.senas || '—';
-    document.getElementById('ficha-id-moderno').textContent = 'ID: ' + (d.id || '—');
+    document.getElementById('ficha-nombre').textContent   = d.nombre   || '—';
+    document.getElementById('ficha-sangre').textContent   = d.sangre   || '—';
+    document.getElementById('ficha-alergias').textContent = d.alergias || 'Ninguna';
+    document.getElementById('ficha-fecha').textContent    = d.fecha    || '—';
+    document.getElementById('ficha-senas').textContent    = d.senas    || '—';
+    document.getElementById('ficha-id-label').textContent = 'ID: ' + (d.id || '—');
 
-    const foto = document.getElementById('ficha-foto-moderno');
-    const wrap = document.getElementById('foto-wrap-moderno');
-    if (d.fotoUrl) { foto.src = d.fotoUrl; wrap.style.display = 'block'; }
+    const foto = document.getElementById('ficha-foto');
+    const wrap = document.getElementById('foto-wrap');
+    if (d.fotoUrl) { foto.src = d.fotoUrl; }
     else { wrap.style.display = 'none'; }
 
-    const contenedor = document.getElementById('ficha-contactos-moderno');
+    const contenedor = document.getElementById('ficha-contactos');
     contenedor.innerHTML = '';
 
     if (d.contactos) {
       d.contactos.forEach(c => {
         if (!c.telefono) return;
         const a = document.createElement('a');
-        a.className = 'contact-btn';
+        a.className = 'btn-llamar';
         a.href = 'tel:' + c.telefono;
-        a.innerHTML = `
-          <div class="contact-info">
-            <span class="contact-name">${c.nombre || 'Contacto'}</span>
-            <span class="contact-number">${ocultarTel(c.telefono)}</span>
-          </div>
-          <div class="call-icon-circle">
-            <i class="fa-solid fa-phone"></i>
-          </div>
-        `;
+        a.innerHTML =
+          '<div class="btn-llamar-info">' +
+            '<div class="btn-llamar-nombre">' + (c.nombre || 'Contacto') + '</div>' +
+            '<div class="btn-llamar-tel">' + ocultarTel(c.telefono) + '</div>' +
+          '</div>' +
+          '<div class="btn-llamar-icono"><i class="fa-solid fa-phone"></i></div>';
         contenedor.appendChild(a);
       });
     }
