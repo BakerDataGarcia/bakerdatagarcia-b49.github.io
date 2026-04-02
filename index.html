@@ -228,23 +228,35 @@
     .form-textarea { resize: none; height: 80px; line-height: 1.5; }
     .form-select { color: var(--text-main); cursor: pointer; }
     .form-select option { background: var(--card-bg); }
-    .form-row {
+    /*.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }*/
+    /* Asegura que la fila siempre se mantenga como dos columnas */
+.form-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 12px;
   width: 100%;
 }
-    /* Cada grupo dentro del grid debe poder reducirse */
+
+/* Permite que cada grupo se reduzca */
 .form-row .form-grupo {
-  min-width: 0; /* Permite que el contenido se ajuste */
+  min-width: 0; /* clave para que el contenido no fuerce el ancho mínimo */
 }
 
-/* Los inputs y selects dentro del grid ocupan todo el ancho de su celda */
+/* Los inputs y selects dentro de la fila también deben poder reducirse */
 .form-row .form-input,
 .form-row .form-select {
+  min-width: 0;   /* anula el tamaño mínimo del input type="date" */
   width: 100%;
   box-sizing: border-box;
 }
+
+
+
+
+
+
+    
+    
     .contacto-bloque {
       background: var(--card-bg);
       border-radius: 12px;
