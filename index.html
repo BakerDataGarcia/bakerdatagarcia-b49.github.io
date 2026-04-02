@@ -229,33 +229,46 @@
     .form-select { color: var(--text-main); cursor: pointer; }
     .form-select option { background: var(--card-bg); }
     /*.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }*/
-   .form-row {
+
+    .form-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: 12px;
   width: 100%;
 }
 
-/* Obliga a que cada celda pueda reducirse */
 .form-row .form-grupo {
-  min-width: 0;  /* Esto evita que el contenido fuerce el ancho mínimo */
+  min-width: 0;  /* Permite que el contenedor se encoja */
+  width: 100%;
 }
 
-/* Anula el ancho mínimo del date picker */
 .form-row .form-input,
 .form-row .form-select {
-  min-width: 0;   /* ¡Clave para el type="date"! */
+  min-width: 0;      /* Anula el mínimo del input date */
   width: 100%;
   box-sizing: border-box;
 }
+
+/* Especial para input type="date" en móviles */
+.form-row .form-input[type="date"] {
+  min-width: 0;
+  width: 100%;
+  max-width: 100%;
+  font-size: 14px;        /* Reduce un poco la fuente para ganar espacio */
+  padding: 12px 8px;      /* Reduce padding lateral para más espacio */
+  -webkit-appearance: none;  /* Elimina estilos nativos que bloquean el ancho */
+  appearance: none;
+}
+
+/* Opcional: media query para pantallas muy pequeñas */
 @media (max-width: 420px) {
   .form-row {
     gap: 8px;
   }
   .form-row .form-input,
   .form-row .form-select {
-    padding: 12px 8px;
-    font-size: 14px;
+    padding: 10px 6px;
+    font-size: 13px;
   }
 }
 
