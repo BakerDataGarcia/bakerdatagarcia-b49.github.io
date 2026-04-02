@@ -122,7 +122,7 @@
     .btn-llamar-nombre { font-size: 15px; font-weight: 700; }
     .btn-llamar-tel { font-size: 13px; font-family: 'Courier New', monospace; opacity: .85; }
     .btn-llamar-icono { background: rgba(255,255,255,.2); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 16px; }
-    .ficha-id { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-muted); text-align: center; padding: 12px; margin-top: 4px; }
+    .ficha-id { font-family: 'Courier New', monospace; font-size: 11px; color: var(--text-muted); text-align: center; padding: 12px; border-top: none; margin-top: 4px; }
 
     .ficha-footer { padding: 5px 20px 20px; display: flex; flex-direction: column; align-items: center; gap: 4px; border-top: 1px solid var(--border-light); margin-top: 16px; }
     .ficha-footer-legal { font-size: 11px; color: var(--text-muted); text-align: center; line-height: 1.8; }
