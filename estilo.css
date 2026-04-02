@@ -508,37 +508,42 @@
     }
 
     /* Estilos de la ficha con los tamaños exactos que pediste */
-    .info-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;          /* ← tal como en tu snippet */
-      margin-bottom: 30px; /* ← tal como en tu snippet */
-    }
-    .info-card {
-      background: var(--card-bg);
-      padding: 20px;        /* ← tal como en tu snippet */
-      border-radius: 16px;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.2s;
-      box-shadow: var(--shadow);
-    }
+   .info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;              /* antes 15px -> más separación vertical/horizontal */
+  margin-bottom: 36px;    /* antes 30px */
+}
+
+.info-card {
+  background: var(--card-bg);
+  padding: 28px 20px;     /* aumenta el padding vertical: antes 20px */
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s;
+  box-shadow: var(--shadow);
+}
+
+.info-card i {
+  font-size: 1.4rem;      /* antes 1.2rem -> icono más grande */
+  margin-bottom: 12px;    /* antes 10px */
+  color: var(--accent);
+}
+
+.info-card .value {
+  font-size: 1.3rem;      /* antes 1.1rem -> texto más grande */
+  font-weight: 600;
+}
     .info-card.full-width { grid-column: span 2; }
-    .info-card i {
-      font-size: 1.2rem;    /* ← tal como en tu snippet */
-      margin-bottom: 10px;
-      color: var(--accent);
-    }
+   
     .info-card .label {
       font-size: 0.75rem;
       color: var(--text-muted);
       text-transform: uppercase;
       font-weight: 600;
     }
-    .info-card .value {
-      font-size: 1.1rem;    /* ← tal como en tu snippet */
-      font-weight: 600;
-    }
+   
 
     .emergency-section h3 {
       font-size: 1rem;
