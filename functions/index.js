@@ -5,7 +5,6 @@ const token = process.env.PUSHOVER_TOKEN;
 const user = process.env.PUSHOVER_USER;
 
 exports.notificarPushover = functions.https.onRequest(async (req, res) => {
-
   if (req.method !== 'POST') {
     res.status(405).send('Method Not Allowed');
     return;
